@@ -78,19 +78,15 @@
     /* ── HERO ── */
     #hero {
       position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 9rem 4rem 6rem;
+      padding: 7rem 4rem 5rem;
       background: linear-gradient(135deg, #1a0f30 0%, #2D1B4E 55%, #1f1040 100%);
       overflow: hidden;
     }
     #hero::after {
       content: '';
       position: absolute;
-      top: -10%; right: -5%;
-      width: 52%; height: 120%;
+      top: 0; right: -5%;
+      width: 52%; height: 100%;
       background: linear-gradient(135deg, rgba(202,138,4,0.05) 0%, transparent 65%);
       border-left: 1px solid rgba(202,138,4,0.1);
       transform: skewX(-8deg);
@@ -101,8 +97,7 @@
       align-items: center;
       gap: 1rem;
       margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.15s forwards;
+      animation: fadeUp 0.8s ease 0.15s both;
     }
     .hero-eyebrow-line { width: 44px; height: 1px; background: var(--gold); }
     .hero-eyebrow-text {
@@ -119,8 +114,7 @@
       line-height: 1.05;
       color: var(--white);
       max-width: 850px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.35s forwards;
+      animation: fadeUp 0.9s ease 0.35s both;
     }
     .hero-headline em { font-style: italic; color: var(--gold); }
     .hero-sub {
@@ -130,16 +124,14 @@
       color: var(--muted);
       max-width: 520px;
       line-height: 1.75;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.55s forwards;
+      animation: fadeUp 0.9s ease 0.55s both;
     }
     .hero-actions {
       margin-top: 2rem;
       display: flex;
       align-items: center;
       gap: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.75s forwards;
+      animation: fadeUp 0.9s ease 0.75s both;
     }
     .btn-primary {
       display: inline-block;
