@@ -316,71 +316,6 @@
       line-height: 1.8;
     }
 
-    /* ── A2 PULSE ── */
-    #pulse {
-      background: var(--plum-dark);
-      padding: 4.5rem 4rem;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-    }
-    #pulse::before {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 700px; height: 700px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(202,138,4,0.05) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .pulse-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 760px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .pulse-badge {
-      display: inline-block;
-      padding: 0.4rem 1.2rem;
-      border: 1px solid rgba(202,138,4,0.35);
-      background: rgba(202,138,4,0.07);
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2.5rem;
-    }
-    .pulse-headline {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.6rem, 2.8vw, 2.6rem);
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 1.25rem;
-    }
-    .pulse-headline em { font-style: italic; color: var(--gold); }
-    .pulse-tagline {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2.5rem;
-    }
-    .pulse-sep {
-      width: 1px; height: 52px;
-      background: linear-gradient(to bottom, transparent, rgba(202,138,4,0.45), transparent);
-      margin: 0 auto 2.5rem;
-    }
-    .pulse-body {
-      font-size: 0.97rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.9;
-    }
 
     /* ── FOUNDING PRINCIPLE ── */
     #principle {
@@ -561,7 +496,7 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) {
       nav { padding: 1.25rem 2rem; }
-      #hero, #problem, #mission, #services, #pulse, #principle, #brand, #contact { padding: 3rem 1.5rem; }
+      #hero, #problem, #mission, #services, #principle, #brand, #contact { padding: 3rem 1.5rem; }
       .problem-grid { grid-template-columns: 1fr; }
       .problem-card { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
       .problem-card:last-child { border-bottom: none; }
@@ -661,33 +596,21 @@
       <div class="service-card reveal">
         <div class="service-line"></div>
         <div class="service-title">Diagnostic Data Analysis</div>
-        <p class="service-body">A2 surfaces what your data is actually saying across assessment performance, learning gains, EOC trajectories, and early warning indicators. The analysis is the foundation. Every intervention decision follows from what it shows.</p>
+        <p class="service-body">A2 surfaces what your data is actually saying. The analysis is precise, the findings are specific, and every intervention decision that follows is grounded in what the data shows, not what leadership hopes is true.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-line"></div>
         <div class="service-title">Intervention Architecture</div>
-        <p class="service-body">A2 builds the systems that connect diagnostic findings to specific, executable interventions. No generic action plans. No off-the-shelf frameworks. The architecture is built for your school, your students, and your accountability context.</p>
+        <p class="service-body">A2 builds the system that turns findings into action. The architecture is built for your institution, not adapted from a generic framework designed for someone else's problem.</p>
       </div>
       <div class="service-card reveal">
         <div class="service-line"></div>
         <div class="service-title">Implementation Support</div>
-        <p class="service-body">A2 does not hand over a report and leave. Implementation support means A2 remains embedded through the execution phase, verifying the system works in practice and not just on paper.</p>
+        <p class="service-body">A2 does not hand over a report and leave. The work is not finished until the system produces results. A2 stays until it does.</p>
       </div>
     </div>
   </section>
 
-  <!-- A2 PULSE -->
-  <section id="pulse">
-    <div class="pulse-inner">
-      <div class="pulse-badge reveal">A2 Pulse: Intervention Intelligence Platform</div>
-      <h2 class="pulse-headline reveal">Know before<br><em>it's too late.</em></h2>
-      <p class="pulse-tagline reveal">Real-Time Intervention Intelligence</p>
-      <div class="pulse-sep reveal"></div>
-      <p class="pulse-body reveal">
-        A2 Pulse is the real-time intervention layer built on top of A2 Systems Architecture's diagnostic work. After A2 completes its data analysis, surfaces findings, and builds the intervention architecture, A2 Pulse delivers the live signal that keeps the system responsive. Without the diagnostic foundation, there is nothing to pulse. That sequencing is the design.
-      </p>
-    </div>
-  </section>
 
   <!-- FOUNDING PRINCIPLE -->
   <section id="principle">
