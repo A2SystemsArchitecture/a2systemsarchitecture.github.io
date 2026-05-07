@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A2 Insight — See What the Scores Miss</title>
+<meta name="description" content="A2 Insight pinpoints exactly where your child is primed for a breakthrough, uncovering the specific growth opportunities the score does not show." />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #FAF5FF; font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; color: #1C1917; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; padding: 0; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1C0A2E 0%, #2D1B4E 60%, #3D1F66 100%);
+    padding: 64px 40px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-orb {
+    position: absolute; top: -80px; right: -80px;
+    width: 360px; height: 360px; border-radius: 50%;
+    background: rgba(202,138,4,0.06);
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .header-eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #CA8A04; margin-bottom: 16px;
+  }
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 60px; font-weight: 700; color: #ffffff;
+    line-height: 1.05; margin-bottom: 12px;
+  }
+  .header-title span { color: #CA8A04; }
+  .header-tagline {
+    font-size: 20px; font-weight: 300;
+    color: rgba(255,255,255,0.65); margin-bottom: 28px; letter-spacing: 0.5px;
+  }
+  .header-rule { width: 60px; height: 3px; background: #CA8A04; }
+
+  /* GOLD BAND */
+  .gold-band {
+    background: #CA8A04; padding: 10px 40px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #2D1B4E; line-height: 1.6;
+  }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
+
+  /* COUNTER */
+  .counter {
+    background: linear-gradient(135deg, #1C0A2E 0%, #2D1B4E 100%);
+    border: 1px solid rgba(202,138,4,0.3);
+    border-radius: 16px; padding: 32px 36px;
+    margin-bottom: 48px; position: relative; overflow: hidden;
+  }
+  .counter-orb {
+    position: absolute; top: -30px; right: -30px;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: rgba(202,138,4,0.06);
+  }
+  .counter-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #CA8A04; margin-bottom: 10px;
+  }
+  .counter-number-row {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .counter-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px; font-weight: 700; color: #ffffff; line-height: 1;
+  }
+  .counter-of {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 400; color: rgba(255,255,255,0.4);
+  }
+  .counter-bar-bg {
+    height: 6px; background: rgba(255,255,255,0.1);
+    border-radius: 99px; margin-bottom: 16px; overflow: hidden;
+  }
+  .counter-bar-fill {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, #CA8A04, #F59E0B);
+    transition: width 0.6s ease;
+  }
+  .counter-note {
+    font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7;
+  }
+  .admin-btn-wrap { margin-top: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .admin-claim-btn {
+    background: #CA8A04; color: #1C1917;
+    border: none; border-radius: 8px;
+    padding: 10px 20px; font-weight: 700;
+    font-size: 13px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; letter-spacing: 1px;
+  }
+  .admin-claim-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+  .admin-label { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+  /* SECTION COMMON */
+  .section { margin-bottom: 56px; }
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #CA8A04; margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px; font-weight: 700; color: #2D1B4E;
+    margin-bottom: 20px; line-height: 1.2;
+  }
+  .section-rule { width: 40px; height: 2px; background: #CA8A04; margin-bottom: 28px; }
+  .prose { font-size: 15px; color: #4B5563; line-height: 1.8; margin-bottom: 16px; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    background: #2D1B4E; border-left: 4px solid #CA8A04;
+    padding: 28px 36px; border-radius: 0 8px 8px 0; margin-bottom: 24px;
+  }
+  .pull-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 500; color: #ffffff;
+    line-height: 1.65; font-style: italic; margin: 0;
+  }
+
+  /* PROCESS GRID */
+  .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .process-card {
+    background: #ffffff; border: 1px solid #E5D5F5;
+    border-top: 3px solid #2D1B4E;
+    border-radius: 0 0 8px 8px; padding: 22px;
+  }
+  .process-step {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #CA8A04; margin-bottom: 8px;
+  }
+  .process-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 700; color: #2D1B4E; margin-bottom: 10px;
+  }
+  .process-desc { font-size: 13.5px; color: #4B5563; line-height: 1.75; margin: 0; }
+
+  /* TIER SECTION */
+  .tier-group-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #2D1B4E;
+    margin-bottom: 16px; padding-bottom: 10px;
+    border-bottom: 1px solid #E5D5F5;
+  }
+  .tier-sub {
+    font-size: 14px; color: #6B7280;
+    margin-bottom: 8px; line-height: 1.6;
+  }
+
+  /* TIER CARDS */
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 48px; }
+  .admissions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 48px; }
+
+  .tier-card {
+    background: #ffffff; border: 1px solid #E5D5F5;
+    border-radius: 12px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .tier-card.rush { border: 2px solid #CA8A04; }
+
+  .tier-header {
+    background: linear-gradient(135deg, #2D1B4E 0%, #4C2A7A 100%);
+    padding: 24px 24px 20px;
+  }
+  .tier-header.rush-header {
+    background: linear-gradient(135deg, #92400E 0%, #B45309 100%);
+  }
+  .tier-number {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #CA8A04; margin-bottom: 8px;
+  }
+  .rush-pill {
+    display: inline-block; background: #ffffff; color: #92400E;
+    font-size: 9px; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase; padding: 3px 10px;
+    border-radius: 20px; margin-bottom: 10px;
+  }
+  .tier-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 700; color: #ffffff; margin-bottom: 4px;
+  }
+  .tier-tagline { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  .tier-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+  .tier-desc { font-size: 14px; color: #4B5563; line-height: 1.75; margin-bottom: 20px; }
+  .deliverables-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #2D1B4E; margin-bottom: 10px;
+  }
+  .deliverables { margin-bottom: 20px; flex: 1; }
+  .deliverables li {
+    font-size: 13.5px; color: #1C1917;
+    padding: 7px 0 7px 16px; position: relative;
+    line-height: 1.55; border-bottom: 1px solid #F3F4F6;
+  }
+  .deliverables li:last-child { border-bottom: none; }
+  .deliverables li::before {
+    content: ''; position: absolute; left: 0; top: 15px;
+    width: 6px; height: 2px; background: #CA8A04; display: block;
+  }
+  .turnaround { font-size: 11px; color: #6B7280; letter-spacing: 0.5px; }
+
+  .tier-footer {
+    border-top: 1px solid #E5D5F5; padding: 20px 24px;
+    background: #FAF5FF;
+  }
+  .tier-footer.rush-footer { background: #FFFBEB; }
+
+  .price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .price-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px; font-weight: 700; color: #2D1B4E;
+  }
+  .founding-badge {
+    background: #CA8A04; color: #1C1917;
+    font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
+  }
+  .price-sub { font-size: 12px; color: #6B7280; }
+  .price-sub s { text-decoration: line-through; }
+  .price-save { color: #CA8A04; font-weight: 600; margin-left: 8px; }
+  .full-price-note { font-size: 11px; color: #6B7280; }
+
+  /* OFFER BLOCK */
+  .offer-block {
+    background: linear-gradient(135deg, #1C0A2E 0%, #2D1B4E 100%);
+    border-radius: 16px; padding: 48px;
+    position: relative; overflow: hidden; margin-bottom: 40px;
+  }
+  .offer-orb {
+    position: absolute; top: -50px; right: -50px;
+    width: 220px; height: 220px; border-radius: 50%;
+    background: rgba(202,138,4,0.07);
+  }
+  .offer-block .section-title { color: #ffffff; }
+  .offer-prose { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.8; margin-bottom: 20px; }
+  .offer-note {
+    background: rgba(202,138,4,0.12); border: 1px solid rgba(202,138,4,0.3);
+    border-radius: 8px; padding: 18px 22px;
+  }
+  .offer-note p { font-size: 14px; color: #CA8A04; line-height: 1.7; font-weight: 500; margin: 0; }
+
+  /* NEXT STEP */
+  .next-step {
+    background: #ffffff; border: 1px solid #E5D5F5;
+    border-top: 4px solid #CA8A04;
+    border-radius: 0 0 12px 12px;
+    padding: 40px; text-align: center; margin-bottom: 40px;
+  }
+  .next-step .section-title { color: #2D1B4E; }
+  .next-prose {
+    font-size: 15px; color: #4B5563; line-height: 1.8;
+    max-width: 560px; margin: 0 auto 28px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: #2D1B4E; color: #ffffff;
+    padding: 16px 36px; border-radius: 8px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s ease;
+    cursor: pointer; border: none;
+  }
+  .cta-btn:hover { background: #CA8A04; color: #1C1917; }
+  .contact-email { margin-top: 14px; font-size: 13px; color: #9CA3AF; word-break: break-all; }
+  .payment-note { margin-top: 8px; font-size: 12px; color: #9CA3AF; }
+  .next-footer {
+    margin-top: 28px; padding-top: 24px;
+    border-top: 1px solid #E5D5F5;
+    font-size: 11px; color: #9CA3AF; letter-spacing: 0.5px;
+  }
+
+  /* ADMIN */
+  .admin-toggle-wrap { text-align: center; margin-top: 8px; }
+  .admin-toggle-btn {
+    background: transparent; border: 1px solid #E5D5F5;
+    color: #C4B5D0; font-size: 10px; padding: 5px 12px;
+    border-radius: 6px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; letter-spacing: 1px;
+  }
+  .admin-input-wrap {
+    display: none; justify-content: center;
+    align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .admin-input-wrap.visible { display: flex; }
+  .admin-input {
+    padding: 8px 14px; border-radius: 6px;
+    border: 1px solid #E5D5F5; font-size: 13px;
+    font-family: 'DM Sans', sans-serif; outline: none;
+  }
+  .admin-unlock-btn {
+    background: #2D1B4E; color: #ffffff;
+    border: none; border-radius: 6px;
+    padding: 8px 16px; font-size: 13px;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+  .admin-active { font-size: 11px; color: #CA8A04; display: none; }
+  .admin-active.visible { display: block; }
+
+  /* FOOTER */
+  .footer {
+    background: #2D1B4E; padding: 24px 40px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .footer-left { font-size: 12px; color: rgba(255,255,255,0.4); }
+  .footer-right {
+    font-size: 11px; color: rgba(255,255,255,0.25);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* MOBILE */
+  @media (max-width: 699px) {
+    .header { padding: 48px 24px 44px; }
+    .header-title { font-size: 44px; }
+    .header-tagline { font-size: 16px; }
+    .gold-band { padding: 10px 20px; font-size: 9px; }
+    .main { padding: 40px 20px; }
+    .counter { padding: 28px 24px; }
+    .counter-number { font-size: 52px; }
+    .counter-of { font-size: 20px; }
+    .section-title { font-size: 26px; }
+    .pull-quote { padding: 22px 24px; }
+    .pull-quote p { font-size: 17px; }
+    .process-grid { grid-template-columns: 1fr; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .admissions-grid { grid-template-columns: 1fr; }
+    .offer-block { padding: 36px 24px; }
+    .next-step { padding: 32px 24px; }
+    .cta-btn { padding: 14px 28px; }
+    .footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-orb"></div>
+  <div class="header-inner">
+    <div class="header-eyebrow">A2 Systems Architecture — Student Diagnostic Services</div>
+    <div class="header-title">A2 <span>Insight</span></div>
+    <div class="header-tagline">See What the Scores Miss.</div>
+    <div class="header-rule"></div>
+  </div>
+</div>
+
+<!-- GOLD BAND -->
+<div class="gold-band">
+  Founding Client Offer &nbsp;|&nbsp; Limited to 15 Families &nbsp;|&nbsp; Slots Confirmed Upon Payment
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- COUNTER -->
+  <div class="counter">
+    <div class="counter-orb"></div>
+    <div class="counter-label">Founding Client Availability</div>
+    <div class="counter-number-row">
+      <span class="counter-number" id="counterNum">12</span>
+      <span class="counter-of">of 15 remaining</span>
+    </div>
+    <div class="counter-bar-bg">
+      <div class="counter-bar-fill" id="counterBar" style="width:20%"></div>
+    </div>
+    <div class="counter-note" id="counterNote">
+      3 slots already claimed. Slots are confirmed upon payment only. Inquiries are welcome. Slots are not held on inquiry alone.
+    </div>
+    <div class="admin-btn-wrap" id="adminBtnWrap" style="display:none;">
+      <button class="admin-claim-btn" id="claimBtn" onclick="claimSlot()">Mark One Slot Claimed</button>
+      <span class="admin-label">Admin: Giselle Torres</span>
+    </div>
+  </div>
+
+  <!-- THE OPPORTUNITY -->
+  <div class="section">
+    <div class="section-label">The Opportunity</div>
+    <div class="section-title">Every Score Tells Part of the Story. We Find the Rest.</div>
+    <div class="section-rule"></div>
+    <div class="pull-quote">
+      <p>Two students can receive the same score for completely different reasons. One has a reasoning gap. Another has a conceptual gap. Another has a cross-disciplinary gap. Those are not the same opportunity, which means they should never receive the same support.</p>
+    </div>
+    <p class="prose">Most academic support begins with instruction: more tutoring, more practice, more test prep. But if the specific growth opportunity has never been correctly identified, those efforts often produce limited or temporary results. A parent who spends $150 per hour on a tutor for three months without score movement has spent $5,000 to $7,000 and still does not know exactly where their child is primed for a breakthrough.</p>
+    <p class="prose" style="margin-bottom:0;">A2 Insight answers that question before a single tutoring dollar is spent, and makes everything that follows more effective.</p>
+  </div>
+
+  <!-- WHAT IS A2 INSIGHT -->
+  <div class="section">
+    <div class="section-label">The Service</div>
+    <div class="section-title">What Is A2 Insight?</div>
+    <div class="section-rule"></div>
+    <p class="prose">A2 Insight is a student diagnostic service operating under A2 Systems Architecture. It applies the same institutional-grade data analysis methodology A2 uses with schools directly to individual students, giving families a precise, expert understanding of exactly where their child is primed for a breakthrough and what needs to happen next.</p>
+    <p class="prose" style="margin-bottom:0;">We do not provide tutoring. We provide the diagnostic clarity that makes all tutoring, instruction, and academic support more targeted, more efficient, and more effective. The result is not a better score report. The result is a parent who finally understands what their child needs, and a student who sees their gaps not as limitations but as a precise map of where their breakthrough lives.</p>
+  </div>
+
+  <!-- OUR PROCESS -->
+  <div class="section">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">Our Process</div>
+    <div class="section-rule"></div>
+    <div class="process-grid">
+      <div class="process-card">
+        <div class="process-step">Step 01</div>
+        <div class="process-title">Data Collection</div>
+        <p class="process-desc">You provide available academic data: FAST scores, EOC results, SAT or ACT reports, ISEE or SSAT score reports, report cards, teacher feedback, or progress monitoring information.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-step">Step 02</div>
+        <div class="process-title">Diagnostic Analysis</div>
+        <p class="process-desc">Our team conducts a structured analysis of your student's academic performance patterns to pinpoint exactly where they are primed for a breakthrough and identify the specific growth opportunities the score does not show.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-step">Step 03</div>
+        <div class="process-title">Diagnostic Findings Brief</div>
+        <p class="process-desc">You receive a written diagnostic findings brief outlining key findings, identified growth opportunities, observed academic patterns, and recommended priority areas.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-step">Step 04</div>
+        <div class="process-title">Parent Debrief Session</div>
+        <p class="process-desc">We walk you through the findings in clear, direct language. You leave understanding what is happening, why it is happening, and exactly what needs to happen next.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOUNDATIONAL DIAGNOSTIC -->
+  <div class="section">
+    <div class="section-label">Pricing and Deliverables</div>
+    <div class="section-title">Foundational Diagnostic</div>
+    <p class="tier-sub">For families seeking to pinpoint exactly where their student is primed for a breakthrough across FAST, EOC, SAT, ACT, report cards, and standardized assessment data.</p>
+    <div class="section-rule"></div>
+
+    <div class="tier-grid">
+
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-number">Tier 01</div>
+          <div class="tier-name">Diagnostic</div>
+          <div class="tier-tagline">Root cause identification</div>
+        </div>
+        <div class="tier-body">
+          <p class="tier-desc">You provide the data. We pinpoint exactly where your child is primed for a breakthrough, uncovering the specific growth opportunities the score does not show. We deliver our findings in writing.</p>
+          <div class="deliverables-label">Deliverables</div>
+          <ul class="deliverables">
+            <li>Written diagnostic findings brief</li>
+            <li>Gap classification by type: reasoning, conceptual, cross-disciplinary</li>
+            <li>Verbal debrief session with parent</li>
+          </ul>
+          <div class="turnaround">Turnaround: 5 to 7 business days</div>
+        </div>
+        <div class="tier-footer">
+          <div class="price-row">
+            <span class="price-main">$197</span>
+            <span class="founding-badge">Founding Client</span>
+          </div>
+          <div class="price-sub"><s>$297</s><span class="price-save">Save $100</span></div>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-number">Tier 02</div>
+          <div class="tier-name">Diagnostic + Action</div>
+          <div class="tier-tagline">Diagnosis plus prioritized framework</div>
+        </div>
+        <div class="tier-body">
+          <p class="tier-desc">Everything in Tier 1, plus a written action framework your child's tutor, teacher, or specialist can execute immediately. We identify the highest-leverage focus areas in sequence so every hour of support that follows is aimed precisely.</p>
+          <div class="deliverables-label">Deliverables</div>
+          <ul class="deliverables">
+            <li>Written diagnostic findings brief</li>
+            <li>Gap classification by type</li>
+            <li>Prioritized action framework with skill dependency map</li>
+            <li>Verbal debrief session with parent</li>
+          </ul>
+          <div class="turnaround">Turnaround: 7 to 10 business days</div>
+        </div>
+        <div class="tier-footer">
+          <div class="price-row">
+            <span class="price-main">$297</span>
+            <span class="founding-badge">Founding Client</span>
+          </div>
+          <div class="price-sub"><s>$497</s><span class="price-save">Save $200</span></div>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-number">Tier 03</div>
+          <div class="tier-name">Diagnostic + Roadmap</div>
+          <div class="tier-tagline">Full diagnostic architecture</div>
+        </div>
+        <div class="tier-body">
+          <p class="tier-desc">Everything in Tier 2, plus a quarterly learning roadmap with skill dependencies mapped, gap hierarchy established, and focus areas sequenced. Precise enough to hand to any support professional and say: execute this.</p>
+          <div class="deliverables-label">Deliverables</div>
+          <ul class="deliverables">
+            <li>Written diagnostic findings brief</li>
+            <li>Gap classification by type</li>
+            <li>Prioritized action framework with skill dependency map</li>
+            <li>Quarterly sequencing roadmap</li>
+            <li>Verbal debrief session with parent</li>
+          </ul>
+          <div class="turnaround">Turnaround: 10 to 14 business days</div>
+        </div>
+        <div class="tier-footer">
+          <div class="price-row">
+            <span class="price-main">$497</span>
+            <span class="founding-badge">Founding Client</span>
+          </div>
+          <div class="price-sub"><s>$797</s><span class="price-save">Save $300</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ADMISSIONS DIAGNOSTIC -->
+    <div class="section-title" style="margin-bottom:8px;">Admissions Diagnostic</div>
+    <p class="tier-sub">For families preparing for private school entrance examinations: ISEE and SSAT. Subtest-level analysis conducted before preparation begins.</p>
+    <div class="section-rule"></div>
+
+    <div class="admissions-grid">
+
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-name">5 to 7 Day Delivery</div>
+          <div class="tier-tagline">Standard turnaround</div>
+        </div>
+        <div class="tier-body">
+          <p class="tier-desc">Full ISEE or SSAT subtest analysis. We pinpoint exactly where your child is primed for a breakthrough on each subtest before a single tutoring session begins. Written findings brief, skill dependency map, and verbal debrief.</p>
+          <div class="deliverables-label">Deliverables</div>
+          <ul class="deliverables">
+            <li>Written diagnostic findings brief</li>
+            <li>Subtest gap classification by type</li>
+            <li>Skill dependency map by subtest area</li>
+            <li>Verbal debrief session with parent</li>
+          </ul>
+        </div>
+        <div class="tier-footer">
+          <div class="price-row">
+            <span class="price-main">$497</span>
+            <span class="founding-badge">Founding Client</span>
+          </div>
+          <div class="price-sub"><s>$797</s><span class="price-save">Save $300</span></div>
+        </div>
+      </div>
+
+      <div class="tier-card rush">
+        <div class="tier-header rush-header">
+          <div class="rush-pill">Priority Delivery</div>
+          <div class="tier-name">48 to 72 Hour Priority</div>
+          <div class="tier-tagline">For families facing imminent deadlines</div>
+        </div>
+        <div class="tier-body">
+          <p class="tier-desc">Identical scope and rigor as standard delivery. Priority queue, accelerated turnaround. Available for families with application deadlines or examination dates that cannot wait. Full price applies. Founding client discount does not apply to priority delivery.</p>
+          <div class="deliverables-label">Deliverables</div>
+          <ul class="deliverables">
+            <li>Written diagnostic findings brief</li>
+            <li>Subtest gap classification by type</li>
+            <li>Skill dependency map by subtest area</li>
+            <li>Verbal debrief session with parent</li>
+          </ul>
+        </div>
+        <div class="tier-footer rush-footer">
+          <div class="price-main">$1,197</div>
+          <div class="full-price-note" style="margin-top:6px;">Full price. Founding client discount does not apply to priority delivery.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WHY ACT NOW -->
+  <div class="offer-block">
+    <div class="offer-orb"></div>
+    <div class="section-label">The Founding Client Offer</div>
+    <div class="section-title">Why Act Now</div>
+    <div class="section-rule"></div>
+    <p class="offer-prose">A2 Insight is opening to its first 15 families at founding client pricing. This is a meaningful reduction across all Foundational Diagnostic tiers and the standard Admissions Diagnostic, as recognition of the families who choose to engage before admissions season arrives.</p>
+    <p class="offer-prose">Founding client pricing closes when the 15 slots are filled, not on a calendar date. A slot is confirmed upon payment, not upon inquiry. When the founding cohort is complete, all tiers return to full price permanently.</p>
+    <div class="offer-note">
+      <p>Priority delivery on the Admissions Diagnostic (48 to 72 hours) remains at full price. Rush delivery is a premium service by definition. Founding client pricing does not apply.</p>
+    </div>
+  </div>
+
+  <!-- NEXT STEP -->
+  <div class="next-step">
+    <div class="section-label">Next Step</div>
+    <div class="section-title">Reserve Your Founding Client Slot</div>
+    <p class="next-prose">Email Adrian Antonini directly to begin. Tell us which tier you are interested in and share a brief description of your student's current academic situation. We respond within 24 hours.</p>
+    <a class="cta-btn" href="mailto:Adrian.Antonini.Leadership@gmail.com?subject=A2 Insight Founding Client Inquiry">Email Adrian Antonini</a>
+    <div class="contact-email">Adrian.Antonini.Leadership@gmail.com</div>
+    <div class="payment-note">Payment is accepted via Stripe upon engagement confirmation.</div>
+    <div class="payment-note" style="margin-top:6px;">Venmo, Zelle, and CashApp available upon request.</div>
+    <div class="next-footer">A2 Insight is a student diagnostic service operating under A2 Systems Architecture LLC</div>
+  </div>
+
+  <!-- ADMIN TOGGLE -->
+  <div class="admin-toggle-wrap">
+    <button class="admin-toggle-btn" id="adminToggleBtn" onclick="showAdminInput()">Admin</button>
+    <div class="admin-input-wrap" id="adminInputWrap">
+      <input class="admin-input" type="password" id="adminCodeInput" placeholder="Admin code" onkeydown="if(event.key==='Enter') unlockAdmin()" />
+      <button class="admin-unlock-btn" onclick="unlockAdmin()">Unlock</button>
+    </div>
+    <div class="admin-active" id="adminActiveLabel">Admin mode active: Giselle Torres</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">A2 Systems Architecture LLC &nbsp;|&nbsp; A2 Insight &nbsp;|&nbsp; 2026</div>
+  <div class="footer-right">See What the Scores Miss.</div>
+</div>
+
+<script>
+  var TOTAL = 15;
+  var STORAGE_KEY = "a2insight_claimed_v4";
+  var adminUnlocked = false;
+
+  function getClaimed() {
+    var v = localStorage.getItem(STORAGE_KEY);
+    return v !== null ? parseInt(v, 10) : 3;
+  }
+
+  function setClaimed(n) {
+    localStorage.setItem(STORAGE_KEY, String(n));
+  }
+
+  function updateCounter(claimed) {
+    var remaining = TOTAL - claimed;
+    document.getElementById("counterNum").textContent = remaining;
+    var pct = (claimed / TOTAL) * 100;
+    document.getElementById("counterBar").style.width = pct + "%";
+    var note = claimed + " slot" + (claimed !== 1 ? "s" : "") + " already claimed. Slots are confirmed upon payment only. Inquiries are welcome. Slots are not held on inquiry alone.";
+    document.getElementById("counterNote").textContent = note;
+    var claimBtn = document.getElementById("claimBtn");
+    if (claimBtn) {
+      claimBtn.disabled = remaining === 0;
+    }
+  }
+
+  function claimSlot() {
+    var claimed = getClaimed();
+    if (claimed >= TOTAL) return;
+    claimed += 1;
+    setClaimed(claimed);
+    updateCounter(claimed);
+  }
+
+  function showAdminInput() {
+    document.getElementById("adminToggleBtn").style.display = "none";
+    document.getElementById("adminInputWrap").classList.add("visible");
+    document.getElementById("adminCodeInput").focus();
+  }
+
+  function unlockAdmin() {
+    var code = document.getElementById("adminCodeInput").value;
+    if (code === "A2GT2026") {
+      adminUnlocked = true;
+      document.getElementById("adminInputWrap").classList.remove("visible");
+      document.getElementById("adminActiveLabel").classList.add("visible");
+      document.getElementById("adminBtnWrap").style.display = "flex";
+      document.getElementById("adminCodeInput").value = "";
+    }
+  }
+
+  // Init
+  var claimed = getClaimed();
+  updateCounter(claimed);
+</script>
+</body>
+</html>
