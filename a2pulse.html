@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2 Pulse — Antonini High School — Full Demo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+:root {
+  --plum:#2D1B4E; --plum-light:#3d2566; --plum-dark:#1e1235;
+  --gold:#CA8A04; --gold-light:#fbbf24; --cream:#FFFBEB; --lavender:#FAF5FF;
+  --near-black:#1C1917; --white:#FFFFFF;
+  --green:#16a34a; --green-bg:#dcfce7; --green-border:#86efac;
+  --yellow:#ca8a04; --yellow-bg:#fef9c3; --yellow-border:#fde047;
+  --red:#dc2626; --red-bg:#fee2e2; --red-border:#fca5a5;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:0 4px 16px rgba(45,27,78,0.12);
+  --shadow-lg:0 8px 32px rgba(45,27,78,0.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"DM Sans",Arial,sans-serif;background:#f0ecf8;color:var(--near-black);min-height:100vh;}
+
+/* HEADER */
+.header{background:var(--plum-dark);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:54px;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:200;box-shadow:var(--shadow-lg);}
+.header-left{display:flex;align-items:center;gap:10px;min-width:0;overflow:hidden;}
+.header-logo{font-size:15px;font-weight:700;color:var(--white);white-space:nowrap;flex-shrink:0;}
+.header-logo span{color:var(--gold);}
+.header-divider{width:1px;height:22px;background:rgba(255,255,255,0.15);flex-shrink:0;display:none;}
+@media(min-width:600px){.header-divider{display:block;}}
+.header-product-block{display:none;flex-direction:column;}
+@media(min-width:600px){.header-product-block{display:flex;}}
+.header-product{font-size:10px;color:rgba(255,255,255,0.6);white-space:nowrap;}
+.header-tagline{font-size:9px;color:var(--gold);font-style:italic;}
+.header-role{background:rgba(202,138,4,0.15);border:1px solid rgba(202,138,4,0.4);color:var(--gold);padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+
+/* NAV */
+.nav{background:var(--plum);border-bottom:1px solid rgba(202,138,4,0.25);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-inner{display:flex;min-width:max-content;padding:0 12px;}
+.nav-item{padding:11px 13px;font-size:12px;color:rgba(255,255,255,0.55);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-weight:500;white-space:nowrap;}
+.nav-item:hover{color:rgba(255,255,255,0.85);}
+.nav-item.active{color:var(--gold);border-bottom:2px solid var(--gold);font-weight:700;}
+
+/* VIEWS */
+.view{display:none;padding:16px;max-width:1400px;margin:0 auto;}
+.view.active{display:block;}
+
+/* PAGE HEADER */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+.page-title{font-size:20px;font-weight:700;color:var(--plum);letter-spacing:-0.4px;}
+.page-subtitle{font-size:12px;color:#6b7280;margin-top:3px;line-height:1.5;}
+.gold-rule{height:2px;background:var(--gold);border:none;margin:12px 0 18px;}
+.view-toggle{display:flex;flex-shrink:0;}
+.view-btn{padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--plum);background:var(--white);color:var(--plum);font-family:"DM Sans",Arial,sans-serif;transition:all 0.2s;white-space:nowrap;}
+.view-btn.active{background:var(--plum);color:var(--white);}
+
+/* PERIOD SELECTOR */
+.period-selector-wrap{background:var(--plum);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.period-selector-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.6);white-space:nowrap;}
+.period-selector{background:rgba(255,255,255,0.12);border:1px solid rgba(202,138,4,0.5);color:var(--white);padding:8px 14px;font-size:13px;font-family:"DM Sans",Arial,sans-serif;font-weight:700;cursor:pointer;-webkit-appearance:none;border-radius:0;min-width:240px;}
+.period-selector option{background:var(--plum);color:var(--white);}
+.period-context-badge{font-size:10px;font-weight:700;padding:4px 10px;letter-spacing:0.5px;margin-left:auto;}
+
+/* SECTION BANNER */
+.section-banner{background:var(--plum);color:var(--white);padding:9px 14px;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.banner-tag{background:var(--gold);color:var(--plum);padding:2px 7px;font-size:9px;font-weight:700;letter-spacing:0.8px;flex-shrink:0;}
+
+/* CARDS */
+.detail-card{background:var(--white);border:1px solid #e5e7eb;padding:16px;margin-bottom:14px;box-shadow:var(--shadow-sm);}
+.detail-card-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--plum);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.detail-weight{font-size:9px;background:var(--plum);color:var(--white);padding:2px 6px;flex-shrink:0;}
+.metric-list{display:flex;flex-direction:column;gap:6px;}
+.metric-item{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--lavender);font-size:12px;gap:8px;}
+.metric-item-label{color:#374151;font-weight:500;}
+.metric-item-val{font-weight:700;font-family:"DM Mono",monospace;font-size:12px;flex-shrink:0;}
+.val-good{color:var(--green);} .val-warn{color:var(--yellow);} .val-risk{color:var(--red);}
+
+/* GREETING */
+.greeting-card{background:var(--white);border:1px solid #e5e7eb;border-left:4px solid var(--gold);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-sm);}
+.greeting-text{font-size:20px;font-weight:700;color:var(--plum);margin-bottom:4px;letter-spacing:-0.3px;}
+.greeting-sub{font-size:13px;color:#6b7280;line-height:1.5;}
+.greeting-sub em{color:var(--plum);font-style:normal;font-weight:600;}
+.greeting-week{display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:var(--lavender);padding:5px 12px;font-size:11px;font-weight:700;color:var(--plum);}
+.greeting-week span{color:var(--gold);}
+
+/* PULSE SCORE */
+.pulse-score-card{background:var(--white);border:1px solid #e5e7eb;border-top:4px solid var(--green);padding:24px 20px;margin-bottom:14px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;align-items:center;transition:border-top-color 0.5s;}
+.pulse-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9ca3af;margin-bottom:16px;text-align:center;}
+.score-ring{width:180px;height:180px;position:relative;margin-bottom:14px;}
+.score-ring svg{transform:rotate(-90deg);}
+.score-ring-bg{fill:none;stroke:#f3f4f6;stroke-width:12;}
+.score-ring-fill{fill:none;stroke-width:12;stroke-linecap:round;stroke-dasharray:503;stroke-dashoffset:503;transition:stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1),stroke 0.4s;}
+.score-number{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.score-value{font-size:54px;font-weight:700;line-height:1;font-family:"DM Mono",monospace;color:var(--near-black);}
+.score-max{font-size:13px;color:#9ca3af;margin-top:2px;}
+.score-state-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;font-size:12px;font-weight:700;letter-spacing:0.5px;margin-bottom:18px;border:1px solid;}
+.state-green{background:var(--green-bg);color:var(--green);border-color:var(--green-border);}
+.state-yellow{background:var(--yellow-bg);color:var(--yellow);border-color:var(--yellow-border);}
+.state-red{background:var(--red-bg);color:var(--red);border-color:var(--red-border);}
+.score-breakdown{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.breakdown-row{display:flex;align-items:center;gap:8px;font-size:11px;}
+.breakdown-label{color:#6b7280;font-weight:500;white-space:nowrap;flex-shrink:0;min-width:120px;}
+.breakdown-bar-wrap{flex:1;height:5px;background:#f3f4f6;min-width:30px;}
+.breakdown-bar{height:100%;transition:width 1.2s ease;}
+.breakdown-val{font-weight:700;font-family:"DM Mono",monospace;font-size:11px;flex-shrink:0;}
+.share-btn{width:100%;padding:12px 16px;background:transparent;border:1.5px solid #d1d5db;color:#6b7280;font-size:12px;font-weight:600;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.share-btn.sharing{background:rgba(202,138,4,0.08);border-color:var(--gold);color:var(--gold);}
+
+/* DESKTOP LAYOUT */
+@media(min-width:768px){
+  .pulse-hero{display:grid;grid-template-columns:320px 1fr;gap:18px;align-items:start;}
+  .pulse-hero .pulse-score-card{margin-bottom:0;}
+  .pulse-detail-col{display:flex;flex-direction:column;}
+  .metrics-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .metrics-row .detail-card{margin-bottom:0;}
+}
+
+/* STUDENT CARDS */
+.student-cards-scroll{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+@media(min-width:600px){.student-cards-scroll{display:grid;grid-template-columns:1fr 1fr;}}
+@media(min-width:900px){.student-cards-scroll{grid-template-columns:repeat(3,1fr);}}
+.student-card{background:var(--white);border:1px solid #e5e7eb;border-left:4px solid #e5e7eb;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);}
+.student-card.tier-1{border-left-color:var(--red);}
+.student-card.tier-2{border-left-color:var(--yellow);}
+.student-card.tier-3{border-left-color:var(--green);}
+.student-card-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);flex-shrink:0;}
+.student-card-body{flex:1;min-width:0;}
+.student-card-name{font-size:12px;font-weight:700;color:var(--near-black);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.student-card-meta{font-size:10px;color:#6b7280;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.student-card-score{font-size:18px;font-weight:700;font-family:"DM Mono",monospace;flex-shrink:0;}
+.student-card-status{font-size:9px;font-weight:700;padding:2px 7px;margin-top:3px;display:inline-block;}
+
+/* IGRI */
+.igri-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+@media(min-width:600px){.igri-grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:900px){.igri-grid{grid-template-columns:repeat(3,1fr);}}
+.igri-card{background:var(--white);border:1px solid #e5e7eb;border-left:4px solid var(--plum);padding:16px;box-shadow:var(--shadow-sm);position:relative;transition:all 0.25s;}
+.igri-card.completed{border-left-color:var(--green);opacity:0.8;}
+.igri-card.urgent{border-left-color:var(--red);}
+.igri-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.igri-type-badge{font-size:9px;font-weight:700;letter-spacing:0.8px;padding:3px 8px;flex-shrink:0;}
+.igri-ready-badge{font-size:9px;font-weight:700;letter-spacing:0.8px;padding:3px 8px;background:var(--cream);border:1px solid var(--gold);color:var(--gold);}
+.igri-done-badge{font-size:9px;font-weight:700;letter-spacing:0.8px;padding:3px 8px;background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
+.igri-group-name{font-size:13px;font-weight:700;color:var(--plum);margin-bottom:3px;line-height:1.3;}
+.igri-focus{font-size:11px;color:#6b7280;margin-bottom:10px;line-height:1.4;}
+.igri-dosage{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--lavender);margin-bottom:10px;}
+.igri-dosage-icon{font-size:14px;}
+.igri-dosage-text{font-size:11px;color:var(--near-black);font-weight:600;}
+.igri-dosage-text span{color:var(--plum);font-weight:700;}
+.igri-students{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.igri-student{display:flex;align-items:center;justify-content:space-between;font-size:11px;padding:5px 8px;background:#f9fafb;}
+.igri-student-name{font-weight:600;}
+.igri-student-tier{font-size:9px;font-weight:700;padding:1px 6px;}
+.igri-t1{background:var(--red-bg);color:var(--red);}
+.igri-t2{background:var(--yellow-bg);color:var(--yellow);}
+.igri-actions{display:flex;gap:8px;}
+.igri-btn-log{flex:1;padding:10px;background:var(--gold);color:var(--plum);border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;transition:all 0.2s;}
+.igri-btn-view{padding:10px 14px;background:transparent;color:var(--plum);border:1.5px solid var(--plum);font-size:11px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;transition:all 0.2s;}
+.igri-completed-msg{font-size:11px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:6px;padding:8px 0 0;}
+
+/* QUICK LOG PROMISE */
+.ql-promise{background:var(--plum);padding:20px 24px;margin-bottom:14px;display:grid;grid-template-columns:1fr;gap:12px;border-left:4px solid var(--gold);}
+@media(min-width:540px){.ql-promise{grid-template-columns:1fr 1fr;align-items:center;}}
+.ql-promise-heading{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:6px;}
+.ql-promise-sub{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;}
+.ql-promise-quote{font-size:16px;font-style:italic;color:var(--gold);line-height:1.6;font-weight:500;}
+@media(min-width:540px){.ql-promise-quote{font-size:18px;text-align:right;}}
+
+/* QUICK LOG */
+.ql-student-select{background:var(--white);border:1.5px solid #e5e7eb;padding:13px 14px;font-size:14px;font-family:"DM Sans",Arial,sans-serif;color:var(--near-black);width:100%;margin-bottom:12px;cursor:pointer;-webkit-appearance:none;border-radius:0;}
+.quicklog-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+@media(min-width:640px){.quicklog-buttons{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.quicklog-buttons{grid-template-columns:repeat(5,1fr);}}
+.ql-btn{background:var(--white);border:1.5px solid #e5e7eb;padding:14px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;color:var(--near-black);transition:all 0.2s;text-align:center;line-height:1.4;position:relative;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.ql-btn:active{transform:scale(0.97);}
+.ql-btn:hover{border-color:var(--plum);background:var(--lavender);}
+.ql-btn.selected{border-color:var(--gold);background:var(--cream);}
+.ql-icon{font-size:22px;}
+.ql-count{position:absolute;top:5px;right:6px;background:var(--plum);color:var(--white);font-size:9px;font-weight:700;padding:1px 5px;display:none;}
+.ql-btn.has-count .ql-count{display:block;}
+.ql-submit-row{display:none;margin-top:4px;gap:10px;align-items:center;}
+.ql-submit-row.show{display:flex;}
+.ql-submit-log-btn{flex:1;padding:13px;background:var(--plum);color:var(--white);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;transition:background 0.2s;}
+.ql-submit-log-btn:hover{background:var(--plum-light);}
+.ql-clear-btn{padding:13px 18px;background:transparent;border:1.5px solid #d1d5db;color:#9ca3af;font-size:12px;font-weight:600;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;transition:all 0.2s;}
+.ql-clear-btn:hover{border-color:var(--red);color:var(--red);}
+
+/* LOG FEED */
+.ql-log-feed{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.ql-entry{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:9px 12px;background:var(--white);border-left:3px solid var(--gold);font-size:11px;animation:slideIn 0.3s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateX(-6px);}to{opacity:1;transform:translateX(0);}}
+.ql-entry-time{color:#9ca3af;font-family:"DM Mono",monospace;font-size:10px;}
+.ql-entry-student{font-weight:700;color:var(--plum);}
+.ql-entry-action{color:#374151;flex:1;}
+.ql-entry-auto{font-size:9px;color:#9ca3af;margin-left:auto;}
+
+/* DONE FEED */
+.done-feed{display:flex;flex-direction:column;gap:8px;}
+.done-entry{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;background:var(--white);border:1px solid #e5e7eb;border-left:3px solid var(--green);animation:slideIn 0.3s ease;}
+.done-entry-admin{border-left-color:var(--gold) !important;}
+.done-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.done-text{font-size:12px;color:#374151;line-height:1.5;}
+.done-text strong{color:var(--plum);}
+.done-time{font-size:10px;color:#9ca3af;margin-top:2px;font-family:"DM Mono",monospace;}
+
+/* SUPPORT REQUEST */
+.support-confirm{background:var(--lavender);border:1px solid #e5e7eb;padding:10px 14px;margin-bottom:10px;display:none;animation:slideIn 0.25s ease;}
+.support-confirm.show{display:block;}
+.support-confirm-name{font-size:13px;font-weight:700;color:var(--plum);margin-bottom:2px;}
+.support-confirm-detail{font-size:11px;color:#6b7280;}
+.support-confirm-detail span{font-weight:700;color:var(--near-black);}
+.support-category-btns{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:10px;}
+@media(min-width:500px){.support-category-btns{grid-template-columns:repeat(3,1fr);}}
+.support-cat-btn{background:var(--white);border:1.5px solid #e5e7eb;padding:14px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;color:var(--near-black);transition:all 0.2s;text-align:center;line-height:1.4;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:70px;justify-content:center;}
+.support-cat-btn:hover{border-color:var(--plum);background:var(--lavender);}
+.support-cat-btn.selected{border-color:var(--gold);background:var(--cream);}
+.support-cat-icon{font-size:20px;}
+.support-clarify{display:none;margin-bottom:10px;animation:slideIn 0.25s ease;}
+.support-clarify.show{display:block;}
+.support-clarify-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--plum);margin-bottom:8px;}
+.support-clarify-btns{display:flex;flex-direction:column;gap:6px;}
+.support-clarify-btn{background:var(--white);border:1.5px solid #e5e7eb;padding:11px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;color:var(--near-black);transition:all 0.2s;text-align:left;line-height:1.4;}
+.support-clarify-btn:hover{border-color:var(--plum);background:var(--lavender);color:var(--plum);}
+.support-clarify-btn.selected{border-color:var(--gold);background:var(--cream);color:var(--plum);}
+.support-submit-btn{width:100%;padding:13px;background:var(--plum);color:var(--white);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;transition:background 0.2s;display:none;}
+.support-submit-btn.show{display:block;}
+.support-nothing{text-align:center;font-size:12px;color:#9ca3af;font-style:italic;padding:10px 0;border-top:1px solid #f3f4f6;margin-top:6px;}
+
+/* FRIDAY SUMMARY */
+.friday-trigger{background:var(--white);border:1px solid #e5e7eb;border-left:4px solid var(--gold);padding:16px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:var(--shadow-sm);}
+.friday-trigger-left{display:flex;align-items:center;gap:14px;}
+.friday-trigger-icon{font-size:28px;flex-shrink:0;}
+.friday-trigger-title{font-size:14px;font-weight:700;color:var(--plum);margin-bottom:3px;}
+.friday-trigger-sub{font-size:11px;color:#6b7280;line-height:1.4;}
+.friday-trigger-btn{background:var(--gold);color:var(--plum);border:none;padding:11px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+
+/* ROSTER TABLE */
+.roster-table-wrap{overflow-x:auto;margin-bottom:14px;}
+.roster-table{width:100%;border-collapse:collapse;font-size:12px;}
+.roster-table thead tr{background:var(--plum);color:var(--white);}
+.roster-table thead th{padding:10px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;cursor:pointer;user-select:none;}
+.roster-table thead th:hover{background:var(--plum-light);}
+.roster-table thead th.sorted{color:var(--gold);}
+.roster-table tbody tr:nth-child(even){background:var(--cream);}
+.roster-table tbody tr:nth-child(odd){background:var(--white);}
+.roster-table tbody tr:hover{background:var(--lavender);}
+.roster-table tbody td{padding:9px 12px;border-bottom:1px solid #f3f4f6;vertical-align:middle;}
+.tier-badge{display:inline-block;padding:2px 8px;font-size:9px;font-weight:700;letter-spacing:0.5px;}
+.tier-1-badge{background:var(--red-bg);color:var(--red);}
+.tier-2-badge{background:var(--yellow-bg);color:var(--yellow);}
+.tier-3-badge{background:var(--green-bg);color:var(--green);}
+.gap-badge{font-size:9px;font-weight:700;padding:2px 6px;margin:1px;}
+.escalation-pill{font-size:9px;font-weight:700;padding:2px 6px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+
+/* INTERVENTION GROUPS VIEW */
+.group-full-card{background:var(--white);border:1px solid #e5e7eb;padding:20px;margin-bottom:16px;box-shadow:var(--shadow-sm);}
+.group-full-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--gold);flex-wrap:wrap;}
+.group-full-name{font-size:16px;font-weight:700;color:var(--plum);margin-bottom:4px;}
+.group-full-focus{font-size:12px;color:#6b7280;line-height:1.5;}
+.group-session-history{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.session-entry{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--lavender);font-size:11px;gap:8px;}
+.session-logged{color:var(--green);font-weight:700;}
+.session-pending{color:var(--gold);font-weight:700;}
+
+/* LEADERSHIP */
+.leadership-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:18px;}
+@media(min-width:540px){.leadership-grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:900px){.leadership-grid{grid-template-columns:repeat(3,1fr);}}
+.ls-class-card{background:var(--white);border:1px solid #e5e7eb;padding:16px;box-shadow:var(--shadow-sm);}
+.ls-class-card.shared{border-top:3px solid var(--gold);}
+.ls-class-card.not-shared{border-top:3px solid #e5e7eb;}
+.ls-class-name{font-size:13px;font-weight:700;color:var(--plum);margin-bottom:2px;}
+.ls-teacher{font-size:11px;color:#6b7280;margin-bottom:10px;}
+.ls-score-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.ls-score-num{font-size:34px;font-weight:700;font-family:"DM Mono",monospace;line-height:1;}
+.ls-score-info{flex:1;}
+.ls-score-label{font-size:10px;color:#9ca3af;margin-bottom:3px;}
+.ls-share-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:2px 7px;letter-spacing:0.5px;}
+.badge-shared{background:rgba(202,138,4,0.1);color:var(--gold);border:1px solid rgba(202,138,4,0.3);}
+.badge-private{background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;}
+.ls-not-shared-msg{font-size:11px;color:#9ca3af;font-style:italic;line-height:1.5;}
+
+/* LOOP SYSTEM */
+.loop-entry{background:var(--white);border:1px solid #e5e7eb;border-left:4px solid var(--red);padding:14px 16px;margin-bottom:10px;transition:all 0.3s;}
+.loop-entry.closed{border-left-color:var(--green);opacity:0.65;}
+.loop-entry-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.loop-entry-who{font-size:12px;font-weight:700;color:var(--plum);}
+.loop-entry-meta{font-size:10px;color:#9ca3af;font-family:"DM Mono",monospace;white-space:nowrap;}
+.loop-entry-obs{font-size:12px;color:#374151;margin-bottom:10px;padding:8px 10px;background:var(--lavender);border-left:2px solid var(--plum);line-height:1.5;}
+.loop-entry-teacher{font-size:10px;color:#6b7280;margin-bottom:10px;font-weight:500;}
+.loop-response-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+@media(min-width:500px){.loop-response-btns{grid-template-columns:repeat(3,1fr);}}
+.loop-resp-btn{padding:8px 6px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #e5e7eb;background:var(--white);color:var(--near-black);font-family:"DM Sans",Arial,sans-serif;transition:all 0.18s;text-align:center;line-height:1.3;}
+.loop-resp-btn:hover{border-color:var(--plum);background:var(--lavender);color:var(--plum);}
+.loop-resp-btn.escalate{border-color:var(--red);color:var(--red);}
+.loop-closed-msg{font-size:11px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:6px;padding:6px 0 0;}
+
+/* SUPPORT REQ LEADERSHIP */
+.support-request-entry{background:var(--white);border:1px solid #e5e7eb;border-left:4px solid var(--gold);padding:14px 16px;margin-bottom:10px;transition:all 0.3s;}
+.support-request-entry.resolved{border-left-color:var(--green);opacity:0.7;}
+.support-req-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+.support-req-type{font-size:9px;font-weight:700;letter-spacing:0.8px;padding:3px 8px;background:rgba(202,138,4,0.1);color:var(--gold);border:1px solid rgba(202,138,4,0.3);}
+.support-req-who{font-size:12px;font-weight:700;color:var(--plum);margin-bottom:2px;}
+.support-req-detail{font-size:11px;color:#374151;margin-bottom:8px;padding:7px 10px;background:var(--cream);border-left:2px solid var(--gold);line-height:1.5;}
+.support-req-meta{font-size:10px;color:#9ca3af;font-family:"DM Mono",monospace;margin-bottom:10px;}
+.support-resolve-area{display:flex;flex-direction:column;gap:6px;}
+.support-resolve-input{background:var(--lavender);border:1.5px solid #e5e7eb;padding:10px 12px;font-size:12px;font-family:"DM Sans",Arial,sans-serif;color:var(--near-black);width:100%;resize:none;height:60px;}
+.support-resolve-row{display:flex;gap:8px;flex-wrap:wrap;}
+.support-resolve-btn{flex:1;padding:9px;background:var(--gold);color:var(--plum);border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;min-width:100px;}
+.support-meeting-btn{padding:9px 14px;background:transparent;color:var(--plum);border:1.5px solid var(--plum);font-size:11px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;}
+.support-resolved-note{font-size:11px;color:#374151;background:var(--green-bg);padding:8px 10px;margin-top:6px;border-left:2px solid var(--green);}
+
+/* SHARING BANNER */
+.sharing-banner{background:rgba(202,138,4,0.07);border:1px solid rgba(202,138,4,0.3);border-left:4px solid var(--gold);padding:11px 14px;display:none;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+.sharing-banner.show{display:flex;}
+.sharing-banner-text{font-size:12px;color:var(--near-black);line-height:1.5;}
+.sharing-banner-text strong{color:var(--gold);}
+.sharing-stop-btn{background:transparent;border:1px solid rgba(202,138,4,0.4);color:var(--gold);padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;white-space:nowrap;flex-shrink:0;}
+
+/* ESCALATION */
+.escalation-flag{background:var(--red-bg);border:1px solid var(--red-border);border-left:4px solid var(--red);padding:10px 14px;display:flex;align-items:flex-start;gap:10px;animation:slideIn 0.3s ease;margin-bottom:8px;}
+.escalation-flag-icon{font-size:16px;flex-shrink:0;}
+.escalation-flag-title{font-size:12px;font-weight:700;color:var(--red);margin-bottom:2px;}
+.escalation-flag-detail{font-size:11px;color:#374151;line-height:1.5;}
+.escalation-flag-meta{font-size:10px;color:#9ca3af;font-family:"DM Mono",monospace;margin-top:3px;}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;background:rgba(30,18,53,0.75);z-index:1000;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);}
+@media(min-width:600px){.modal-overlay{align-items:center;padding:20px;}}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--white);width:100%;max-width:460px;padding:30px 24px 34px;box-shadow:0 24px 64px rgba(45,27,78,0.3);animation:modalUp 0.35s cubic-bezier(0.34,1.56,0.64,1);max-height:90vh;overflow-y:auto;}
+@keyframes modalUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+@keyframes modalIn{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
+@media(min-width:600px){.modal{animation-name:modalIn;}}
+.modal-accent{height:4px;background:var(--gold);margin:-30px -24px 24px;}
+.modal-icon{font-size:30px;margin-bottom:10px;text-align:center;}
+.modal-title{font-size:18px;font-weight:700;color:var(--plum);margin-bottom:12px;text-align:center;}
+.modal-body{font-size:13px;color:#374151;line-height:1.75;margin-bottom:22px;text-align:center;}
+.modal-body em{color:var(--plum);font-style:normal;font-weight:600;}
+.modal-buttons{display:flex;flex-direction:column;gap:10px;}
+.modal-btn-primary{width:100%;padding:14px;background:var(--plum);color:var(--white);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;}
+.modal-btn-secondary{width:100%;padding:14px;background:transparent;color:var(--plum);border:1.5px solid var(--plum);font-size:13px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;}
+.modal-btn-confirm{width:100%;padding:14px;background:var(--gold);color:var(--plum);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;}
+.modal-btn-stop{width:100%;padding:14px;background:transparent;color:var(--red);border:1.5px solid var(--red);font-size:13px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;}
+.modal-btn-ghost{width:100%;padding:12px;background:transparent;color:#9ca3af;border:1.5px solid #e5e7eb;font-size:12px;font-weight:600;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;}
+
+/* FRIDAY MODAL */
+.friday-modal-overlay{position:fixed;inset:0;background:rgba(30,18,53,0.8);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+@media(min-width:700px){.friday-modal-overlay{align-items:center;padding:20px;}}
+.friday-modal-overlay.show{display:flex;}
+.friday-modal{background:var(--white);width:100%;max-width:680px;max-height:92vh;overflow-y:auto;animation:modalUp 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+.friday-modal-header{background:var(--plum);padding:20px 24px;position:sticky;top:0;z-index:10;}
+.friday-modal-school{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.friday-modal-title{font-size:18px;font-weight:700;color:var(--white);margin-bottom:2px;}
+.friday-modal-meta{font-size:11px;color:rgba(255,255,255,0.55);}
+.friday-modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--white);width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:"DM Sans",Arial,sans-serif;}
+.friday-modal-body{padding:20px 24px;}
+.friday-gold-rule{height:2px;background:var(--gold);border:none;margin:16px 0;}
+.friday-section-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--plum);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.friday-section-title::after{content:"";flex:1;height:1px;background:#e5e7eb;}
+.friday-stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(min-width:500px){.friday-stat-row{grid-template-columns:repeat(4,1fr);}}
+.friday-stat{background:var(--lavender);padding:12px;text-align:center;}
+.friday-stat-val{font-size:24px;font-weight:700;font-family:"DM Mono",monospace;color:var(--plum);line-height:1;}
+.friday-stat-label{font-size:10px;color:#6b7280;margin-top:4px;font-weight:500;}
+.friday-movement-item{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--white);border:1px solid #f3f4f6;font-size:12px;gap:8px;margin-bottom:4px;}
+.friday-movement-name{font-weight:600;color:var(--near-black);}
+.friday-movement-change{font-size:11px;font-weight:700;padding:2px 8px;}
+.fm-improved{background:var(--green-bg);color:var(--green);}
+.fm-escalated{background:var(--red-bg);color:var(--red);}
+.fm-stable{background:#f3f4f6;color:#6b7280;}
+.friday-recommendation{background:var(--cream);border-left:4px solid var(--gold);padding:14px 16px;margin-bottom:16px;}
+.friday-rec-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.friday-rec-text{font-size:13px;color:var(--near-black);line-height:1.7;}
+.friday-rec-text strong{color:var(--plum);}
+.friday-next-week{background:var(--plum);color:var(--white);padding:16px;margin-bottom:16px;}
+.friday-next-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.friday-next-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:6px;line-height:1.5;}
+.friday-next-bullet{color:var(--gold);font-weight:700;flex-shrink:0;}
+.friday-footer-note{font-size:11px;color:#9ca3af;text-align:center;padding:8px 0;line-height:1.6;font-style:italic;}
+.friday-actions{display:flex;gap:10px;padding-top:4px;flex-wrap:wrap;}
+.friday-action-btn{flex:1;padding:12px;background:var(--plum);color:var(--white);border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:"DM Sans",Arial,sans-serif;min-width:120px;}
+.friday-action-btn.secondary{background:transparent;color:var(--plum);border:1.5px solid var(--plum);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:16px;left:16px;background:var(--plum-dark);color:var(--white);padding:13px 16px;border-left:4px solid var(--gold);font-size:12px;font-weight:600;z-index:2000;transform:translateY(80px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);box-shadow:var(--shadow-lg);}
+@media(min-width:500px){.toast{left:auto;max-width:320px;}}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast-sub{font-size:11px;font-weight:400;color:rgba(255,255,255,0.65);margin-top:3px;}
+
+/* LEADERSHIP NOTE */
+.leadership-note{background:rgba(202,138,4,0.07);border:1px solid rgba(202,138,4,0.25);border-left:4px solid var(--gold);padding:13px 16px;margin-bottom:14px;}
+.leadership-note-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.leadership-note-text{font-size:12px;color:#374151;line-height:1.6;}
+
+/* FOOTER */
+.footer{background:var(--plum-dark);color:rgba(255,255,255,0.4);padding:14px 16px;font-size:10px;display:flex;flex-direction:column;gap:4px;margin-top:40px;border-top:2px solid var(--gold);}
+@media(min-width:640px){.footer{flex-direction:row;justify-content:space-between;align-items:center;font-size:11px;}}
+.footer strong{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><div id="toastText"></div><div class="toast-sub" id="toastSub"></div></div>
+
+<!-- SHARE MODAL 1 -->
+<div class="modal-overlay" id="modal1">
+  <div class="modal"><div class="modal-accent"></div><div class="modal-icon">🤝</div>
+    <div class="modal-title">This is your decision.</div>
+    <div class="modal-body">Sharing your Class Pulse Score takes courage. It means opening your classroom to a conversation - and that is not a small thing.<br><br><em>A2 Pulse will never share your score automatically.</em> If you choose to share, it is because you decided to.<br><br>Take a moment. There is no right answer here.</div>
+    <div class="modal-buttons">
+      <button class="modal-btn-primary" onclick="closeModal1()">Not Yet - Keep It Private</button>
+      <button class="modal-btn-secondary" onclick="openModal2()">I Want to Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE MODAL 2 -->
+<div class="modal-overlay" id="modal2">
+  <div class="modal"><div class="modal-accent"></div><div class="modal-icon">💛</div>
+    <div class="modal-title">We respect you for considering this.</div>
+    <div class="modal-body">When you share your score, your administrator sees a number - not a judgment. <em>A2 Pulse does not evaluate teachers. It supports them.</em><br><br>Your score reflects your students' data, not your worth as an educator.<br><br>You can turn this off any time, no explanation required.</div>
+    <div class="modal-buttons">
+      <button class="modal-btn-secondary" onclick="goBackToModal1()">Go Back - I'm Not Ready</button>
+      <button class="modal-btn-confirm" onclick="activateSharing()">Yes, Share My Score</button>
+    </div>
+  </div>
+</div>
+
+<!-- STOP SHARING MODAL -->
+<div class="modal-overlay" id="modalStop">
+  <div class="modal"><div class="modal-accent" style="background:#e5e7eb;"></div><div class="modal-icon">🔒</div>
+    <div class="modal-title">Turning off sharing.</div>
+    <div class="modal-body">Your score will no longer be visible to your administrator.<br><br><em>No explanation needed.</em> This is your information.</div>
+    <div class="modal-buttons">
+      <button class="modal-btn-stop" onclick="deactivateSharing()">Yes, Stop Sharing</button>
+      <button class="modal-btn-ghost" onclick="closeModalStop()">Keep Sharing</button>
+    </div>
+  </div>
+</div>
+
+<!-- FRIDAY SUMMARY MODAL -->
+<div class="friday-modal-overlay" id="fridayOverlay">
+  <div class="friday-modal">
+    <div class="friday-modal-header">
+      <div class="friday-modal-school">Antonini High School - Home of the Fighting Anteaters</div>
+      <div class="friday-modal-title" id="fridayModalTitle">Friday Summary</div>
+      <div class="friday-modal-meta">Week of May 5-9, 2026 - Generated by A2 Pulse - No preparation required</div>
+      <button class="friday-modal-close" onclick="closeFridaySummary()">&#10005;</button>
+    </div>
+    <div class="friday-modal-body" id="fridayBody"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">A2 <span>Systems Architecture</span></div>
+    <div class="header-divider"></div>
+    <div class="header-product-block">
+      <div class="header-product">A2 PULSE - Antonini High School</div>
+      <div class="header-tagline">Know Before It's Too Late. - Home of the Fighting Anteaters</div>
+    </div>
+  </div>
+  <div class="header-role" id="roleLabel">Teacher View</div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-item active" onclick="showView('dashboard',this)">Dashboard</div>
+    <div class="nav-item" onclick="showView('roster',this)">Student Roster</div>
+    <div class="nav-item" onclick="showView('upload',this)">Assessment Upload</div>
+    <div class="nav-item" onclick="showView('quicklog',this)">Quick Log</div>
+    <div class="nav-item" onclick="showView('groups',this)">Intervention Groups</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- DASHBOARD VIEW                                                         -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view active" id="view-dashboard">
+
+  <!-- TEACHER DASHBOARD -->
+  <div id="teacherDash">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:16px 16px 0;">
+      <div>
+        <div class="page-title" id="dashTitle">Class Pulse Score</div>
+        <div class="page-subtitle">Your class at a glance. No interpretation required.</div>
+      </div>
+      <div class="view-toggle">
+        <button class="view-btn active" onclick="switchDashView('teacher',this)">Teacher</button>
+        <button class="view-btn" onclick="switchDashView('leadership',this)">Leadership</button>
+      </div>
+    </div>
+    <div style="padding:0 16px;"><hr class="gold-rule"></div>
+
+    <!-- PERIOD SELECTOR -->
+    <div style="padding:0 16px;">
+      <div class="period-selector-wrap">
+        <div class="period-selector-label">Select Class Period</div>
+        <select class="period-selector" id="periodSelector" onchange="switchPeriod(this.value)">
+          <option value="p3">Period 3 - Biology 1 EOC - 24 Students</option>
+          <option value="p5">Period 5 - Biology 1 EOC - 22 Students</option>
+        </select>
+        <span class="period-context-badge" id="periodBadge" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);">On Track</span>
+      </div>
+    </div>
+
+    <div style="padding:0 16px;" id="teacherContent">
+      <!-- GREETING -->
+      <div class="greeting-card">
+        <div class="greeting-text" id="greetingText">Good morning, Ms. Reyes.</div>
+        <div class="greeting-sub">Here is where your students stand today. <em>They are all our students.</em></div>
+        <div class="greeting-week">Week <span>24</span> of 36 - <span id="greetingPeriod">Biology 1 EOC - Period 3</span></div>
+      </div>
+
+      <!-- SHARING BANNER -->
+      <div class="sharing-banner" id="sharingBanner">
+        <div class="sharing-banner-text"><strong>You are sharing your Class Pulse Score.</strong> This was your choice and it still is.</div>
+        <button class="sharing-stop-btn" onclick="openModalStop()">Stop Sharing</button>
+      </div>
+
+      <!-- TEACHER ESCALATION -->
+      <div id="teacherEscalationSection" style="display:none;margin-bottom:14px;">
+        <div class="section-banner" style="background:var(--red);">Active Escalation - Student Record<span class="banner-tag" style="background:var(--white);color:var(--red);">ESCALATED</span></div>
+        <div id="teacherEscalationFlags"></div>
+      </div>
+
+      <!-- PULSE SCORE BANNER -->
+      <div class="section-banner" id="pulseScoreBanner">Class Pulse Score - Biology 1 EOC - Period 3<span class="banner-tag">LIVE</span></div>
+
+      <!-- PULSE HERO -->
+      <div class="pulse-hero">
+        <div class="pulse-score-card" id="scoreCard">
+          <div class="pulse-label">Class Pulse Score</div>
+          <div class="score-ring">
+            <svg width="180" height="180" viewBox="0 0 180 180">
+              <circle class="score-ring-bg" cx="90" cy="90" r="80"/>
+              <circle class="score-ring-fill" id="ringFill" cx="90" cy="90" r="80"/>
+            </svg>
+            <div class="score-number">
+              <div class="score-value" id="scoreValue">--</div>
+              <div class="score-max">/ 100</div>
+            </div>
+          </div>
+          <div class="score-state-badge state-green" id="stateBadge">On Track</div>
+          <div class="score-breakdown">
+            <div class="breakdown-row">
+              <span class="breakdown-label">Assessment (80%)</span>
+              <div class="breakdown-bar-wrap"><div class="breakdown-bar" id="bar1" style="width:0%;background:var(--plum);"></div></div>
+              <span class="breakdown-val" id="assessVal">--</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Quick Log (20%)</span>
+              <div class="breakdown-bar-wrap"><div class="breakdown-bar" id="bar2" style="width:0%;background:var(--gold);"></div></div>
+              <span class="breakdown-val" id="logVal">--</span>
+            </div>
+          </div>
+          <button class="share-btn" id="shareBtn" onclick="openModal1()"><span>&#128279;</span> Share My Score With My Administrator</button>
+        </div>
+
+        <div class="pulse-detail-col">
+          <div class="metrics-row">
+            <div class="detail-card">
+              <div class="detail-card-title">Assessment Signal<span class="detail-weight">80%</span></div>
+              <div class="metric-list" id="assessMetrics"></div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-card-title">Quick Log Signal<span class="detail-weight">20%</span></div>
+              <div class="metric-list">
+                <div class="metric-item"><span class="metric-item-label">Logs This Week</span><span class="metric-item-val" id="logCount">0</span></div>
+                <div class="metric-item"><span class="metric-item-label">Critical Flags</span><span class="metric-item-val val-risk" id="critCount">0</span></div>
+                <div class="metric-item"><span class="metric-item-label">Enrichment Flags</span><span class="metric-item-val val-good" id="enrichCount">0</span></div>
+                <div class="metric-item"><span class="metric-item-label">Unresolved Loops</span><span class="metric-item-val val-warn" id="loopCount">0</span></div>
+                <div class="metric-item"><span class="metric-item-label">Log Health</span><span class="metric-item-val val-good" id="logHealth">Good</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">A2 Pulse Already Did This For You<span class="detail-weight">NO ACTION NEEDED</span></div>
+            <div class="done-feed" id="doneFeed">
+              <div class="done-entry"><div class="done-icon">&#10003;</div><div><div class="done-text"><strong>Intervention groups updated</strong> after your last upload. Groups are ready to run.</div><div class="done-time">Today - 7:58 AM</div></div></div>
+              <div class="done-entry"><div class="done-icon">&#10003;</div><div><div class="done-text"><strong>Student re-tiering complete.</strong> Leadership view updated automatically.</div><div class="done-time">Today - 7:58 AM</div></div></div>
+              <div class="done-entry"><div class="done-icon">&#10003;</div><div><div class="done-text"><strong>Friday summary generated</strong> and ready in your reports. No preparation required.</div><div class="done-time">Friday - 4:00 PM</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT CARDS -->
+      <div class="section-banner">Your Students - Current Standing<span class="banner-tag">THIS WINDOW</span></div>
+      <div class="student-cards-scroll" id="studentCardsGrid"></div>
+
+      <!-- IGRI -->
+      <div class="section-banner" style="margin-top:4px;">Intervention Groups Ready - A2 Pulse Built These For You<span class="banner-tag">ACTION-READY</span></div>
+      <div class="igri-grid" id="igriGrid"></div>
+
+      <!-- FRIDAY SUMMARY TRIGGER -->
+      <div class="section-banner" style="margin-top:4px;">Friday Summary - Generated For You<span class="banner-tag">READY</span></div>
+      <div class="friday-trigger">
+        <div class="friday-trigger-left">
+          <div class="friday-trigger-icon">&#128203;</div>
+          <div>
+            <div class="friday-trigger-title">Your Friday Summary Is Ready</div>
+            <div class="friday-trigger-sub">A2 Pulse generated this from your assessment data and Quick Log activity this week.<br>No preparation required. Read it in 90 seconds.</div>
+          </div>
+        </div>
+        <button class="friday-trigger-btn" onclick="openFridaySummary()">View My Summary</button>
+      </div>
+
+      <!-- QUICK LOG PROMISE -->
+      <div class="ql-promise">
+        <div><div class="ql-promise-heading">Quick Log</div><div class="ql-promise-sub">Four taps. That's it. We handle the rest.</div></div>
+        <div class="ql-promise-quote">"Log it when it matters.<br>No schedule. No pressure.<br>Just your judgment."</div>
+      </div>
+
+      <!-- QUICK LOG -->
+      <div class="section-banner" style="margin-top:4px;">Quick Log - No Typing Required<span class="banner-tag">THREE TAPS. UNDER 10 SECONDS.</span></div>
+      <div class="detail-card">
+        <select class="ql-student-select" id="studentSelect">
+          <option value="">Select student...</option>
+        </select>
+        <div class="quicklog-buttons" id="qlButtons">
+          <button class="ql-btn" onclick="logEntry(this,'lost',0)"><span class="ql-icon">&#128566;</span>Lost - does not know where to start<span class="ql-count" id="cnt0">0</span></button>
+          <button class="ql-btn" onclick="logEntry(this,'stuck',1)"><span class="ql-icon">&#9208;&#65039;</span>Started but getting stuck<span class="ql-count" id="cnt1">0</span></button>
+          <button class="ql-btn" onclick="logEntry(this,'errors',2)"><span class="ql-icon">&#128260;</span>Working but consistent errors<span class="ql-count" id="cnt2">0</span></button>
+          <button class="ql-btn" onclick="logEntry(this,'enrichment',3)"><span class="ql-icon">&#128640;</span>Needs enrichment<span class="ql-count" id="cnt3">0</span></button>
+          <button class="ql-btn" onclick="logEntry(this,'breakthrough',4)"><span class="ql-icon">&#11088;</span>Breakthrough today<span class="ql-count" id="cnt4">0</span></button>
+        </div>
+        <div class="ql-submit-row" id="qlSubmitRow">
+          <button class="ql-submit-log-btn" onclick="submitQuickLog()">Submit Log Entry</button>
+          <button class="ql-clear-btn" onclick="clearQuickLogSelection()">Clear Selection</button>
+        </div>
+      </div>
+
+      <!-- SUPPORT REQUEST -->
+      <div class="section-banner" style="margin-top:4px;">Request Support for a Student<span class="banner-tag">FOUR TAPS. STUDENT PROTECTED.</span></div>
+      <div class="detail-card">
+        <select class="ql-student-select" id="supportStudentSelect" onchange="onSupportStudentSelect()">
+          <option value="">Select student to request support...</option>
+        </select>
+        <div class="support-confirm" id="supportConfirm">
+          <div class="support-confirm-name" id="supportConfirmName"></div>
+          <div class="support-confirm-detail" id="supportConfirmDetail"></div>
+        </div>
+        <div class="support-category-btns" id="supportCategoryBtns" style="display:none;">
+          <button class="support-cat-btn" onclick="selectSupportCategory(this,'contact')"><span class="support-cat-icon">&#128222;</span>Student needs parent contact</button>
+          <button class="support-cat-btn" onclick="selectSupportCategory(this,'counselor')"><span class="support-cat-icon">&#129504;</span>Student needs counselor</button>
+          <button class="support-cat-btn" onclick="selectSupportCategory(this,'resources')"><span class="support-cat-icon">&#128218;</span>I need instructional resources</button>
+        </div>
+        <div class="support-clarify" id="supportClarify">
+          <div class="support-clarify-label" id="supportClarifyLabel">Select one</div>
+          <div class="support-clarify-btns" id="supportClarifyBtns"></div>
+        </div>
+        <button class="support-submit-btn" id="supportSubmitBtn" onclick="submitSupportRequest()">Submit Support Request</button>
+        <div class="support-nothing">Nothing to share right now - that's okay too.</div>
+      </div>
+
+      <!-- LOG FEED -->
+      <div class="section-banner">Today's Log Feed - Auto-Stamped<span class="banner-tag">REAL TIME</span></div>
+      <div class="detail-card">
+        <div class="ql-log-feed" id="logFeed">
+          <div style="font-size:12px;color:#9ca3af;padding:6px;font-style:italic;" id="logPlaceholder">No entries yet. Select a student and tap an observation above.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERSHIP DASHBOARD -->
+  <div id="leadershipDash" style="display:none;">
+    <div style="padding:16px 16px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+      <div>
+        <div class="page-title">Leadership Dashboard</div>
+        <div class="page-subtitle">Which students are at risk. Which classes need attention. What has changed.</div>
+      </div>
+      <div class="view-toggle">
+        <button class="view-btn" onclick="switchDashView('teacher',this)">Teacher</button>
+        <button class="view-btn active" onclick="switchDashView('leadership',this)">Leadership</button>
+      </div>
+    </div>
+    <div style="padding:0 16px;"><hr class="gold-rule"></div>
+    <div style="padding:0 16px;">
+      <!-- PERIOD CONTEXT IN LEADERSHIP -->
+      <div class="period-selector-wrap" style="margin-bottom:14px;">
+        <div class="period-selector-label">Teacher Active Period</div>
+        <div style="font-size:13px;font-weight:700;color:var(--white);" id="lsPeriodContext">Period 3 - Biology 1 EOC</div>
+        <span class="period-context-badge" id="lsPeriodBadge" style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);">On Track</span>
+      </div>
+
+      <!-- ADMIN INTELLIGENCE NOTE -->
+      <div class="leadership-note">
+        <div class="leadership-note-label">Administrator Intelligence Note</div>
+        <div class="leadership-note-text">Class Pulse Scores appear here only when a teacher has chosen to share. Scores reflect student data - not teacher performance. Teachers control sharing at all times. Scores marked <strong style="color:var(--gold);">Teacher-Shared</strong> were volunteered, not reported by the system.</div>
+      </div>
+
+      <!-- CLASS PULSE SCORES -->
+      <div class="section-banner">Class Pulse Scores - Teacher-Shared Only<span class="banner-tag">VOLUNTARY</span></div>
+      <div class="leadership-grid" id="leadershipGrid"></div>
+
+      <!-- ESCALATION FLAGS -->
+      <div id="lsEscalationSection" style="display:none;margin-bottom:14px;">
+        <div class="section-banner" style="background:var(--red);">Active Escalation Flags<span class="banner-tag" style="background:var(--white);color:var(--red);">ESCALATED</span></div>
+        <div id="lsEscalationFlags"></div>
+      </div>
+
+      <!-- UNRESOLVED LOOPS -->
+      <div class="section-banner">Unresolved Admin Loops - Teacher Entries Awaiting Response<span class="banner-tag" id="loopBadge" style="background:var(--red);color:var(--white);">3 PENDING</span></div>
+      <div id="loopPanel"></div>
+
+      <!-- SUPPORT REQUESTS -->
+      <div class="section-banner">Teacher Support Requests - Leadership Response Required<span class="banner-tag" id="supportBadge" style="background:var(--gold);color:var(--plum);">0 PENDING</span></div>
+      <div id="supportRequestPanel">
+        <div style="font-size:12px;color:#9ca3af;font-style:italic;padding:12px;background:var(--white);border:1px dashed #d1d5db;">No support requests pending. Teacher requests will appear here when submitted.</div>
+      </div>
+
+      <!-- COHORT DATA -->
+      <div class="section-banner">Cohort Risk Distribution - All Classes<span class="banner-tag">SYSTEM DATA</span></div>
+      <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:18px;" id="cohortGrid">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- STUDENT ROSTER VIEW                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-roster">
+  <div class="page-header">
+    <div><div class="page-title">Student Roster</div><div class="page-subtitle">Full class roster. Sortable by any column. Default sort: risk level descending.</div></div>
+  </div>
+  <hr class="gold-rule">
+  <div class="period-selector-wrap" style="margin-bottom:14px;">
+    <div class="period-selector-label">Select Class Period</div>
+    <select class="period-selector" onchange="switchPeriod(this.value); renderRoster();">
+      <option value="p3">Period 3 - Biology 1 EOC - 24 Students</option>
+      <option value="p5">Period 5 - Biology 1 EOC - 22 Students</option>
+    </select>
+  </div>
+  <div class="section-banner" id="rosterBanner">Student Roster - Biology 1 EOC - Period 3<span class="banner-tag">SORTABLE</span></div>
+  <div class="roster-table-wrap">
+    <table class="roster-table" id="rosterTable">
+      <thead>
+        <tr>
+          <th onclick="sortRoster(0)">&#9660; Priority</th>
+          <th onclick="sortRoster(1)">Student</th>
+          <th onclick="sortRoster(2)">Score &#8597;</th>
+          <th onclick="sortRoster(3)">Target &#8597;</th>
+          <th onclick="sortRoster(4)">Trend &#8597;</th>
+          <th onclick="sortRoster(5)">Tier &#8597;</th>
+          <th>Status</th>
+          <th>Knowledge Gaps</th>
+          <th>Flags</th>
+        </tr>
+      </thead>
+      <tbody id="rosterBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- ASSESSMENT UPLOAD VIEW                                                 -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-upload">
+  <div class="page-header">
+    <div><div class="page-title">Assessment Upload</div><div class="page-subtitle">Upload scored assessment reports. A2 Systems Architecture taxonomy key is pre-loaded. Student tiers update automatically on processing.</div></div>
+  </div>
+  <hr class="gold-rule">
+  <div class="section-banner">Step 1 - Select Course and Upload Scored Report<span class="banner-tag">PRODUCTION</span></div>
+  <div style="display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px;" id="uploadGrid">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:0;border-bottom:2px solid var(--gold);">
+        <div style="padding:10px 20px;font-size:13px;font-weight:700;background:var(--plum);color:var(--white);cursor:pointer;" id="tabCSV" onclick="switchUploadTab('csv')">CSV Export</div>
+        <div style="padding:10px 20px;font-size:13px;font-weight:700;background:var(--white);color:var(--plum);cursor:pointer;border:1px solid #e5e7eb;border-bottom:none;" id="tabPDF" onclick="switchUploadTab('pdf')">PDF Report</div>
+      </div>
+      <div id="dropZone" style="border:2px dashed #d1d5db;background:var(--cream);padding:40px 24px;text-align:center;cursor:pointer;" onclick="simulateUpload()">
+        <div style="font-size:36px;margin-bottom:12px;">&#128202;</div>
+        <div style="font-size:15px;font-weight:700;color:var(--plum);margin-bottom:6px;" id="dropTitle">Drag and drop your CSV export here</div>
+        <div style="font-size:12px;color:#6b7280;margin-bottom:16px;">Download directly from your gradebook system. No formatting required.</div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;">
+          <span style="background:var(--plum);color:var(--white);padding:3px 10px;font-size:10px;font-weight:700;" id="fmtBadge1">CSV</span>
+          <span style="background:var(--plum);color:var(--white);padding:3px 10px;font-size:10px;font-weight:700;" id="fmtBadge2">XLSX</span>
+        </div>
+        <button style="background:var(--plum);color:var(--white);border:none;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',Arial,sans-serif;" onclick="event.stopPropagation();simulateUpload()">Browse Files</button>
+      </div>
+    </div>
+    <div style="background:var(--plum);padding:20px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">A2 Systems Architecture - Taxonomy Key</div>
+      <select style="background:rgba(255,255,255,0.1);border:1px solid rgba(202,138,4,0.5);color:var(--white);padding:8px 12px;font-size:13px;font-family:'DM Sans',Arial,sans-serif;width:100%;margin-bottom:16px;" id="courseSelect" onchange="renderTaxKey()">
+        <option value="bio1">Biology 1 EOC</option>
+        <option value="alg1">Algebra 1 EOC</option>
+        <option value="eoc">EOC Universal Key</option>
+      </select>
+      <div style="display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto;" id="taxKeyItems"></div>
+      <div style="font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-top:12px;">&#128274; A2 Systems Architecture Taxonomy - Read Only</div>
+    </div>
+  </div>
+  <div style="background:var(--cream);border:1px solid #e5e7eb;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+    <div style="font-size:13px;color:#374151;"><strong id="uploadStatusText">Waiting for file upload.</strong> <span id="uploadStatusSub">Select a course and upload your scored report to continue.</span></div>
+    <button style="background:var(--gold);color:var(--plum);border:none;padding:12px 32px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',Arial,sans-serif;" id="processBtn" disabled onclick="runUploadProcessing()">Process Assessment</button>
+  </div>
+  <div id="uploadResults" style="display:none;">
+    <div class="section-banner">Re-Tiering Results - Most Recent Upload<span class="banner-tag">LIVE</span></div>
+    <div class="roster-table-wrap">
+      <table class="roster-table">
+        <thead><tr><th>Priority</th><th>Student</th><th>Score</th><th>Prior</th><th>Tier</th><th>Movement</th><th>Primary Weakness</th></tr></thead>
+        <tbody id="uploadResultsBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- QUICK LOG STANDALONE VIEW                                              -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-quicklog">
+  <div class="page-header">
+    <div><div class="page-title">Quick Log</div><div class="page-subtitle">Three taps. Under 10 seconds. No interpretation required.</div></div>
+  </div>
+  <hr class="gold-rule">
+  <div class="period-selector-wrap" style="margin-bottom:14px;">
+    <div class="period-selector-label">Select Class Period</div>
+    <select class="period-selector" onchange="switchPeriod(this.value)">
+      <option value="p3">Period 3 - Biology 1 EOC</option>
+      <option value="p5">Period 5 - Biology 1 EOC</option>
+    </select>
+  </div>
+  <div class="ql-promise">
+    <div><div class="ql-promise-heading">Quick Log</div><div class="ql-promise-sub">Four taps. That's it. We handle the rest.</div></div>
+    <div class="ql-promise-quote">"Log it when it matters.<br>No schedule. No pressure.<br>Just your judgment."</div>
+  </div>
+  <div class="section-banner">Quick Log - No Typing Required<span class="banner-tag">THREE TAPS. UNDER 10 SECONDS.</span></div>
+  <div class="detail-card">
+    <select class="ql-student-select" id="studentSelectQL">
+      <option value="">Select student...</option>
+    </select>
+    <div class="quicklog-buttons">
+      <button class="ql-btn" onclick="logEntryQL(this,'lost',0)"><span class="ql-icon">&#128566;</span>Lost - does not know where to start<span class="ql-count" id="qcnt0">0</span></button>
+      <button class="ql-btn" onclick="logEntryQL(this,'stuck',1)"><span class="ql-icon">&#9208;&#65039;</span>Started but getting stuck<span class="ql-count" id="qcnt1">0</span></button>
+      <button class="ql-btn" onclick="logEntryQL(this,'errors',2)"><span class="ql-icon">&#128260;</span>Working but consistent errors<span class="ql-count" id="qcnt2">0</span></button>
+      <button class="ql-btn" onclick="logEntryQL(this,'enrichment',3)"><span class="ql-icon">&#128640;</span>Needs enrichment<span class="ql-count" id="qcnt3">0</span></button>
+      <button class="ql-btn" onclick="logEntryQL(this,'breakthrough',4)"><span class="ql-icon">&#11088;</span>Breakthrough today<span class="ql-count" id="qcnt4">0</span></button>
+    </div>
+    <div class="ql-submit-row" id="qlSubmitRowQL">
+      <button class="ql-submit-log-btn" onclick="submitQuickLogQL()">Submit Log Entry</button>
+      <button class="ql-clear-btn" onclick="clearQLSelection()">Clear Selection</button>
+    </div>
+  </div>
+  <div class="section-banner">Today's Log Feed<span class="banner-tag">REAL TIME</span></div>
+  <div class="detail-card">
+    <div class="ql-log-feed" id="logFeedQL">
+      <div style="font-size:12px;color:#9ca3af;padding:6px;font-style:italic;" id="logPlaceholderQL">No entries yet today.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- INTERVENTION GROUPS VIEW                                               -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-groups">
+  <div class="page-header">
+    <div><div class="page-title">Intervention Groups</div><div class="page-subtitle">A2-generated groups by knowledge gap type. Dosage calibrated to McEwan thresholds. Session history tracked automatically.</div></div>
+  </div>
+  <hr class="gold-rule">
+  <div class="period-selector-wrap" style="margin-bottom:14px;">
+    <div class="period-selector-label">Select Class Period</div>
+    <select class="period-selector" onchange="switchPeriod(this.value); renderGroupsView();">
+      <option value="p3">Period 3 - Biology 1 EOC</option>
+      <option value="p5">Period 5 - Biology 1 EOC</option>
+    </select>
+  </div>
+  <div id="groupsViewContent"></div>
+</div>
+
+<footer class="footer">
+  <span><strong>A2 Systems Architecture</strong> - A2 Pulse - Antonini High School - Home of the Fighting Anteaters</span>
+  <span>Know Before It's Too Late. - Confidential - May 2026</span>
+</footer>
+
+<script>
+// ── PERIOD DATA ────────────────────────────────────────────────────────────
+const PERIODS = {
+  p3: {
+    id:'p3', label:'Period 3 - Biology 1 EOC', teacher:'Ms. Reyes',
+    score:85, baseScore:85, state:'green', stateLabel:'On Track',
+    tier1:2, tier2:4, tier3:18, dominantGap:'Conceptual',
+    avgScore:81, weeksLeft:12,
+    students:[
+      {n:'Rivera, Marcus',   in:'RM', s:44, t:60, tr:'-4', tier:1, st:'Critical',  gap:['Conceptual','Reasoning'],     color:'#dc2626',bg:'#7c3aed'},
+      {n:'Johnson, Malik',   in:'JM', s:28, t:60, tr:'-6', tier:1, st:'Critical',  gap:['Conceptual','Reasoning','Analytical'],color:'#dc2626',bg:'#991b1b'},
+      {n:'Torres, Elena',    in:'TE', s:31, t:60, tr:'-2', tier:2, st:'Monitor',   gap:['Analytical','Conceptual'],    color:'#ca8a04',bg:'#b45309'},
+      {n:'Chen, Lily',       in:'CL', s:41, t:60, tr:'+1', tier:2, st:'Monitor',   gap:['Conceptual','Analytical'],    color:'#ca8a04',bg:'#1d4ed8'},
+      {n:'Washington, Darius',in:'WD',s:38, t:60, tr:'-1', tier:2, st:'Monitor',   gap:['Reasoning','Conceptual'],     color:'#ca8a04',bg:'#0f766e'},
+      {n:'Patel, Anika',     in:'PA', s:35, t:60, tr:'0',  tier:2, st:'Monitor',   gap:['Conceptual'],                 color:'#ca8a04',bg:'#6d28d9'},
+      {n:'Brown, Tyrese',    in:'BT', s:52, t:60, tr:'+2', tier:2, st:'Watch',     gap:['Procedural','Factual'],       color:'#ca8a04',bg:'#374151'},
+      {n:'Davis, Andre',     in:'DA', s:33, t:60, tr:'-3', tier:2, st:'Watch',     gap:['Conceptual','Analytical'],    color:'#ca8a04',bg:'#065f46'},
+      {n:'Nguyen, Sophie',   in:'NS', s:68, t:60, tr:'+3', tier:3, st:'On Track',  gap:['Reasoning'],                  color:'#16a34a',bg:'#1d4ed8'},
+      {n:'Okafor, James',    in:'OJ', s:75, t:60, tr:'+4', tier:3, st:'On Track',  gap:['Analytical'],                 color:'#16a34a',bg:'#0f766e'},
+      {n:'Kim, Grace',       in:'KG', s:70, t:60, tr:'+5', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#7c3aed'},
+      {n:'Martinez, Lucia',  in:'ML', s:81, t:60, tr:'+2', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#b45309'},
+      {n:'Thompson, Jade',   in:'TJ', s:73, t:60, tr:'+1', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#374151'},
+      {n:'Williams, Deon',   in:'WD', s:66, t:60, tr:'+2', tier:3, st:'On Track',  gap:['Reasoning'],                  color:'#16a34a',bg:'#0f766e'},
+      {n:'Garcia, Sofia',    in:'GS', s:79, t:60, tr:'+3', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#065f46'},
+      {n:'Lee, Jason',       in:'LJ', s:84, t:60, tr:'+1', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#6d28d9'},
+      {n:'Hernandez, Maria', in:'HM', s:71, t:60, tr:'+2', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#1d4ed8'},
+      {n:'Jackson, Zara',    in:'JZ', s:77, t:60, tr:'+4', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#0f766e'},
+      {n:'Robinson, Ethan',  in:'RE', s:69, t:60, tr:'+1', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#374151'},
+      {n:'White, Cameron',   in:'WC', s:82, t:60, tr:'+3', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#b45309'},
+      {n:'Allen, Priya',     in:'AP', s:74, t:60, tr:'+2', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#7c3aed'},
+      {n:'Moore, Isaiah',    in:'MI', s:88, t:60, tr:'+5', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#065f46'},
+      {n:'Taylor, Nia',      in:'TN', s:76, t:60, tr:'+3', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#6d28d9'},
+      {n:'Anderson, Luke',   in:'AL', s:72, t:60, tr:'+1', tier:3, st:'On Track',  gap:[],                             color:'#16a34a',bg:'#1d4ed8'},
+    ],
+    groups:[
+      {id:'g1p3',type:'Conceptual',urgent:false,name:'Conceptual Re-Teaching Group',
+       focus:'Students who know the procedure but cannot explain the principle behind it.',
+       dosageLabel:'25-30 min',students:['Rivera, Marcus','Torres, Elena','Davis, Andre'],logged:false,loggedTime:null,
+       sessions:[{date:'Apr 28',status:'Logged'},{date:'Apr 21',status:'Logged'},{date:'Apr 14',status:'Logged'}]},
+      {id:'g2p3',type:'Reasoning',urgent:false,name:'Reasoning and Application Group',
+       focus:'Students breaking down when applying logic to unfamiliar problem structures.',
+       dosageLabel:'20-25 min',students:['Washington, Darius','Chen, Lily'],logged:false,loggedTime:null,
+       sessions:[{date:'Apr 28',status:'Logged'},{date:'Apr 21',status:'Logged'}]},
+      {id:'g3p3',type:'Procedural',urgent:true,name:'Procedural Fluency Group',
+       focus:'Students who understand concepts but make consistent execution errors.',
+       dosageLabel:'15-20 min',students:['Johnson, Malik','Brown, Tyrese','Patel, Anika'],logged:false,loggedTime:null,
+       sessions:[{date:'Apr 28',status:'Pending'},{date:'Apr 21',status:'Logged'}]},
+    ],
+    recommendation:'The dominant gap this window is Conceptual across 5 students. Consider a 10-minute whole-class re-teach before small group sessions. Rivera, Marcus and Johnson, Malik require immediate Tier 1 attention.',
+    nextWeek:['Run Procedural Fluency group - Johnson, Malik and Brown, Tyrese - first two days.','Conceptual Re-Teaching group - Rivera, Torres, Davis - by Wednesday.','Monitor Kim, Grace and Nguyen, Sophie - both improved this window.','Next assessment window opens May 19. A2 Pulse will re-tier automatically on upload.']
+  },
+  p5: {
+    id:'p5', label:'Period 5 - Biology 1 EOC', teacher:'Ms. Reyes',
+    score:61, baseScore:61, state:'yellow', stateLabel:'Needs Attention',
+    tier1:7, tier2:8, tier3:7, dominantGap:'Procedural',
+    avgScore:53, weeksLeft:12,
+    students:[
+      {n:'Rodriguez, Isabella',in:'RI',s:32,t:60,tr:'-5',tier:1,st:'Critical',  gap:['Procedural','Conceptual'],    color:'#dc2626',bg:'#7c3aed'},
+      {n:'Thompson, Jaylen',   in:'TJ',s:28,t:60,tr:'-7',tier:1,st:'Critical',  gap:['Procedural','Reasoning'],     color:'#dc2626',bg:'#991b1b'},
+      {n:'Williams, Amara',    in:'WA',s:35,t:60,tr:'-3',tier:1,st:'Critical',  gap:['Procedural','Conceptual'],    color:'#dc2626',bg:'#b45309'},
+      {n:'Santos, Diego',      in:'SD',s:30,t:60,tr:'-6',tier:1,st:'Critical',  gap:['Procedural','Analytical'],    color:'#dc2626',bg:'#0f766e'},
+      {n:'Foster, Keisha',     in:'FK',s:38,t:60,tr:'-2',tier:1,st:'Critical',  gap:['Procedural'],                 color:'#dc2626',bg:'#6d28d9'},
+      {n:'Mitchell, Bryce',    in:'MB',s:33,t:60,tr:'-4',tier:1,st:'Critical',  gap:['Procedural','Factual'],       color:'#dc2626',bg:'#374151'},
+      {n:'Cooper, Zoe',        in:'CZ',s:37,t:60,tr:'-3',tier:1,st:'Critical',  gap:['Procedural','Conceptual'],    color:'#dc2626',bg:'#065f46'},
+      {n:'Bell, Marcus',       in:'BM',s:44,t:60,tr:'-1',tier:2,st:'Monitor',   gap:['Procedural','Reasoning'],     color:'#ca8a04',bg:'#1d4ed8'},
+      {n:'Cox, Aaliyah',       in:'CA',s:48,t:60,tr:'+1',tier:2,st:'Monitor',   gap:['Conceptual'],                 color:'#ca8a04',bg:'#0f766e'},
+      {n:'Reed, Jordan',       in:'RJ',s:51,t:60,tr:'+2',tier:2,st:'Watch',     gap:['Procedural'],                 color:'#ca8a04',bg:'#7c3aed'},
+      {n:'Price, Simone',      in:'PS',s:46,t:60,tr:'0', tier:2,st:'Watch',     gap:['Conceptual','Procedural'],    color:'#ca8a04',bg:'#b45309'},
+      {n:'Powell, Nathan',     in:'PN',s:53,t:60,tr:'+1',tier:2,st:'Watch',     gap:['Reasoning'],                  color:'#ca8a04',bg:'#374151'},
+      {n:'Butler, Imani',      in:'BI',s:49,t:60,tr:'-1',tier:2,st:'Watch',     gap:['Procedural'],                 color:'#ca8a04',bg:'#065f46'},
+      {n:'Barnes, Trevor',     in:'BT',s:55,t:60,tr:'+2',tier:2,st:'Watch',     gap:['Analytical'],                 color:'#ca8a04',bg:'#6d28d9'},
+      {n:'Henderson, Maya',    in:'HM',s:57,t:60,tr:'+3',tier:2,st:'Watch',     gap:[],                             color:'#ca8a04',bg:'#1d4ed8'},
+      {n:'Coleman, Tyrone',    in:'CT',s:63,t:60,tr:'+2',tier:3,st:'On Track',  gap:[],                             color:'#16a34a',bg:'#0f766e'},
+      {n:'Jenkins, Layla',     in:'JL',s:67,t:60,tr:'+3',tier:3,st:'On Track',  gap:[],                             color:'#16a34a',bg:'#7c3aed'},
+      {n:'Perry, Dominic',     in:'PD',s:71,t:60,tr:'+4',tier:3,st:'On Track',  gap:[],                             color:'#16a34a',bg:'#b45309'},
+      {n:'Patterson, Nia',     in:'PN',s:65,t:60,tr:'+1',tier:3,st:'On Track',  gap:[],                             color:'#16a34a',bg:'#374151'},
+      {n:'Hughes, Caleb',      in:'HC',s:74,t:60,tr:'+5',tier:3,st:'On Track',  gap:[],                             color:'#16a34a',bg:'#065f46'},
+      {n:'Griffin, Zara',      in:'GZ',s:68,t:60,tr:'+2',tier:3,st:'On Track',  gap:[],                             color:'#16a34a',bg:'#6d28d9'},
+      {n:'Ross, Elijah',       in:'RE',s:72,t:60,tr:'+3',tier:3,st:'On Track',  gap:[],                             color:'#16a34a',bg:'#1d4ed8'},
+    ],
+    groups:[
+      {id:'g1p5',type:'Procedural',urgent:true,name:'Procedural Fluency Group',
+       focus:'7 students making consistent execution errors. This is the primary intervention priority for Period 5.',
+       dosageLabel:'15-20 min',students:['Rodriguez, Isabella','Thompson, Jaylen','Williams, Amara','Santos, Diego','Foster, Keisha','Mitchell, Bryce','Cooper, Zoe'],logged:false,loggedTime:null,
+       sessions:[{date:'Apr 28',status:'Pending'},{date:'Apr 21',status:'Logged'},{date:'Apr 14',status:'Logged'}]},
+      {id:'g2p5',type:'Conceptual',urgent:false,name:'Conceptual Re-Teaching Group',
+       focus:'Students who can attempt procedures but break down when explaining underlying principles.',
+       dosageLabel:'25-30 min',students:['Bell, Marcus','Cox, Aaliyah','Price, Simone'],logged:false,loggedTime:null,
+       sessions:[{date:'Apr 28',status:'Logged'},{date:'Apr 21',status:'Logged'}]},
+      {id:'g3p5',type:'Reasoning',urgent:false,name:'Reasoning Support Group',
+       focus:'Students who need structured practice connecting procedures to real-world application.',
+       dosageLabel:'20-25 min',students:['Powell, Nathan','Reed, Jordan'],logged:false,loggedTime:null,
+       sessions:[{date:'Apr 28',status:'Logged'}]},
+    ],
+    recommendation:'Period 5 has a critical Procedural gap - 7 of 22 students are Tier 1. This is a whole-class instructional signal. A structured procedural re-teach with immediate corrective feedback should run this week before any small group sessions.',
+    nextWeek:['Procedural Fluency group - all 7 Tier 1 students - must run Monday and Wednesday.','Whole-class procedural re-teach recommended before small groups.','Conceptual Re-Teaching group - Bell, Cox, Price - Thursday.','Monitor Henderson, Maya and Barnes, Trevor - both trending positive.']
+  }
+};
+
+const TYPE_COLORS={Conceptual:'#7c3aed',Reasoning:'#1d4ed8',Analytical:'#0f766e',Procedural:'#b45309',Factual:'#374151'};
+
+// ── GLOBAL STATE ───────────────────────────────────────────────────────────
+let currentPeriod = 'p3';
+let isSharing = false;
+let totalLogs = 0;
+let critFlags = 0;
+let enrichFlags = 0;
+let pendingLogIdx = null;
+let pendingLogType = null;
+let logsByPeriod = {p3:[], p5:[]};
+let supportRequests = [];
+let selectedSupportCategory = null;
+let selectedSupportClarify = null;
+let sortRosterCol = 0;
+let sortRosterAsc = true;
+
+const SUPPORT_OPTIONS = {
+  contact:{label:'Parent Contact - Select reason',options:['Attendance concern','Academic decline','Behavior observation','Intervention follow-up needed']},
+  counselor:{label:'Counselor Referral - Select urgency',options:['Academic stress - not urgent','Emotional concern - please check in soon','Urgent - please see student today','Student requested counselor themselves']},
+  resources:{label:'Instructional Resources - Select type',options:['Conceptual re-teaching materials for this student','Procedural practice resources - structured with feedback','Enrichment materials - student moving faster than the class','Differentiation guidance - how to reach this specific learner','Research-based intervention strategy for this gap type','Co-teaching or instructional coaching support']}
+};
+
+const LOG_LABELS=['Student is lost - does not know where to start','Started but stopped - getting stuck mid-process','Working but making consistent errors','Needs enrichment - moving faster than the class','Student had a breakthrough today'];
+const LOG_TYPES=['lost','stuck','errors','enrichment','breakthrough'];
+
+const adminLoops=[
+  {id:'loop1',student:'Johnson, Malik',teacher:'Ms. Reyes',class:'Biology 1 EOC - Period 3',time:'Today - 9:22 AM',observation:'Student is lost - does not know where to start',closed:false,response:null,escalated:false},
+  {id:'loop2',student:'Rivera, Marcus',teacher:'Ms. Reyes',class:'Biology 1 EOC - Period 3',time:'Today - 10:47 AM',observation:'Working but making consistent errors',closed:false,response:null,escalated:false},
+  {id:'loop3',student:'Thompson, Jaylen',teacher:'Ms. Reyes',class:'Biology 1 EOC - Period 5',time:'Yesterday - 2:15 PM',observation:'Student is lost - does not know where to start',closed:false,response:null,escalated:false},
+];
+
+// ── NAV ────────────────────────────────────────────────────────────────────
+function showView(viewId, el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('view-'+viewId).classList.add('active');
+  el.classList.add('active');
+  if(viewId==='roster') renderRoster();
+  if(viewId==='groups') renderGroupsView();
+  if(viewId==='upload') renderTaxKey();
+  if(viewId==='quicklog') populateQLDropdown();
+}
+
+// ── PERIOD SWITCH ──────────────────────────────────────────────────────────
+function switchPeriod(pid){
+  currentPeriod = pid;
+  const p = PERIODS[pid];
+
+  // Sync all period selectors
+  document.querySelectorAll('.period-selector').forEach(s=>{s.value=pid;});
+
+  // Update greeting period
+  const gp = document.getElementById('greetingPeriod');
+  if(gp) gp.textContent = p.label;
+
+  // Update pulse score banner
+  const psb = document.getElementById('pulseScoreBanner');
+  if(psb) psb.innerHTML = `Class Pulse Score - ${p.label}<span class="banner-tag">LIVE</span>`;
+
+  // Update period badge
+  const pb = document.getElementById('periodBadge');
+  if(pb){
+    const state = getState(computeScore());
+    pb.textContent = state.label;
+    pb.style.background = state.stateBg;
+    pb.style.color = state.stateColor;
+    pb.style.border = `1px solid ${state.stateBorder}`;
+  }
+
+  // Update leadership period context
+  const lpc = document.getElementById('lsPeriodContext');
+  if(lpc) lpc.textContent = p.label;
+  const lpb = document.getElementById('lsPeriodBadge');
+  if(lpb){
+    const state = getState(p.score);
+    lpb.textContent = state.label;
+    lpb.style.background = state.stateBg;
+    lpb.style.color = state.stateColor;
+    lpb.style.border = `1px solid ${state.stateBorder}`;
+  }
+
+  // Reset log state for new period
+  pendingLogIdx = null;
+  pendingLogType = null;
+  document.querySelectorAll('.ql-btn').forEach(b=>b.classList.remove('selected'));
+  const sr = document.getElementById('qlSubmitRow');
+  if(sr) sr.classList.remove('show');
+
+  // Repopulate student dropdowns
+  populateStudentDropdowns();
+
+  // Re-render dynamic sections
+  updateScoreDisplay();
+  renderStudentCards();
+  renderIGRI();
+  renderAssessMetrics();
+  renderRosterBanner();
+}
+
+function getState(score){
+  if(score>=70) return{label:'On Track',cls:'state-green',stroke:'#16a34a',stateBg:'var(--green-bg)',stateColor:'var(--green)',stateBorder:'var(--green-border)'};
+  if(score>=50) return{label:'Needs Attention',cls:'state-yellow',stroke:'#ca8a04',stateBg:'var(--yellow-bg)',stateColor:'var(--yellow)',stateBorder:'var(--yellow-border)'};
+  return{label:'Intervention Required',cls:'state-red',stroke:'#dc2626',stateBg:'var(--red-bg)',stateColor:'var(--red)',stateBorder:'var(--red-border)'};
+}
+
+// ── SCORE ──────────────────────────────────────────────────────────────────
+function computeScore(){
+  const p = PERIODS[currentPeriod];
+  const ap = p.baseScore * 0.8;
+  const pen = Math.min(critFlags*2.5,12), bon = Math.min(enrichFlags*2,8);
+  return Math.min(100, Math.round(ap + Math.max(0,p.baseScore-pen+bon)*0.2));
+}
+
+function animNum(el,target,dur){
+  if(!el) return;
+  const s=parseInt(el.textContent)||0, t0=performance.now();
+  function tick(now){const t=Math.min((now-t0)/dur,1),e=1-Math.pow(1-t,3);el.textContent=Math.round(s+(target-s)*e);if(t<1)requestAnimationFrame(tick);}
+  requestAnimationFrame(tick);
+}
+
+function updateScoreDisplay(){
+  const score = computeScore();
+  const state = getState(score);
+  animNum(document.getElementById('scoreValue'), score, 1300);
+  const c = 2*Math.PI*80;
+  const ring = document.getElementById('ringFill');
+  if(ring){ring.style.strokeDasharray=c;ring.style.strokeDashoffset=c-(score/100)*c;ring.style.stroke=state.stroke;}
+  const badge = document.getElementById('stateBadge');
+  if(badge){badge.textContent=state.label;badge.className='score-state-badge '+state.cls;}
+  const card = document.getElementById('scoreCard');
+  if(card) card.style.borderTopColor=state.stroke;
+  const ap=Math.round(PERIODS[currentPeriod].baseScore*0.8), lp=Math.max(0,score-ap);
+  const av=document.getElementById('assessVal'), lv=document.getElementById('logVal');
+  if(av) av.textContent=ap; if(lv) lv.textContent=lp;
+  setTimeout(()=>{
+    const b1=document.getElementById('bar1'),b2=document.getElementById('bar2');
+    if(b1)b1.style.width=ap+'%'; if(b2)b2.style.width=lp+'%';
+  },100);
+  const lc=document.getElementById('logCount'),cc=document.getElementById('critCount'),ec=document.getElementById('enrichCount'),lop=document.getElementById('loopCount'),lh=document.getElementById('logHealth');
+  if(lc)lc.textContent=totalLogs; if(cc)cc.textContent=critFlags; if(ec)ec.textContent=enrichFlags;
+  if(lop)lop.textContent=Math.max(0,critFlags-1);
+  if(lh){lh.textContent=critFlags>3?'Monitor':critFlags>1?'Watch':'Good';lh.className='metric-item-val '+(critFlags>3?'val-risk':critFlags>1?'val-warn':'val-good');}
+  // Update period badge
+  const pb=document.getElementById('periodBadge');
+  if(pb){pb.textContent=state.label;pb.style.background=state.stateBg;pb.style.color=state.stateColor;pb.style.border=`1px solid ${state.stateBorder}`;}
+}
+
+// ── GREETING ───────────────────────────────────────────────────────────────
+function setGreeting(){
+  const h=new Date().getHours();
+  const sal=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  const el=document.getElementById('greetingText');
+  if(el) el.textContent=sal+', Ms. Reyes.';
+}
+
+// ── STUDENT DROPDOWNS ──────────────────────────────────────────────────────
+function populateStudentDropdowns(){
+  const p=PERIODS[currentPeriod];
+  const selects=['studentSelect','supportStudentSelect','studentSelectQL'];
+  selects.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    const first=el.options[0];
+    el.innerHTML='';
+    el.appendChild(first);
+    p.students.forEach(s=>{const o=document.createElement('option');o.value=s.n;o.textContent=s.n;el.appendChild(o);});
+  });
+}
+
+function populateQLDropdown(){
+  populateStudentDropdowns();
+}
+
+// ── STUDENT CARDS ──────────────────────────────────────────────────────────
+function renderStudentCards(){
+  const grid=document.getElementById('studentCardsGrid');
+  if(!grid) return;
+  const students=PERIODS[currentPeriod].students;
+  grid.innerHTML=students.map(s=>`
+    <div class="student-card tier-${s.tier}">
+      <div class="student-card-avatar" style="background:${s.bg};">${s.in}</div>
+      <div class="student-card-body">
+        <div class="student-card-name">${s.n}</div>
+        <div class="student-card-meta">Score: ${s.s} &middot; Target: ${s.t} &middot; ${s.tr.startsWith('-')?'&#9660;':'&#9650;'} ${s.tr}</div>
+        <span class="student-card-status" style="background:${s.color}18;color:${s.color};border:1px solid ${s.color}40;">${s.st}</span>
+      </div>
+      <div class="student-card-score" style="color:${s.color};">${s.s}</div>
+    </div>`).join('');
+}
+
+// ── ASSESS METRICS ─────────────────────────────────────────────────────────
+function renderAssessMetrics(){
+  const p=PERIODS[currentPeriod];
+  const el=document.getElementById('assessMetrics');
+  if(!el) return;
+  el.innerHTML=`
+    <div class="metric-item"><span class="metric-item-label">Tier 1 - Critical</span><span class="metric-item-val val-risk">${p.tier1}</span></div>
+    <div class="metric-item"><span class="metric-item-label">Tier 2 - Watch</span><span class="metric-item-val val-warn">${p.tier2}</span></div>
+    <div class="metric-item"><span class="metric-item-label">Tier 3 - On Track</span><span class="metric-item-val val-good">${p.tier3}</span></div>
+    <div class="metric-item"><span class="metric-item-label">Dominant Gap</span><span class="metric-item-val" style="color:var(--plum);">${p.dominantGap}</span></div>
+    <div class="metric-item"><span class="metric-item-label">Avg Score</span><span class="metric-item-val ${p.avgScore>=60?'val-good':'val-warn'}">${p.avgScore}%</span></div>`;
+}
+
+// ── IGRI ───────────────────────────────────────────────────────────────────
+function renderIGRI(){
+  const grid=document.getElementById('igriGrid');
+  if(!grid) return;
+  const groups=PERIODS[currentPeriod].groups;
+  grid.innerHTML=groups.map(g=>{
+    const tc=TYPE_COLORS[g.type]||'#374151';
+    const rows=g.students.map(name=>{
+      const s=PERIODS[currentPeriod].students.find(x=>x.n===name)||{tier:2};
+      return`<div class="igri-student"><span class="igri-student-name">${name}</span><span class="igri-student-tier ${s.tier===1?'igri-t1':'igri-t2'}">Tier ${s.tier}</span></div>`;
+    }).join('');
+    if(g.logged) return`<div class="igri-card completed">
+      <div class="igri-card-top"><span class="igri-type-badge" style="background:${tc}18;color:${tc};border:1px solid ${tc}40;">${g.type}</span><span class="igri-done-badge">Session Logged</span></div>
+      <div class="igri-group-name">${g.name}</div>
+      <div class="igri-students" style="opacity:0.6;">${rows}</div>
+      <div class="igri-completed-msg">&#10003; Session logged - ${g.loggedTime}</div>
+    </div>`;
+    return`<div class="igri-card${g.urgent?' urgent':''}">
+      <div class="igri-card-top"><span class="igri-type-badge" style="background:${tc}18;color:${tc};border:1px solid ${tc}40;">${g.type}</span><span class="igri-ready-badge">${g.urgent?'Urgent - Run This Week':'Ready to Run'}</span></div>
+      <div class="igri-group-name">${g.name}</div>
+      <div class="igri-focus">${g.focus}</div>
+      <div class="igri-dosage"><span class="igri-dosage-icon">&#8987;</span><div class="igri-dosage-text">A2 Recommended: <span>${g.dosageLabel}</span></div></div>
+      <div class="igri-students">${rows}</div>
+      <div class="igri-actions">
+        <button class="igri-btn-log" onclick="logGroupSession('${g.id}')">Log Session Ran</button>
+        <button class="igri-btn-view" onclick="viewGroupDetail('${g.id}')">View Group</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function logGroupSession(id){
+  let group=null;
+  Object.values(PERIODS).forEach(p=>{const g=p.groups.find(x=>x.id===id);if(g)group=g;});
+  if(!group||group.logged) return;
+  const now=new Date(),time=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  group.logged=true; group.loggedTime=time;
+  renderIGRI(); renderGroupsView();
+  addDone(`<strong>${group.name}</strong> session logged. ${group.students.length} students. Auto-stamped ${time}.`);
+  showToast('Session logged and recorded.','Auto-stamped. Your record is saved.');
+}
+
+function viewGroupDetail(id){
+  let group=null;
+  Object.values(PERIODS).forEach(p=>{const g=p.groups.find(x=>x.id===id);if(g)group=g;});
+  if(!group) return;
+  showToast(group.name,`${group.students.length} students - ${group.dosageLabel} - ${group.students.join(', ')}`);
+}
+
+// ── ROSTER ─────────────────────────────────────────────────────────────────
+function renderRosterBanner(){
+  const b=document.getElementById('rosterBanner');
+  if(b) b.innerHTML=`Student Roster - ${PERIODS[currentPeriod].label}<span class="banner-tag">SORTABLE</span>`;
+}
+
+function renderRoster(){
+  renderRosterBanner();
+  const students=[...PERIODS[currentPeriod].students];
+  students.sort((a,b)=>a.tier-b.tier||b.s-a.s);
+  const body=document.getElementById('rosterBody');
+  if(!body) return;
+  body.innerHTML=students.map((s,i)=>{
+    const gapBadges=s.gap.map(g=>`<span class="gap-badge" style="background:${TYPE_COLORS[g]||'#374151'}18;color:${TYPE_COLORS[g]||'#374151'};border:1px solid ${TYPE_COLORS[g]||'#374151'}40;">${g}</span>`).join('')||'<span style="color:#9ca3af;font-size:10px;">None</span>';
+    const tierBadge=`<span class="tier-badge ${s.tier===1?'tier-1-badge':s.tier===2?'tier-2-badge':'tier-3-badge'}">Tier ${s.tier}</span>`;
+    const trendColor=s.tr.startsWith('-')?'#dc2626':s.tr.startsWith('+')?'#16a34a':'#6b7280';
+    return`<tr>
+      <td style="font-weight:700;color:var(--plum);">${i+1}</td>
+      <td style="font-weight:700;">${s.n}</td>
+      <td style="font-weight:700;color:${s.s<40?'#dc2626':s.s<60?'#ca8a04':'#16a34a'};">${s.s}%</td>
+      <td>${s.t}%</td>
+      <td style="font-weight:700;color:${trendColor};">${s.tr}</td>
+      <td>${tierBadge}</td>
+      <td><span style="font-size:11px;font-weight:600;color:${s.color||'#374151'};">${s.st}</span></td>
+      <td><div style="display:flex;flex-wrap:wrap;gap:2px;">${gapBadges}</div></td>
+      <td></td>
+    </tr>`;
+  }).join('');
+}
+
+function sortRoster(col){
+  const body=document.getElementById('rosterBody');
+  if(!body) return;
+  const rows=Array.from(body.querySelectorAll('tr'));
+  if(sortRosterCol===col) sortRosterAsc=!sortRosterAsc; else{sortRosterCol=col;sortRosterAsc=true;}
+  rows.sort((a,b)=>{
+    const av=a.cells[col].textContent.trim(), bv=b.cells[col].textContent.trim();
+    const an=parseFloat(av), bn=parseFloat(bv);
+    if(!isNaN(an)&&!isNaN(bn)) return sortRosterAsc?an-bn:bn-an;
+    return sortRosterAsc?av.localeCompare(bv):bv.localeCompare(av);
+  });
+  rows.forEach(r=>body.appendChild(r));
+}
+
+// ── GROUPS VIEW ────────────────────────────────────────────────────────────
+function renderGroupsView(){
+  const container=document.getElementById('groupsViewContent');
+  if(!container) return;
+  const groups=PERIODS[currentPeriod].groups;
+  container.innerHTML=groups.map(g=>{
+    const tc=TYPE_COLORS[g.type]||'#374151';
+    const sessionRows=g.sessions.map(s=>`
+      <div class="session-entry">
+        <span style="font-weight:600;">${s.date}</span>
+        <span class="${s.status==='Logged'?'session-logged':'session-pending'}">${s.status==='Logged'?'&#10003; Logged':'&#9679; Pending'}</span>
+      </div>`).join('');
+    const studentRows=g.students.map(name=>{
+      const s=PERIODS[currentPeriod].students.find(x=>x.n===name)||{tier:2,s:'--',st:'--',color:'#374151'};
+      return`<div class="igri-student"><span class="igri-student-name">${name}</span><span style="font-size:10px;color:${s.color};">${s.s}% - ${s.st}</span></div>`;
+    }).join('');
+    return`<div class="group-full-card">
+      <div class="group-full-header">
+        <div>
+          <div class="group-full-name">${g.name}</div>
+          <div class="group-full-focus">${g.focus}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <span class="igri-type-badge" style="background:${tc}18;color:${tc};border:1px solid ${tc}40;display:inline-block;margin-bottom:4px;">${g.type}</span><br>
+          <span style="font-size:11px;font-weight:700;color:var(--plum);">&#8987; ${g.dosageLabel}</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr;gap:14px;">
+        <div>
+          <div class="detail-card-title" style="margin-bottom:8px;">Students in This Group</div>
+          <div class="igri-students">${studentRows}</div>
+        </div>
+        <div>
+          <div class="detail-card-title" style="margin-bottom:8px;">Session History</div>
+          <div class="group-session-history">${sessionRows}</div>
+        </div>
+      </div>
+      ${g.logged?`<div class="igri-completed-msg" style="margin-top:12px;">&#10003; Session logged this week - ${g.loggedTime}</div>`:`
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="igri-btn-log" onclick="logGroupSession('${g.id}')">Log Session Ran</button>
+      </div>`}
+    </div>`;
+  }).join('');
+}
+
+// ── DASHBOARD VIEW SWITCH ──────────────────────────────────────────────────
+function switchDashView(view, el){
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('teacherDash').querySelector('#teacherContent').style.display=view==='teacher'?'block':'none';
+  // show/hide teacher vs leadership panels
+  const td=document.getElementById('teacherDash');
+  const ld=document.getElementById('leadershipDash');
+  if(view==='teacher'){
+    if(td)td.style.display='block';
+    if(ld)ld.style.display='none';
+    document.getElementById('roleLabel').textContent='Teacher View';
+    document.getElementById('dashTitle').textContent='Class Pulse Score';
+  } else {
+    if(td)td.style.display='none';
+    if(ld)ld.style.display='block';
+    document.getElementById('roleLabel').textContent='Leadership View';
+    renderLeadership();
+  }
+}
+
+// ── LEADERSHIP ─────────────────────────────────────────────────────────────
+const lsClassData=[
+  {name:'Biology 1 EOC - Period 3',teacher:'Ms. Reyes',   score:85,sharing:false,tier1:2, tier2:4},
+  {name:'Biology 1 EOC - Period 5',teacher:'Ms. Reyes',   score:61,sharing:false,tier1:7, tier2:8},
+  {name:'Algebra 1 EOC - Period 2', teacher:'Ms. Patel',  score:58,sharing:false,tier1:8, tier2:9},
+  {name:'Algebra 1 EOC - Period 4', teacher:'Mr. Davis',  score:44,sharing:false,tier1:12,tier2:8},
+  {name:'EOC Universal - Period 1', teacher:'Ms. Torres', score:79,sharing:false,tier1:3, tier2:5},
+  {name:'EOC Universal - Period 6', teacher:'Mr. Chen',   score:91,sharing:false,tier1:0, tier2:2},
+];
+
+function renderLeadership(){
+  lsClassData[0].sharing=isSharing;
+  lsClassData[1].sharing=isSharing;
+  const grid=document.getElementById('leadershipGrid');
+  if(!grid) return;
+  grid.innerHTML=lsClassData.map(c=>{
+    const state=getState(c.score);
+    if(c.sharing) return`<div class="ls-class-card shared">
+      <div class="ls-class-name">${c.name}</div><div class="ls-teacher">${c.teacher}</div>
+      <div class="ls-score-row"><div class="ls-score-num" style="color:${state.stroke};">${c.score}</div>
+      <div class="ls-score-info"><div class="ls-score-label">Class Pulse Score</div><span class="ls-share-badge badge-shared">Teacher-Shared</span></div></div>
+      <div class="metric-list">
+        <div class="metric-item"><span class="metric-item-label">Tier 1</span><span class="metric-item-val val-risk">${c.tier1} students</span></div>
+        <div class="metric-item"><span class="metric-item-label">Tier 2</span><span class="metric-item-val val-warn">${c.tier2} students</span></div>
+      </div></div>`;
+    return`<div class="ls-class-card not-shared">
+      <div class="ls-class-name">${c.name}</div><div class="ls-teacher">${c.teacher}</div>
+      <span class="ls-share-badge badge-private" style="margin-bottom:10px;display:inline-flex;">Score Private</span>
+      <div class="ls-not-shared-msg">This teacher has not chosen to share their Class Pulse Score. Student-level data is available in the roster.</div>
+    </div>`;
+  }).join('');
+
+  renderLoopPanel();
+  renderSupportRequestPanel();
+  renderCohortGrid();
+}
+
+function renderCohortGrid(){
+  const g=document.getElementById('cohortGrid');
+  if(!g) return;
+  g.innerHTML=`
+    <div class="detail-card" style="margin-bottom:0;">
+      <div class="detail-card-title">School-Level Tier Distribution</div>
+      <div class="metric-list">
+        <div class="metric-item"><span class="metric-item-label">Tier 1 - Critical</span><span class="metric-item-val val-risk">32 students</span></div>
+        <div class="metric-item"><span class="metric-item-label">Tier 2 - Watch</span><span class="metric-item-val val-warn">46 students</span></div>
+        <div class="metric-item"><span class="metric-item-label">Tier 3 - On Track</span><span class="metric-item-val val-good">63 students</span></div>
+        <div class="metric-item"><span class="metric-item-label">Dominant Gap</span><span class="metric-item-val" style="color:var(--plum);">Procedural</span></div>
+      </div>
+    </div>
+    <div class="detail-card" style="margin-bottom:0;">
+      <div class="detail-card-title">What Changed Since Last Visit</div>
+      <div class="metric-list">
+        <div class="metric-item"><span class="metric-item-label">New Tier 1 Escalations</span><span class="metric-item-val val-risk">+5 this window</span></div>
+        <div class="metric-item"><span class="metric-item-label">Tier Improvements</span><span class="metric-item-val val-good">+11 this window</span></div>
+        <div class="metric-item"><span class="metric-item-label">Intervention Groups Active</span><span class="metric-item-val">6 groups</span></div>
+        <div class="metric-item"><span class="metric-item-label">Unresolved Admin Loops</span><span class="metric-item-val val-warn">3 pending</span></div>
+      </div>
+    </div>`;
+  g.style.gridTemplateColumns='1fr';
+  if(window.innerWidth>=640) g.style.gridTemplateColumns='1fr 1fr';
+}
+
+// ── LOOP SYSTEM ────────────────────────────────────────────────────────────
+function getOpenLoopCount(){return adminLoops.filter(l=>!l.closed).length;}
+
+function renderLoopPanel(){
+  const panel=document.getElementById('loopPanel');
+  if(!panel) return;
+  const badge=document.getElementById('loopBadge');
+  const open=getOpenLoopCount();
+  if(badge){badge.textContent=open>0?open+' PENDING':'ALL CLOSED';badge.style.background=open>0?'var(--red)':'var(--green)';}
+  panel.innerHTML=adminLoops.map(loop=>{
+    if(loop.closed) return`<div class="loop-entry closed">
+      <div class="loop-entry-top"><div><div class="loop-entry-who">${loop.student}</div><div class="loop-entry-teacher">${loop.teacher} - ${loop.class}</div></div><div class="loop-entry-meta">${loop.time}</div></div>
+      <div class="loop-entry-obs">${loop.observation}</div>
+      <div class="loop-closed-msg">&#10003; Loop closed - ${loop.response}</div>
+      ${loop.escalated?'<div style="margin-top:6px;font-size:10px;font-weight:700;color:var(--red);">&#9873; Escalation flag active</div>':''}
+    </div>`;
+    const btns=['Acknowledge','Schedule Follow-Up','Flag for Intervention','Request Data','Escalate'].map(opt=>
+      `<button class="loop-resp-btn${opt==='Escalate'?' escalate':''}" onclick="respondToLoop('${loop.id}','${opt}')">${opt}</button>`).join('');
+    return`<div class="loop-entry">
+      <div class="loop-entry-top"><div><div class="loop-entry-who">${loop.student}</div><div class="loop-entry-teacher">${loop.teacher} - ${loop.class}</div></div><div class="loop-entry-meta">${loop.time}</div></div>
+      <div class="loop-entry-obs">${loop.observation}</div>
+      <div class="loop-response-btns">${btns}</div>
+    </div>`;
+  }).join('');
+}
+
+function respondToLoop(id,label){
+  const loop=adminLoops.find(l=>l.id===id);
+  if(!loop||loop.closed) return;
+  loop.closed=true; loop.response=label;
+  const isEsc=label==='Escalate';
+  if(isEsc){loop.escalated=true;triggerEscalation(loop);}
+  pushTeacherNotif(loop,label,isEsc);
+  renderLoopPanel();
+  showToast('Loop closed - '+label, isEsc?'Escalation flag set on '+loop.student:loop.teacher+' notified.');
+}
+
+function triggerEscalation(loop){
+  const time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  ['lsEscalationSection','lsEscalationFlags'].forEach((id,i)=>{
+    const el=document.getElementById(i===0?'lsEscalationSection':'lsEscalationFlags');
+    if(!el) return;
+    if(i===0){el.style.display='block';return;}
+    const f=document.createElement('div');f.className='escalation-flag';
+    f.innerHTML=`<div class="escalation-flag-icon">&#9873;</div><div><div class="escalation-flag-title">Escalation Active - ${loop.student}</div><div class="escalation-flag-detail">${loop.class} - ${loop.teacher}<br>${loop.observation}</div><div class="escalation-flag-meta">Escalated by Administrator - Today ${time}</div></div>`;
+    el.appendChild(f);
+  });
+  const ts=document.getElementById('teacherEscalationSection');
+  const tf=document.getElementById('teacherEscalationFlags');
+  if(ts&&tf){
+    ts.style.display='block';
+    const f=document.createElement('div');f.className='escalation-flag';
+    f.innerHTML=`<div class="escalation-flag-icon">&#9873;</div><div><div class="escalation-flag-title">Escalation Active - ${loop.student}</div><div class="escalation-flag-detail">Your administrator has escalated this student for support beyond the classroom. No action required from you at this time.</div><div class="escalation-flag-meta">Escalated by Administrator - Today ${time}</div></div>`;
+    tf.appendChild(f);
+  }
+}
+
+function pushTeacherNotif(loop,label,isEsc){
+  const feed=document.getElementById('doneFeed');
+  if(!feed) return;
+  const time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const e=document.createElement('div');e.className='done-entry done-entry-admin';
+  const msg=isEsc?`Your administrator has <strong>escalated ${loop.student}</strong> for support beyond the classroom.`:`Your administrator responded to your log entry for <strong>${loop.student}</strong> - <strong>${label}</strong>. Loop closed.`;
+  e.innerHTML=`<div class="done-icon">&#128100;</div><div><div class="done-text">${msg}</div><div class="done-time">Administrator - Today ${time}</div></div>`;
+  feed.insertBefore(e,feed.firstChild);
+}
+
+// ── SUPPORT REQUEST SYSTEM ─────────────────────────────────────────────────
+function onSupportStudentSelect(){
+  const val=document.getElementById('supportStudentSelect').value;
+  const confirm=document.getElementById('supportConfirm');
+  const catBtns=document.getElementById('supportCategoryBtns');
+  const clarify=document.getElementById('supportClarify');
+  const submitBtn=document.getElementById('supportSubmitBtn');
+  selectedSupportCategory=null; selectedSupportClarify=null;
+  document.querySelectorAll('.support-cat-btn').forEach(b=>b.classList.remove('selected'));
+  clarify.classList.remove('show'); submitBtn.classList.remove('show');
+  if(!val){confirm.classList.remove('show');catBtns.style.display='none';return;}
+  const s=PERIODS[currentPeriod].students.find(x=>x.n===val)||{tier:2,st:'Monitor',s:'--'};
+  document.getElementById('supportConfirmName').textContent=s.n;
+  document.getElementById('supportConfirmDetail').innerHTML=`Current tier: <span>Tier ${s.tier} - ${s.st}</span> &middot; Score: <span>${s.s}</span>`;
+  confirm.classList.add('show'); catBtns.style.display='';
+}
+
+function selectSupportCategory(btn,cat){
+  document.querySelectorAll('.support-cat-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected'); selectedSupportCategory=cat; selectedSupportClarify=null;
+  const opts=SUPPORT_OPTIONS[cat];
+  document.getElementById('supportClarifyLabel').textContent=opts.label;
+  document.getElementById('supportClarifyBtns').innerHTML=opts.options.map(o=>`<button class="support-clarify-btn" onclick="selectSupportClarify(this,'${o.replace(/'/g,"\\'")}' )">${o}</button>`).join('');
+  document.getElementById('supportClarify').classList.add('show');
+  document.getElementById('supportSubmitBtn').classList.remove('show');
+}
+
+function selectSupportClarify(btn,option){
+  document.querySelectorAll('.support-clarify-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected'); selectedSupportClarify=option;
+  document.getElementById('supportSubmitBtn').classList.add('show');
+}
+
+function submitSupportRequest(){
+  const student=document.getElementById('supportStudentSelect').value;
+  if(!student||!selectedSupportCategory||!selectedSupportClarify) return;
+  const labels={contact:'Parent Contact',counselor:'Counselor Referral',resources:'Instructional Resources'};
+  const time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const s=PERIODS[currentPeriod].students.find(x=>x.n===student)||{tier:2,s:'--'};
+  supportRequests.push({id:'sr'+Date.now(),student,teacher:'Ms. Reyes',class:PERIODS[currentPeriod].label,category:selectedSupportCategory,categoryLabel:labels[selectedSupportCategory],clarification:selectedSupportClarify,time:'Today - '+time,tier:s.tier,score:s.s,resolved:false,resolveNote:null,meetingRequested:false});
+  // Reset form
+  document.getElementById('supportStudentSelect').value='';
+  document.getElementById('supportConfirm').classList.remove('show');
+  document.getElementById('supportCategoryBtns').style.display='none';
+  document.getElementById('supportClarify').classList.remove('show');
+  document.getElementById('supportSubmitBtn').classList.remove('show');
+  document.querySelectorAll('.support-cat-btn').forEach(b=>b.classList.remove('selected'));
+  selectedSupportCategory=null; selectedSupportClarify=null;
+  addDone(`<strong>Support request submitted</strong> for ${student} - ${labels[selectedSupportCategory]}. Your job is done. Leadership has been notified.`);
+  renderSupportRequestPanel();
+  showToast('Support request submitted.',student+' - '+labels[selectedSupportCategory]+'. Leadership notified.');
+}
+
+function renderSupportRequestPanel(){
+  const panel=document.getElementById('supportRequestPanel');
+  const badge=document.getElementById('supportBadge');
+  if(!panel) return;
+  const pending=supportRequests.filter(r=>!r.resolved).length;
+  if(badge){badge.textContent=pending+' PENDING';badge.style.background=pending>0?'var(--red)':'var(--green)';badge.style.color='var(--white)';}
+  if(supportRequests.length===0){panel.innerHTML='<div style="font-size:12px;color:#9ca3af;font-style:italic;padding:12px;background:var(--white);border:1px dashed #d1d5db;">No support requests pending.</div>';return;}
+  panel.innerHTML=supportRequests.map(r=>{
+    if(r.resolved) return`<div class="support-request-entry resolved">
+      <div class="support-req-top"><span class="support-req-type">${r.categoryLabel}</span><span style="font-size:10px;color:var(--green);font-weight:700;">Resolved</span></div>
+      <div class="support-req-who">${r.student} - Tier ${r.tier}</div>
+      <div class="support-req-detail">${r.clarification}</div>
+      <div class="support-req-meta">${r.teacher} &middot; ${r.class} &middot; ${r.time}</div>
+      <div style="font-size:11px;color:var(--green);font-weight:600;">&#10003; Resolution logged and sent to teacher.</div>
+      ${r.resolveNote?`<div class="support-resolved-note">${r.resolveNote}</div>`:''}
+    </div>`;
+    return`<div class="support-request-entry">
+      <div class="support-req-top"><span class="support-req-type">${r.categoryLabel}</span><span style="font-size:10px;color:var(--red);font-weight:700;">Awaiting Response</span></div>
+      <div class="support-req-who">${r.student} - Tier ${r.tier} &middot; Score: ${r.score}</div>
+      <div class="support-req-detail">${r.clarification}</div>
+      <div class="support-req-meta">${r.teacher} &middot; ${r.class} &middot; ${r.time}</div>
+      <div class="support-resolve-area">
+        <textarea class="support-resolve-input" id="note-${r.id}" placeholder="Briefly describe what action was taken..."></textarea>
+        <div class="support-resolve-row">
+          <button class="support-resolve-btn" onclick="resolveRequest('${r.id}')">Log Resolution</button>
+          <button class="support-meeting-btn" onclick="requestMeeting('${r.id}')">Request Meeting</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function resolveRequest(id){
+  const r=supportRequests.find(x=>x.id===id);
+  if(!r) return;
+  const noteEl=document.getElementById('note-'+id);
+  const note=noteEl?noteEl.value.trim():'';
+  if(!note){showToast('Please add a resolution note.','Describe what action was taken.');return;}
+  r.resolved=true; r.resolveNote=note;
+  const feed=document.getElementById('doneFeed');
+  if(feed){
+    const time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const e=document.createElement('div');e.className='done-entry done-entry-admin';
+    e.innerHTML=`<div class="done-icon">&#128100;</div><div><div class="done-text"><strong>Support request resolved</strong> for ${r.student} - ${r.categoryLabel}.<br>${note}</div><div class="done-time">Administrator - Today ${time}</div></div>`;
+    feed.insertBefore(e,feed.firstChild);
+  }
+  renderSupportRequestPanel();
+  showToast('Resolution logged.',r.student+' - teacher notified.');
+}
+
+function requestMeeting(id){
+  const r=supportRequests.find(x=>x.id===id);
+  if(!r) return;
+  r.meetingRequested=true;
+  const feed=document.getElementById('doneFeed');
+  if(feed){
+    const time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const e=document.createElement('div');e.className='done-entry done-entry-admin';
+    e.innerHTML=`<div class="done-icon">&#128197;</div><div><div class="done-text"><strong>Meeting request received</strong> regarding ${r.student}. Your administrator would like to discuss further.</div><div class="done-time">Administrator - Today ${time}</div></div>`;
+    feed.insertBefore(e,feed.firstChild);
+  }
+  renderSupportRequestPanel();
+  showToast('Meeting request sent to Ms. Reyes.','Visible in teacher dashboard immediately.');
+}
+
+// ── QUICK LOG ──────────────────────────────────────────────────────────────
+function addDone(text){
+  const feed=document.getElementById('doneFeed');
+  if(!feed) return;
+  const time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const e=document.createElement('div');e.className='done-entry';
+  e.innerHTML=`<div class="done-icon">&#10003;</div><div><div class="done-text">${text}</div><div class="done-time">Today - ${time}</div></div>`;
+  feed.insertBefore(e,feed.firstChild);
+}
+
+function logEntry(btn,type,idx){
+  const s=document.getElementById('studentSelect').value;
+  if(!s){showToast('Select a student first.','Tap a name from the dropdown above.');return;}
+  if(pendingLogIdx===idx){btn.classList.remove('selected');pendingLogIdx=null;pendingLogType=null;document.getElementById('qlSubmitRow').classList.remove('show');return;}
+  document.querySelectorAll('#qlButtons .ql-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');pendingLogIdx=idx;pendingLogType=type;
+  document.getElementById('qlSubmitRow').classList.add('show');
+}
+
+function clearQuickLogSelection(){
+  document.querySelectorAll('#qlButtons .ql-btn').forEach(b=>b.classList.remove('selected'));
+  pendingLogIdx=null;pendingLogType=null;
+  document.getElementById('qlSubmitRow').classList.remove('show');
+}
+
+function submitQuickLog(){
+  if(pendingLogIdx===null){showToast('Select an observation first.','');return;}
+  const s=document.getElementById('studentSelect').value;
+  if(!s){showToast('Select a student first.','');return;}
+  const idx=pendingLogIdx,type=pendingLogType;
+  logCounts[idx]=logCounts[idx]||0; logCounts[idx]++;
+  totalLogs++; if(type==='lost'||type==='stuck')critFlags++; if(type==='enrichment'||type==='breakthrough')enrichFlags++;
+  const cntEl=document.getElementById('cnt'+idx);
+  if(cntEl){cntEl.textContent=logCounts[idx];cntEl.style.display='block';}
+  const feed=document.getElementById('logFeed');
+  const ph=document.getElementById('logPlaceholder');if(ph)ph.remove();
+  const now=new Date(),time=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const e=document.createElement('div');e.className='ql-entry';
+  e.innerHTML=`<span class="ql-entry-time">${time}</span><span class="ql-entry-student">${s}</span><span class="ql-entry-action">${LOG_LABELS[idx]}</span><span class="ql-entry-auto">Auto-stamped</span>`;
+  feed.insertBefore(e,feed.firstChild);
+  logsByPeriod[currentPeriod].push({student:s,label:LOG_LABELS[idx],time});
+  addDone(`Quick Log entry recorded for <strong>${s}</strong>. Auto-stamped and synced. No further action needed.`);
+  updateScoreDisplay(); clearQuickLogSelection();
+  showToast('Log entry submitted.',s+' - auto-stamped and synced.');
+}
+
+// ── QUICK LOG STANDALONE ───────────────────────────────────────────────────
+let pendingQLIdx=null,pendingQLType=null;
+const qlCounts=[0,0,0,0,0];
+
+function logEntryQL(btn,type,idx){
+  const s=document.getElementById('studentSelectQL').value;
+  if(!s){showToast('Select a student first.','');return;}
+  if(pendingQLIdx===idx){btn.classList.remove('selected');pendingQLIdx=null;pendingQLType=null;document.getElementById('qlSubmitRowQL').classList.remove('show');return;}
+  document.querySelectorAll('#view-quicklog .ql-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');pendingQLIdx=idx;pendingQLType=type;
+  document.getElementById('qlSubmitRowQL').classList.add('show');
+}
+
+function clearQLSelection(){
+  document.querySelectorAll('#view-quicklog .ql-btn').forEach(b=>b.classList.remove('selected'));
+  pendingQLIdx=null;pendingQLType=null;
+  document.getElementById('qlSubmitRowQL').classList.remove('show');
+}
+
+function submitQuickLogQL(){
+  if(pendingQLIdx===null) return;
+  const s=document.getElementById('studentSelectQL').value;
+  if(!s) return;
+  const idx=pendingQLIdx,type=pendingQLType;
+  qlCounts[idx]++;
+  totalLogs++; if(type==='lost'||type==='stuck')critFlags++; if(type==='enrichment'||type==='breakthrough')enrichFlags++;
+  const cntEl=document.getElementById('qcnt'+idx);
+  if(cntEl){cntEl.textContent=qlCounts[idx];cntEl.style.display='block';}
+  const feed=document.getElementById('logFeedQL');
+  const ph=document.getElementById('logPlaceholderQL');if(ph)ph.remove();
+  const time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const e=document.createElement('div');e.className='ql-entry';
+  e.innerHTML=`<span class="ql-entry-time">${time}</span><span class="ql-entry-student">${s}</span><span class="ql-entry-action">${LOG_LABELS[idx]}</span><span class="ql-entry-auto">Auto-stamped</span>`;
+  feed.insertBefore(e,feed.firstChild);
+  addDone(`Quick Log entry recorded for <strong>${s}</strong>. Auto-stamped and synced. No further action needed.`);
+  updateScoreDisplay(); clearQLSelection();
+  showToast('Log entry submitted.',s+' - auto-stamped and synced.');
+}
+
+// ── SHARE MODALS ───────────────────────────────────────────────────────────
+function openModal1(){document.getElementById('modal1').classList.add('show');}
+function closeModal1(){document.getElementById('modal1').classList.remove('show');showToast('Score kept private.','Your decision. A2 Pulse respects it.');}
+function openModal2(){document.getElementById('modal1').classList.remove('show');document.getElementById('modal2').classList.add('show');}
+function goBackToModal1(){document.getElementById('modal2').classList.remove('show');document.getElementById('modal1').classList.add('show');}
+function openModalStop(){document.getElementById('modalStop').classList.add('show');}
+function closeModalStop(){document.getElementById('modalStop').classList.remove('show');}
+function activateSharing(){
+  document.getElementById('modal2').classList.remove('show');
+  isSharing=true;
+  document.getElementById('sharingBanner').classList.add('show');
+  const btn=document.getElementById('shareBtn');
+  btn.innerHTML='<span>&#10003;</span> Sharing With Administrator';btn.classList.add('sharing');btn.onclick=openModalStop;
+  addDone('<strong>You chose to share your Class Pulse Score.</strong> Your administrator can now see it.');
+  showToast('Score shared with your administrator.','Thank you for your courage. You can stop sharing any time.');
+}
+function deactivateSharing(){
+  document.getElementById('modalStop').classList.remove('show');
+  isSharing=false;
+  document.getElementById('sharingBanner').classList.remove('show');
+  const btn=document.getElementById('shareBtn');
+  btn.innerHTML='<span>&#128279;</span> Share My Score With My Administrator';btn.classList.remove('sharing');btn.onclick=openModal1;
+  showToast('Sharing turned off.','Your score is private again. No explanation needed.');
+}
+
+// ── FRIDAY SUMMARY ─────────────────────────────────────────────────────────
+function openFridaySummary(){
+  buildFridaySummary();
+  document.getElementById('fridayOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeFridaySummary(){
+  document.getElementById('fridayOverlay').classList.remove('show');
+  document.body.style.overflow='';
+}
+function buildFridaySummary(){
+  const p=PERIODS[currentPeriod];
+  const mt=document.getElementById('fridayModalTitle');
+  if(mt) mt.textContent=`Friday Summary - ${p.label}`;
+  const loggedGroups=p.groups.filter(g=>g.logged).length;
+  const html=`
+    <div class="friday-section-title">Class Snapshot This Week</div>
+    <div class="friday-stat-row">
+      <div class="friday-stat"><div class="friday-stat-val">${p.students.length}</div><div class="friday-stat-label">Students Tracked</div></div>
+      <div class="friday-stat"><div class="friday-stat-val" style="color:var(--red);">${p.tier1}</div><div class="friday-stat-label">Tier 1 - Critical</div></div>
+      <div class="friday-stat"><div class="friday-stat-val" style="color:var(--yellow);">${p.tier2}</div><div class="friday-stat-label">Tier 2 - Watch</div></div>
+      <div class="friday-stat"><div class="friday-stat-val" style="color:var(--green);">${p.tier3}</div><div class="friday-stat-label">Tier 3 - On Track</div></div>
+    </div>
+    <div class="friday-stat-row" style="margin-bottom:0;">
+      <div class="friday-stat"><div class="friday-stat-val">${totalLogs}</div><div class="friday-stat-label">Quick Logs This Week</div></div>
+      <div class="friday-stat"><div class="friday-stat-val">${critFlags}</div><div class="friday-stat-label">Critical Flags</div></div>
+      <div class="friday-stat"><div class="friday-stat-val">${loggedGroups}</div><div class="friday-stat-label">Sessions Logged</div></div>
+      <div class="friday-stat"><div class="friday-stat-val" style="color:${p.score>=70?'var(--green)':p.score>=50?'var(--yellow)':'var(--red)'};">${computeScore()}</div><div class="friday-stat-label">Class Pulse Score</div></div>
+    </div>
+    <hr class="friday-gold-rule">
+    <div class="friday-section-title">Dominant Knowledge Gaps This Window</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+      ${p.dominantGap?`<span style="font-size:10px;font-weight:700;padding:4px 10px;background:${TYPE_COLORS[p.dominantGap]||'#374151'}18;color:${TYPE_COLORS[p.dominantGap]||'#374151'};border:1px solid ${TYPE_COLORS[p.dominantGap]||'#374151'}40;">${p.dominantGap} - Primary Gap</span>`:''}
+    </div>
+    <hr class="friday-gold-rule">
+    <div class="friday-section-title">A2 Pulse Recommendation - Next Week</div>
+    <div class="friday-recommendation">
+      <div class="friday-rec-label">A2 Systems Architecture - Intervention Priority</div>
+      <div class="friday-rec-text">${p.recommendation}</div>
+    </div>
+    <div class="friday-next-week">
+      <div class="friday-next-label">Recommended Focus - Week of May 12</div>
+      ${p.nextWeek.map((item,i)=>`<div class="friday-next-item"><span class="friday-next-bullet">${i+1}.</span> ${item}</div>`).join('')}
+    </div>
+    <div class="friday-section-title">Intervention Group Status</div>
+    ${p.groups.map(g=>`<div class="friday-movement-item"><span class="friday-movement-name">${g.name}</span><span class="friday-movement-change ${g.logged?'fm-improved':'fm-stable'}">${g.logged?'Session Ran - '+g.loggedTime:'Ready for Next Week'}</span></div>`).join('')}
+    <hr class="friday-gold-rule">
+    <div class="friday-footer-note">This summary was generated by A2 Pulse from your assessment data and Quick Log activity.<br>You did not prepare this. A2 Systems Architecture did.</div>
+    <div class="friday-actions">
+      <button class="friday-action-btn" onclick="closeFridaySummary()">Done - Close Summary</button>
+      <button class="friday-action-btn secondary" onclick="closeFridaySummary();showToast('Summary saved to your reports.','Available any time from your dashboard.')">Save to Reports</button>
+    </div>`;
+  document.getElementById('fridayBody').innerHTML=html;
+}
+
+// ── ASSESSMENT UPLOAD ──────────────────────────────────────────────────────
+const TAX_KEYS={
+  bio1:[{item:1,type:'Conceptual'},{item:2,type:'Factual'},{item:3,type:'Reasoning'},{item:4,type:'Conceptual'},{item:5,type:'Procedural'},{item:6,type:'Analytical'},{item:7,type:'Conceptual'},{item:8,type:'Reasoning'},{item:9,type:'Factual'},{item:10,type:'Analytical'},{item:11,type:'Conceptual'},{item:12,type:'Procedural'},{item:13,type:'Reasoning'},{item:14,type:'Conceptual'},{item:15,type:'Analytical'},{item:16,type:'Factual'},{item:17,type:'Reasoning'},{item:18,type:'Conceptual'},{item:19,type:'Analytical'},{item:20,type:'Conceptual'}],
+  alg1:[{item:1,type:'Procedural'},{item:2,type:'Factual'},{item:3,type:'Conceptual'},{item:4,type:'Procedural'},{item:5,type:'Reasoning'},{item:6,type:'Conceptual'},{item:7,type:'Procedural'},{item:8,type:'Analytical'},{item:9,type:'Conceptual'},{item:10,type:'Procedural'},{item:11,type:'Reasoning'},{item:12,type:'Conceptual'},{item:13,type:'Analytical'},{item:14,type:'Procedural'},{item:15,type:'Conceptual'},{item:16,type:'Reasoning'},{item:17,type:'Procedural'},{item:18,type:'Analytical'},{item:19,type:'Conceptual'},{item:20,type:'Reasoning'}],
+  eoc:[{item:1,type:'Factual'},{item:2,type:'Conceptual'},{item:3,type:'Procedural'},{item:4,type:'Reasoning'},{item:5,type:'Analytical'},{item:6,type:'Conceptual'},{item:7,type:'Factual'},{item:8,type:'Procedural'},{item:9,type:'Conceptual'},{item:10,type:'Reasoning'},{item:11,type:'Analytical'},{item:12,type:'Conceptual'},{item:13,type:'Procedural'},{item:14,type:'Reasoning'},{item:15,type:'Conceptual'},{item:16,type:'Analytical'},{item:17,type:'Factual'},{item:18,type:'Conceptual'},{item:19,type:'Reasoning'},{item:20,type:'Analytical'}]
+};
+const TYPE_CSS={Conceptual:'#7c3aed',Reasoning:'#1d4ed8',Analytical:'#0f766e',Procedural:'#b45309',Factual:'#374151'};
+
+function renderTaxKey(){
+  const course=document.getElementById('courseSelect')?.value||'bio1';
+  const container=document.getElementById('taxKeyItems');
+  if(!container) return;
+  container.innerHTML=TAX_KEYS[course].map(i=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.08);padding:5px 10px;font-size:11px;margin-bottom:3px;">
+      <span style="color:rgba(255,255,255,0.6);">Item ${i.item}</span>
+      <span style="font-weight:700;font-size:10px;padding:2px 7px;background:${TYPE_CSS[i.type]};color:white;">${i.type}</span>
+    </div>`).join('');
+}
+
+function switchUploadTab(type){
+  const isCSV=type==='csv';
+  document.getElementById('tabCSV').style.background=isCSV?'var(--plum)':'var(--white)';
+  document.getElementById('tabCSV').style.color=isCSV?'var(--white)':'var(--plum)';
+  document.getElementById('tabPDF').style.background=!isCSV?'var(--plum)':'var(--white)';
+  document.getElementById('tabPDF').style.color=!isCSV?'var(--white)':'var(--plum)';
+  document.getElementById('dropTitle').textContent=isCSV?'Drag and drop your CSV export here':'Drag and drop your PDF report here';
+  document.getElementById('fmtBadge1').textContent=isCSV?'CSV':'PDF';
+  document.getElementById('fmtBadge2').textContent=isCSV?'XLSX':'';
+}
+
+function simulateUpload(){
+  const dz=document.getElementById('dropZone');
+  dz.style.borderColor='var(--green)'; dz.style.background='var(--green-bg)';
+  dz.innerHTML='<div style="font-size:40px;margin-bottom:10px;">&#10003;</div><div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:4px;">gradebook_export.csv received</div><div style="font-size:12px;color:#374151;">'+PERIODS[currentPeriod].students.length+' students - 20 items detected</div>';
+  document.getElementById('processBtn').disabled=false;
+  document.getElementById('uploadStatusText').textContent='File received. Ready to process.';
+  document.getElementById('uploadStatusSub').textContent='Click Process Assessment to re-tier students.';
+  showToast('File received by A2 Pulse.',PERIODS[currentPeriod].students.length+' students detected.');
+}
+
+function runUploadProcessing(){
+  document.getElementById('processBtn').disabled=true;
+  document.getElementById('processBtn').textContent='Processing...';
+  setTimeout(()=>{
+    document.getElementById('processBtn').textContent='Process Assessment';
+    document.getElementById('uploadResults').style.display='block';
+    const body=document.getElementById('uploadResultsBody');
+    const students=[...PERIODS[currentPeriod].students].sort((a,b)=>a.tier-b.tier||a.s-b.s);
+    body.innerHTML=students.map((s,i)=>{
+      const tierCls=s.tier===1?'tier-1-badge':s.tier===2?'tier-2-badge':'tier-3-badge';
+      const tierLabel=s.tier===1?'Tier 1 - Critical':s.tier===2?'Tier 2 - Watch':'Tier 3 - On Track';
+      const moved=s.tr.startsWith('-')?'<span style="color:var(--red);font-weight:700;font-size:10px;">&#9650; Escalated</span>':s.tr.startsWith('+')?'<span style="color:var(--green);font-weight:700;font-size:10px;">&#9660; Improved</span>':'<span style="color:#9ca3af;font-size:10px;">- Stable</span>';
+      return`<tr>
+        <td style="font-weight:700;color:var(--plum);">${i+1}</td>
+        <td style="font-weight:700;">${s.n}</td>
+        <td style="font-weight:700;color:${s.color};">${s.s}%</td>
+        <td style="color:#6b7280;">${s.t}%</td>
+        <td><span class="tier-badge ${tierCls}">${tierLabel}</span></td>
+        <td>${moved}</td>
+        <td>${s.gap.length?`<span style="font-size:9px;font-weight:700;padding:2px 6px;background:${TYPE_CSS[s.gap[0]]||'#374151'}18;color:${TYPE_CSS[s.gap[0]]||'#374151'};">${s.gap[0]}</span>`:'<span style="color:#9ca3af;font-size:10px;">None</span>'}</td>
+      </tr>`;
+    }).join('');
+    showToast('Re-tiering complete.','Both views updated. '+PERIODS[currentPeriod].students.length+' students processed.');
+  }, 3200);
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function showToast(text,sub){
+  const t=document.getElementById('toast');
+  document.getElementById('toastText').textContent=text;
+  document.getElementById('toastSub').textContent=sub;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3800);
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+const logCounts=[0,0,0,0,0];
+document.addEventListener('DOMContentLoaded',()=>{
+  setGreeting();
+  populateStudentDropdowns();
+  updateScoreDisplay();
+  renderStudentCards();
+  renderAssessMetrics();
+  renderIGRI();
+  renderTaxKey();
+  renderRoster();
+  renderGroupsView();
+});
+
+</script>
+</html>
