@@ -5,187 +5,241 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A2 Pulse: Franchise Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --plum:#2D1B4E; --plum-light:#3D2560; --plum-dark:#1A0F2E; --plum-mid:#4A2B7A;
-  --gold:#CA8A04; --gold-light:#FEF3C7; --gold-mid:#F59E0B; --gold-bright:#FBBF24;
+  --plum:#2D1B4E; --plum-mid:#3D2560; --plum-dark:#1A0F2E; --plum-deep:#0F0820;
+  --gold:#CA8A04; --gold-mid:#F59E0B; --gold-bright:#FBBF24; --gold-light:#FEF3C7;
   --cream:#FFFBEB; --white:#FFFFFF;
   --text-primary:#1C1917; --text-secondary:#57534E; --text-muted:#A8A29E;
-  --border:#E7E5E4; --surface:#FAFAF9; --bg:#F0EDE8;
-  --green:#166534; --green-bg:#DCFCE7;
+  --border:#E7E5E4; --surface:#FAFAF9; --bg:#EFECE7;
+  --green:#166534; --green-bg:#DCFCE7; --green-mid:#16A34A;
   --yellow:#854D0E; --yellow-bg:#FEF9C3;
-  --orange:#9A3412; --orange-bg:#FFEDD5;
-  --red:#991B1B; --red-bg:#FEE2E2;
-  --sidebar-w:230px;
+  --orange:#9A3412; --orange-bg:#FFEDD5; --orange-mid:#EA580C;
+  --red:#991B1B; --red-bg:#FEE2E2; --red-mid:#DC2626;
+  --blue:#1E40AF; --blue-bg:#DBEAFE;
+  --sidebar-w:240px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;display:flex;flex-direction:column;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;display:flex;flex-direction:column;}
 
 /* ── TOPBAR ── */
-.topbar{background:var(--plum);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:58px;position:sticky;top:0;z-index:200;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
-.brand{display:flex;align-items:baseline;gap:5px;}
-.brand-main{font-family:'DM Serif Display',serif;font-size:21px;color:#fff;letter-spacing:-0.3px;}
-.brand-sep{color:var(--gold-mid);font-family:'DM Serif Display',serif;font-size:21px;}
-.brand-sub{font-size:11px;color:var(--gold-mid);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.topbar-right{display:flex;align-items:center;gap:10px;}
-.topbar-date{font-size:12px;color:rgba(255,255,255,0.45);}
-
-.view-toggle{display:flex;background:rgba(255,255,255,0.08);border-radius:8px;padding:3px;gap:2px;}
-.vt-btn{background:transparent;border:none;color:rgba(255,255,255,0.55);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:5px 13px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.topbar{background:var(--plum-deep);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:60px;position:sticky;top:0;z-index:300;flex-shrink:0;border-bottom:1px solid rgba(202,138,4,0.2);}
+.brand{display:flex;align-items:center;gap:8px;}
+.brand-logo{font-family:'Playfair Display',serif;font-size:22px;color:#fff;letter-spacing:-0.5px;}
+.brand-sep{color:var(--gold-mid);font-size:22px;font-family:'Playfair Display',serif;}
+.brand-sub{font-size:10.5px;color:var(--gold-mid);font-weight:600;letter-spacing:1.2px;text-transform:uppercase;border-left:1px solid rgba(202,138,4,0.3);padding-left:8px;margin-left:2px;}
+.brand-badge{background:rgba(202,138,4,0.15);border:1px solid rgba(202,138,4,0.3);color:var(--gold-bright);font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-left:8px;}
+.topbar-center{display:flex;align-items:center;gap:6px;}
+.blmn-indicator{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,0.5);}
+.blmn-dot{width:6px;height:6px;border-radius:50%;background:var(--green-mid);animation:pulse 2s infinite;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.topbar-date{font-size:11px;color:rgba(255,255,255,0.35);}
+.view-toggle{display:flex;background:rgba(255,255,255,0.07);border-radius:8px;padding:3px;gap:2px;}
+.vt-btn{background:transparent;border:none;color:rgba(255,255,255,0.5);font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .vt-btn.active{background:var(--gold);color:var(--plum-dark);font-weight:600;}
+.import-btn{background:var(--gold);color:var(--plum-dark);border:none;font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:700;padding:7px 13px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s;letter-spacing:.3px;}
+.import-btn:hover{opacity:.85;}
 
-.upload-btn{background:var(--gold);color:var(--plum-dark);border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:7px 14px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s;}
-.upload-btn:hover{opacity:.85;}
+/* ── BLMN BENCHMARK BAR ── */
+.bench-bar{background:var(--plum-dark);border-bottom:1px solid rgba(202,138,4,0.15);padding:6px 1.5rem;display:flex;align-items:center;gap:20px;overflow-x:auto;flex-shrink:0;}
+.bench-item{display:flex;align-items:center;gap:6px;white-space:nowrap;font-size:11px;}
+.bench-label{color:rgba(255,255,255,0.35);font-weight:500;}
+.bench-value{color:var(--gold-mid);font-weight:700;}
+.bench-source{color:rgba(255,255,255,0.2);font-size:9.5px;}
+.bench-sep{width:1px;height:16px;background:rgba(255,255,255,0.08);flex-shrink:0;}
 
-/* ── AI BANNER ── */
-.ai-banner{background:linear-gradient(90deg,var(--plum-dark) 0%,#1e0a3c 100%);border-bottom:1px solid rgba(202,138,4,0.3);padding:0;overflow:hidden;transition:max-height .4s ease;max-height:0;}
-.ai-banner.open{max-height:500px;}
-.ai-banner-inner{padding:1rem 1.5rem;}
-.ai-banner-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;}
-.ai-badge{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-mid);}
+/* ── AI MORNING BRIEF ── */
+.ai-brief{background:linear-gradient(135deg,var(--plum-deep) 0%,#1e0a3c 100%);border-bottom:1px solid rgba(202,138,4,0.25);overflow:hidden;transition:max-height .4s ease;max-height:0;}
+.ai-brief.open{max-height:600px;}
+.ai-brief-inner{padding:1rem 1.5rem;}
+.ai-brief-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;}
+.ai-badge{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-mid);}
 .ai-pulse{width:8px;height:8px;border-radius:50%;background:var(--gold-bright);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
-.ai-close{background:transparent;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;}
-.ai-close:hover{color:#fff;background:rgba(255,255,255,0.1);}
-.ai-content{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,0.88);}
-.ai-content strong{color:var(--gold-bright);}
-.ai-loading{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.5);font-size:13px;}
-.ai-dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold-mid);animation:dot-bounce 1.2s infinite;margin:0 2px;}
-.ai-dots span:nth-child(2){animation-delay:.2s;}
-.ai-dots span:nth-child(3){animation-delay:.4s;}
-@keyframes dot-bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);}}
-.ai-actions{display:flex;gap:8px;margin-top:.875rem;flex-wrap:wrap;}
-.ai-action-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(202,138,4,0.3);color:var(--gold-light);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .15s;}
-.ai-action-btn:hover{background:rgba(202,138,4,0.15);border-color:var(--gold-mid);}
-.ai-timestamp{font-size:11px;color:rgba(255,255,255,0.3);margin-top:.5rem;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+.ai-close-btn{background:transparent;border:none;color:rgba(255,255,255,0.35);cursor:pointer;font-size:20px;line-height:1;padding:2px 6px;border-radius:4px;transition:color .15s;}
+.ai-close-btn:hover{color:#fff;}
+.ai-brief-content{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.88);}
+.ai-brief-content strong{color:var(--gold-bright);}
+.ai-loading{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.4);font-size:13px;}
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold-mid);animation:db 1.2s infinite;margin:0 2px;}
+.dots span:nth-child(2){animation-delay:.2s;} .dots span:nth-child(3){animation-delay:.4s;}
+@keyframes db{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);}}
+.ai-actions{display:flex;gap:7px;margin-top:.875rem;flex-wrap:wrap;}
+.ai-pill{background:rgba(255,255,255,0.06);border:1px solid rgba(202,138,4,0.25);color:var(--gold-light);font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;padding:4px 11px;border-radius:20px;cursor:pointer;transition:all .15s;}
+.ai-pill:hover{background:rgba(202,138,4,0.12);border-color:var(--gold-mid);}
+.ai-ts{font-size:10.5px;color:rgba(255,255,255,0.2);margin-top:.5rem;}
 
-.analyst-banner{background:var(--plum);color:var(--gold-light);font-size:12px;font-weight:500;padding:6px 1.5rem;display:none;align-items:center;gap:8px;}
-.analyst-banner.show{display:flex;}
-.a-dot{width:7px;height:7px;border-radius:50%;background:var(--gold-mid);animation:pulse 2s infinite;}
+.analyst-bar{background:var(--plum-mid);padding:5px 1.5rem;display:none;align-items:center;gap:8px;font-size:11.5px;color:var(--gold-light);font-weight:500;border-bottom:1px solid rgba(202,138,4,0.15);}
+.analyst-bar.show{display:flex;}
 
 /* ── LAYOUT ── */
 .layout{display:flex;flex:1;overflow:hidden;}
 
 /* ── SIDEBAR ── */
-.sidebar{width:var(--sidebar-w);background:var(--plum-dark);flex-shrink:0;display:flex;flex-direction:column;padding:1.25rem 0;overflow-y:auto;}
-.sidebar-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:0 1.25rem;margin-bottom:5px;margin-top:1.25rem;}
-.sidebar-label:first-child{margin-top:0;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 1.25rem;color:rgba(255,255,255,0.5);font-size:13.5px;cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
+.sidebar{width:var(--sidebar-w);background:var(--plum-dark);flex-shrink:0;display:flex;flex-direction:column;padding:1rem 0;overflow-y:auto;}
+.nav-ai-btn{background:linear-gradient(135deg,rgba(202,138,4,0.18),rgba(45,27,78,0.4));border:1px solid rgba(202,138,4,0.3);margin:.25rem .75rem .75rem;border-radius:10px;padding:.75rem 1rem;cursor:pointer;transition:all .2s;}
+.nav-ai-btn:hover{border-color:var(--gold-mid);background:rgba(202,138,4,0.12);}
+.nav-ai-top{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold-mid);display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.nav-ai-desc{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.4;}
+.nav-section{font-size:9.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.2);padding:0 1.25rem;margin-bottom:4px;margin-top:1rem;}
+.nav-section:first-of-type{margin-top:.25rem;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 1.25rem;color:rgba(255,255,255,0.45);font-size:13px;font-weight:400;cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
 .nav-item:hover{color:#fff;background:rgba(255,255,255,0.04);}
 .nav-item.active{color:var(--gold-mid);border-left-color:var(--gold);background:rgba(202,138,4,0.07);font-weight:500;}
-.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
-.flag-badge{margin-left:auto;background:#DC2626;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-
-/* AI Diagnostic nav button */
-.nav-ai{background:linear-gradient(135deg,rgba(202,138,4,0.15),rgba(45,27,78,0.3));border:1px solid rgba(202,138,4,0.25);margin:1rem .75rem .25rem;border-radius:10px;padding:.75rem 1rem;cursor:pointer;transition:all .2s;}
-.nav-ai:hover{border-color:var(--gold-mid);background:rgba(202,138,4,0.12);}
-.nav-ai-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold-mid);margin-bottom:3px;display:flex;align-items:center;gap:6px;}
-.nav-ai-desc{font-size:11.5px;color:rgba(255,255,255,0.5);line-height:1.4;}
-
-.sidebar-tagline{margin-top:auto;padding:1.25rem;font-size:11px;font-style:italic;color:rgba(255,255,255,.2);line-height:1.5;border-top:1px solid rgba(255,255,255,.05);margin-top:2rem;}
+.nav-icon{font-size:13px;width:17px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--red-mid);color:#fff;font-size:9.5px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+.nav-new{margin-left:auto;background:rgba(202,138,4,0.2);color:var(--gold-mid);font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;letter-spacing:.5px;}
+.sidebar-footer{margin-top:auto;padding:1rem 1.25rem;font-size:10.5px;font-style:italic;color:rgba(255,255,255,0.15);line-height:1.5;border-top:1px solid rgba(255,255,255,0.05);margin-top:2rem;}
+.sidebar-footer span{color:rgba(202,138,4,0.4);display:block;font-size:9.5px;font-style:normal;font-weight:600;letter-spacing:.5px;margin-bottom:3px;}
 
 /* ── MAIN ── */
 .main{flex:1;overflow-y:auto;padding:1.75rem 2rem;display:none;}
 .main.visible{display:block;}
-.page-title{font-family:'DM Serif Display',serif;font-size:23px;color:var(--plum);margin-bottom:3px;}
-.page-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem;}
+.page-header{margin-bottom:1.5rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--plum);margin-bottom:2px;letter-spacing:-.3px;}
+.page-sub{font-size:13px;color:var(--text-secondary);}
 
-/* ── METRICS ── */
-.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:1.5rem;}
-.metric-card{background:var(--white);border-radius:10px;padding:1rem 1.125rem;border:1px solid var(--border);}
-.metric-label{font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
-.metric-value{font-size:26px;font-weight:600;color:var(--text-primary);line-height:1;margin-bottom:4px;}
-.metric-delta{font-size:12px;font-weight:500;display:flex;align-items:center;gap:3px;}
-.up{color:#16A34A;} .down{color:#DC2626;} .neutral{color:var(--text-muted);}
+/* ── BLMN BENCHMARK CALLOUT ── */
+.blmn-callout{background:linear-gradient(135deg,var(--plum-dark),var(--plum-mid));border-radius:10px;padding:.875rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;border:1px solid rgba(202,138,4,0.2);}
+.blmn-callout-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-mid);margin-bottom:6px;}
+.blmn-benchmarks{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.blmn-bench{text-align:center;}
+.blmn-bench-val{font-size:20px;font-weight:700;color:var(--gold-bright);font-family:'Playfair Display',serif;line-height:1;}
+.blmn-bench-label{font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px;}
+.blmn-source{font-size:9.5px;color:rgba(255,255,255,0.2);align-self:flex-end;}
 
-/* ── CARDS ── */
+/* ── METRIC CARDS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.5rem;}
+.metric-card{background:var(--white);border-radius:10px;padding:1rem 1.125rem;border:1px solid var(--border);position:relative;overflow:hidden;}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);opacity:.4;}
+.metric-card.alert::before{background:var(--red-mid);opacity:1;}
+.metric-card.warn::before{background:var(--gold-mid);opacity:1;}
+.metric-card.good::before{background:var(--green-mid);opacity:1;}
+.metric-label{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.metric-value{font-size:26px;font-weight:700;color:var(--text-primary);line-height:1;margin-bottom:4px;font-family:'Playfair Display',serif;}
+.metric-delta{font-size:11.5px;font-weight:500;display:flex;align-items:center;gap:3px;}
+.metric-bench{font-size:10px;color:var(--text-muted);margin-top:3px;padding-top:3px;border-top:1px solid var(--border);}
+.up{color:var(--green-mid);} .down{color:var(--red-mid);} .neutral{color:var(--text-muted);}
+
+/* ── ROYALTY TRACKER ── */
+.royalty-card{background:linear-gradient(135deg,var(--plum-dark) 0%,var(--plum-mid) 100%);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;border:1px solid rgba(202,138,4,0.2);}
+.royalty-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.royalty-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold-mid);}
+.royalty-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;}
+.royalty-item{text-align:center;}
+.royalty-val{font-size:22px;font-weight:700;font-family:'Playfair Display',serif;color:var(--white);line-height:1;}
+.royalty-val.cost{color:#F87171;}
+.royalty-val.keep{color:#4ADE80;}
+.royalty-label{font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px;letter-spacing:.3px;}
+.royalty-note{font-size:10.5px;color:rgba(255,255,255,0.3);margin-top:.875rem;padding-top:.75rem;border-top:1px solid rgba(255,255,255,0.08);line-height:1.5;}
+
+/* ── OFF-PREMISES MODULE ── */
+.off-prem-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;}
+
+/* ── SECTION CARDS ── */
 .card{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
 .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
 .card-title{font-size:14px;font-weight:600;color:var(--plum);display:flex;align-items:center;gap:8px;}
 .card-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.card-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.4px;}
+.badge-blmn{background:rgba(45,27,78,0.08);color:var(--plum);}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;}
 .chart-wrap{position:relative;width:100%;height:220px;}
 .chart-wrap-tall{position:relative;width:100%;height:260px;}
 
 /* ── FLAGS ── */
-.flag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;}
+.flag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.2px;}
 .flag-green{background:var(--green-bg);color:var(--green);}
 .flag-yellow{background:var(--yellow-bg);color:var(--yellow);}
 .flag-orange{background:var(--orange-bg);color:var(--orange);}
 .flag-red{background:var(--red-bg);color:var(--red);}
-.fdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.flag-green .fdot{background:#16A34A;} .flag-yellow .fdot{background:#CA8A04;}
-.flag-orange .fdot{background:#EA580C;} .flag-red .fdot{background:#DC2626;}
+.flag-blue{background:var(--blue-bg);color:var(--blue);}
+.fdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.flag-green .fdot{background:var(--green-mid);}
+.flag-yellow .fdot{background:var(--gold);}
+.flag-orange .fdot{background:var(--orange-mid);}
+.flag-red .fdot{background:var(--red-mid);}
+.flag-blue .fdot{background:var(--blue);}
 
 /* ── TABLE ── */
-.dt{width:100%;border-collapse:collapse;font-size:13px;}
-.dt th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);padding:6px 10px;border-bottom:1px solid var(--border);}
-.dt td{padding:10px;border-bottom:1px solid #F5F5F4;color:var(--text-primary);}
+.dt{width:100%;border-collapse:collapse;font-size:12.5px;}
+.dt th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);padding:6px 10px;border-bottom:1px solid var(--border);}
+.dt td{padding:9px 10px;border-bottom:1px solid #F5F5F4;color:var(--text-primary);}
 .dt tr:last-child td{border-bottom:none;}
 .dt tr:hover td{background:#FAFAF9;}
+.dt .blmn-bench-col{color:var(--plum);font-weight:600;font-size:11px;}
+.dt .variance-pos{color:var(--red-mid);font-weight:600;}
+.dt .variance-neg{color:var(--green-mid);font-weight:600;}
 
 /* ── AI DIAGNOSTIC CARD ── */
-.ai-diag-card{background:var(--plum-dark);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;border:1px solid rgba(202,138,4,0.2);}
+.ai-diag{background:var(--plum-dark);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;border:1px solid rgba(202,138,4,0.2);}
 .ai-diag-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;}
-.ai-diag-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--gold-mid);display:flex;align-items:center;gap:8px;}
-.ai-diag-body{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.85);}
+.ai-diag-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold-mid);display:flex;align-items:center;gap:8px;}
+.ai-run-btn{background:rgba(202,138,4,0.12);border:1px solid rgba(202,138,4,0.35);color:var(--gold-light);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;padding:5px 12px;border-radius:7px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;letter-spacing:.3px;}
+.ai-run-btn:hover{background:rgba(202,138,4,0.22);border-color:var(--gold-mid);}
+.ai-run-btn:disabled{opacity:.4;cursor:not-allowed;}
+.ai-diag-body{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.88);}
 .ai-diag-body strong{color:var(--gold-bright);}
-.ai-run-btn{background:rgba(202,138,4,0.15);border:1px solid rgba(202,138,4,0.4);color:var(--gold-light);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:600;padding:5px 13px;border-radius:7px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
-.ai-run-btn:hover{background:rgba(202,138,4,0.25);border-color:var(--gold-mid);}
-.ai-run-btn:disabled{opacity:.5;cursor:not-allowed;}
 
-/* ── EOD ── */
-.eod-card{background:var(--plum-dark);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;color:#fff;border:1px solid rgba(255,255,255,0.06);}
-.eod-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--gold-mid);margin-bottom:.75rem;display:flex;align-items:center;gap:8px;}
-.eod-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13px;}
+/* ── EOD CARD ── */
+.eod-card{background:var(--plum-dark);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;border:1px solid rgba(255,255,255,0.06);}
+.eod-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold-mid);margin-bottom:.75rem;display:flex;align-items:center;gap:8px;}
+.eod-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px;color:rgba(255,255,255,.75);}
 .eod-row:last-child{border-bottom:none;}
 
-/* ── THRESHOLD ── */
+/* ── THRESHOLDS ── */
 .thresh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
 .thresh-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.875rem 1rem;}
-.thresh-label{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;}
+.thresh-label{font-size:11.5px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;}
+.thresh-sub{font-size:10px;color:var(--text-muted);margin-bottom:8px;}
 .thresh-row{display:flex;align-items:center;gap:10px;}
 .thresh-row input[type=range]{flex:1;accent-color:var(--gold);}
-.thresh-val{font-size:13px;font-weight:600;color:var(--plum);min-width:40px;text-align:right;}
+.thresh-val{font-size:13px;font-weight:700;color:var(--plum);min-width:44px;text-align:right;}
+.thresh-blmn{font-size:10px;color:var(--gold);margin-top:4px;font-weight:600;}
 
 /* ── DROPZONE ── */
-.dropzone{border:2px dashed var(--border);border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);margin-bottom:1.5rem;}
+.dropzone{border:2px dashed var(--border);border-radius:12px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);margin-bottom:1.5rem;}
 .dropzone:hover,.dropzone.drag-over{border-color:var(--gold);background:var(--gold-light);}
 .dz-icon{font-size:2.5rem;margin-bottom:.75rem;color:var(--text-muted);}
-.dropzone h3{font-size:15px;font-weight:600;margin-bottom:4px;}
-.dropzone p{font-size:13px;color:var(--text-muted);}
+.dropzone h3{font-size:15px;font-weight:600;margin-bottom:4px;color:var(--text-primary);}
+.dropzone p{font-size:12.5px;color:var(--text-muted);}
 
-/* ── RECONCILE ── */
-.rec-btn{background:transparent;border:1px solid var(--border);color:var(--text-secondary);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .15s;}
-.rec-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-bg);}
+/* ── CHAT ── */
+.chat-wrap{display:flex;flex-direction:column;gap:.75rem;max-height:420px;overflow-y:auto;margin-bottom:1rem;padding:.25rem 0;}
+.chat-msg{padding:.875rem 1rem;border-radius:10px;font-size:13.5px;line-height:1.65;}
+.chat-msg.assistant{background:rgba(45,27,78,0.05);border-left:3px solid var(--gold);color:var(--text-primary);}
+.chat-msg.assistant strong{color:var(--plum);}
+.chat-msg.user{background:var(--plum);color:#fff;max-width:85%;align-self:flex-end;}
+.chat-input-row{display:flex;gap:8px;}
+.chat-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:.625rem .875rem;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .15s;}
+.chat-input:focus{border-color:var(--gold);}
+.chat-send{background:var(--plum);border:none;color:#fff;font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:700;padding:.625rem 1rem;border-radius:8px;cursor:pointer;transition:opacity .2s;white-space:nowrap;letter-spacing:.3px;}
+.chat-send:hover{opacity:.85;}
+.chat-send:disabled{opacity:.4;cursor:not-allowed;}
 
 /* ── PILL TABS ── */
 .pill-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;}
-.pill-tab{background:var(--surface);border:1px solid var(--border);color:var(--text-secondary);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:5px 13px;border-radius:20px;cursor:pointer;transition:all .15s;}
+.pill-tab{background:var(--surface);border:1px solid var(--border);color:var(--text-secondary);font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .15s;}
 .pill-tab.active{background:var(--plum);border-color:var(--plum);color:#fff;}
 
-/* ── AI CHAT ── */
-.ai-chat-wrap{display:flex;flex-direction:column;gap:.75rem;max-height:400px;overflow-y:auto;margin-bottom:1rem;padding:.25rem 0;}
-.ai-msg{padding:.875rem 1rem;border-radius:10px;font-size:13.5px;line-height:1.65;}
-.ai-msg.assistant{background:rgba(45,27,78,0.06);border-left:3px solid var(--gold);color:var(--text-primary);}
-.ai-msg.user{background:var(--plum);color:#fff;border-radius:10px;align-self:flex-end;max-width:85%;}
-.ai-msg strong{color:var(--plum);}
-.ai-msg.assistant strong{color:var(--plum);}
-.ai-input-row{display:flex;gap:8px;}
-.ai-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:.625rem .875rem;font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color .15s;}
-.ai-input:focus{border-color:var(--gold);}
-.ai-send{background:var(--plum);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:.625rem 1rem;border-radius:8px;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
-.ai-send:hover{opacity:.85;}
-.ai-send:disabled{opacity:.45;cursor:not-allowed;}
+/* ── RECONCILE ── */
+.rec-btn{background:transparent;border:1px solid var(--border);color:var(--text-secondary);font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .15s;}
+.rec-btn:hover{border-color:var(--green-mid);color:var(--green);background:var(--green-bg);}
 
 /* ── ANALYST SECTION ── */
 .analyst-section{display:none;}
 .analyst-mode .analyst-section{display:block;}
 
+/* ── POSDB STATUS ── */
+.sync-status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--green-mid);animation:pulse 2s infinite;}
+.sync-dot.warn{background:var(--gold-mid);}
+.sync-dot.error{background:var(--red-mid);animation:none;}
+
 /* ── RESPONSIVE ── */
-@media(max-width:768px){.sidebar{display:none;}.main{padding:1.25rem 1rem;}.two-col{grid-template-columns:1fr;}.topbar-date{display:none;}}
-@media(max-width:480px){.metric-grid{grid-template-columns:1fr 1fr;}.brand-sub{display:none;}}
+@media(max-width:900px){.sidebar{display:none;}.main{padding:1.25rem 1rem;}.two-col,.off-prem-grid{grid-template-columns:1fr;}.topbar-center{display:none;}.bench-bar{display:none;}}
+@media(max-width:480px){.metric-grid{grid-template-columns:1fr 1fr;}.brand-sub{display:none;}.brand-badge{display:none;}}
 </style>
 </head>
 <body>
@@ -193,9 +247,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="brand">
-    <span class="brand-main">A2 Pulse</span>
+    <span class="brand-logo">A2 Pulse</span>
     <span class="brand-sep">:</span>
     <span class="brand-sub">Franchise Intelligence</span>
+    <span class="brand-badge">BLMN Calibrated</span>
+  </div>
+  <div class="topbar-center">
+    <div class="blmn-indicator"><span class="blmn-dot"></span>Bloomin' Brands SEC Benchmarks Active</div>
   </div>
   <div class="topbar-right">
     <span class="topbar-date" id="today-date"></span>
@@ -203,34 +261,52 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
       <button class="vt-btn active" onclick="setView('operator',this)">Operator</button>
       <button class="vt-btn" onclick="setView('analyst',this)">Analyst</button>
     </div>
-    <button class="upload-btn" onclick="document.getElementById('pos-file').click()">&#8593; Import POS</button>
-    <input type="file" id="pos-file" accept=".csv" style="display:none" onchange="handleUpload(event)">
+    <button class="import-btn" onclick="document.getElementById('pos-file').click()">&#8593; POSitouch Import</button>
+    <input type="file" id="pos-file" accept=".csv,.dbf" style="display:none" onchange="handleUpload(event)">
   </div>
 </div>
 
-<!-- AI MORNING BRIEF BANNER -->
-<div class="ai-banner" id="ai-banner">
-  <div class="ai-banner-inner">
-    <div class="ai-banner-header">
-      <div class="ai-badge"><span class="ai-pulse"></span>A2 Intelligence &mdash; Morning Brief</div>
-      <button class="ai-close" onclick="document.getElementById('ai-banner').classList.remove('open')">&#215;</button>
+<!-- BLMN BENCHMARK BAR -->
+<div class="bench-bar">
+  <div class="bench-item"><span class="bench-label">BLMN Food Cost</span><span class="bench-value">31.9%</span><span class="bench-source">SEC FY2025</span></div>
+  <div class="bench-sep"></div>
+  <div class="bench-item"><span class="bench-label">BLMN Labor</span><span class="bench-value">29.5%</span><span class="bench-source">SEC FY2025</span></div>
+  <div class="bench-sep"></div>
+  <div class="bench-item"><span class="bench-label">Avg Check / Person</span><span class="bench-value">$29</span><span class="bench-source">Outback 2025</span></div>
+  <div class="bench-sep"></div>
+  <div class="bench-item"><span class="bench-label">Off-Premises Mix</span><span class="bench-value">25%</span><span class="bench-source">System-wide</span></div>
+  <div class="bench-sep"></div>
+  <div class="bench-item"><span class="bench-label">Royalty Rate</span><span class="bench-value">3.5–5.75%</span><span class="bench-source">Franchise Agreement</span></div>
+  <div class="bench-sep"></div>
+  <div class="bench-item"><span class="bench-label">Mktg + Advertising Max</span><span class="bench-value">8.0%</span><span class="bench-source">of Gross Sales</span></div>
+  <div class="bench-sep"></div>
+  <div class="bench-item"><span class="bench-label">U.S. Outback Franchisees</span><span class="bench-value">118</span><span class="bench-source">As of Dec 2025</span></div>
+  <div class="bench-sep"></div>
+  <div class="bench-item"><span class="bench-label">POSitouch Sync</span><span class="sync-status"><span class="sync-dot"></span>Live</span></div>
+</div>
+
+<!-- AI MORNING BRIEF -->
+<div class="ai-brief" id="ai-brief">
+  <div class="ai-brief-inner">
+    <div class="ai-brief-header">
+      <div class="ai-badge"><span class="ai-pulse"></span>A2 Intelligence — Morning Brief</div>
+      <button class="ai-close-btn" onclick="document.getElementById('ai-brief').classList.remove('open')">&#215;</button>
     </div>
-    <div class="ai-content" id="ai-banner-content">
-      <div class="ai-loading"><span>Generating your diagnostic</span><span class="ai-dots"><span></span><span></span><span></span></span></div>
+    <div id="brief-content" class="ai-brief-content"></div>
+    <div class="ai-actions" id="brief-actions" style="display:none;">
+      <button class="ai-pill" onclick="askAI('What is my single biggest risk to margin today?')">Biggest margin risk today?</button>
+      <button class="ai-pill" onclick="askAI('How do my numbers compare to what Bloomin Brands reported to the SEC?')">How do I compare to BLMN benchmarks?</button>
+      <button class="ai-pill" onclick="askAI('What should I tell my regional manager about this week?')">What do I tell my RM?</button>
+      <button class="ai-pill" onclick="askAI('Is my royalty burden in line with my sales performance?')">Is my royalty burden sustainable?</button>
     </div>
-    <div class="ai-actions" id="ai-banner-actions" style="display:none;">
-      <button class="ai-action-btn" onclick="askAI('What is my biggest risk today?')">What is my biggest risk today?</button>
-      <button class="ai-action-btn" onclick="askAI('Which daypart needs my attention most?')">Which daypart needs attention?</button>
-      <button class="ai-action-btn" onclick="askAI('What should I tell my manager about this week?')">What do I tell my manager?</button>
-    </div>
-    <div class="ai-timestamp" id="ai-timestamp"></div>
+    <div class="ai-ts" id="brief-ts"></div>
   </div>
 </div>
 
-<!-- ANALYST BANNER -->
-<div class="analyst-banner" id="analyst-banner">
-  <span class="a-dot"></span>
-  Analyst View Active &mdash; A2 Systems Architecture diagnostic layer enabled
+<!-- ANALYST BAR -->
+<div class="analyst-bar" id="analyst-bar">
+  <span class="ai-pulse"></span>
+  Analyst View — A2 Systems Architecture diagnostic layer active &mdash; BLMN SEC FY2025 benchmarks calibrated
 </div>
 
 <!-- LAYOUT -->
@@ -238,265 +314,396 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
 
 <!-- SIDEBAR -->
 <nav class="sidebar">
-  <!-- AI Trigger -->
-  <div class="nav-ai" onclick="triggerMorningBrief()">
-    <div class="nav-ai-label"><span class="ai-pulse"></span>A2 Intelligence</div>
-    <div class="nav-ai-desc">Run today's diagnostic brief</div>
+  <div class="nav-ai-btn" onclick="triggerBrief()">
+    <div class="nav-ai-top"><span class="ai-pulse"></span>A2 Intelligence</div>
+    <div class="nav-ai-desc">Generate morning diagnostic brief</div>
   </div>
 
-  <div class="sidebar-label" style="margin-top:.75rem;">Dashboard</div>
-  <div class="nav-item active" onclick="showPage('daily-pulse',this)"><span class="nav-icon">&#9632;</span>Daily Pulse</div>
+  <div class="nav-section">Core Modules</div>
+  <div class="nav-item active" onclick="showPage('pulse',this)"><span class="nav-icon">&#9632;</span>Daily Pulse</div>
+  <div class="nav-item" onclick="showPage('royalty',this)"><span class="nav-icon">&#9670;</span>Royalty Tracker<span class="nav-new">NEW</span></div>
   <div class="nav-item" onclick="showPage('daypart',this)"><span class="nav-icon">&#9650;</span>Daypart Breakdown</div>
-  <div class="nav-item" onclick="showPage('food-cost',this)"><span class="nav-icon">&#9670;</span>Food Cost Tracker</div>
-  <div class="nav-item" onclick="showPage('labor',this)"><span class="nav-icon">&#9711;</span>Labor Efficiency</div>
+  <div class="nav-item" onclick="showPage('offprem',this)"><span class="nav-icon">&#9711;</span>Off-Premises<span class="nav-new">NEW</span></div>
+  <div class="nav-item" onclick="showPage('food',this)"><span class="nav-icon">&#9632;</span>Food Cost Tracker</div>
+  <div class="nav-item" onclick="showPage('labor',this)"><span class="nav-icon">&#9670;</span>Labor Efficiency</div>
 
-  <div class="sidebar-label">Alerts</div>
-  <div class="nav-item" onclick="showPage('flags',this)"><span class="nav-icon">&#9651;</span>Flag Engine<span class="flag-badge" id="flag-count">3</span></div>
+  <div class="nav-section">Alerts</div>
+  <div class="nav-item" onclick="showPage('flags',this)"><span class="nav-icon">&#9651;</span>Flag Engine<span class="nav-badge" id="flag-count">3</span></div>
 
-  <div class="sidebar-label">Intelligence</div>
-  <div class="nav-item" onclick="showPage('ai-advisor',this)"><span class="nav-icon">&#9670;</span>AI Advisor</div>
+  <div class="nav-section">Intelligence</div>
+  <div class="nav-item" onclick="showPage('advisor',this)"><span class="nav-icon">&#9670;</span>AI Advisor</div>
+  <div class="nav-item" onclick="showPage('benchmarks',this)"><span class="nav-icon">&#9632;</span>BLMN Benchmarks</div>
 
-  <div class="sidebar-label">Settings</div>
+  <div class="nav-section">System</div>
   <div class="nav-item" onclick="showPage('thresholds',this)"><span class="nav-icon">&#9633;</span>Thresholds</div>
-  <div class="nav-item" onclick="showPage('import',this)"><span class="nav-icon">&#8593;</span>Import Data</div>
+  <div class="nav-item" onclick="showPage('sync',this)"><span class="nav-icon">&#8593;</span>POSitouch Sync</div>
 
-  <div class="sidebar-tagline">"Strong units build strong brands."</div>
+  <div class="sidebar-footer">
+    <span>A2 Systems Architecture</span>
+    "Strong units build strong brands."
+  </div>
 </nav>
 
 <!-- ═══════════ PAGE: DAILY PULSE ═══════════ -->
-<main class="main visible" id="page-daily-pulse">
-  <div class="page-title">Daily Pulse</div>
-  <div class="page-sub" id="pulse-sub">Today's performance at a glance</div>
-  <div class="metric-grid">
-    <div class="metric-card"><div class="metric-label">Today's Sales</div><div class="metric-value">$4,820</div><div class="metric-delta up">&#9650; +6.2% vs last week</div></div>
-    <div class="metric-card"><div class="metric-label">Labor %</div><div class="metric-value">31.4%</div><div class="metric-delta up">&#9660; Under 35% target</div></div>
-    <div class="metric-card"><div class="metric-label">Food Cost Running</div><div class="metric-value">28.7%</div><div class="metric-delta neutral">&#9632; Within range</div></div>
-    <div class="metric-card"><div class="metric-label">Guest Count</div><div class="metric-value">187</div><div class="metric-delta down">&#9660; -8.3% vs last week</div></div>
-    <div class="metric-card"><div class="metric-label">Ticket Average</div><div class="metric-value">$25.78</div><div class="metric-delta up">&#9650; +1.4% vs last week</div></div>
-    <div class="metric-card"><div class="metric-label">Active Flags</div><div class="metric-value" style="color:#DC2626;">3</div><div class="metric-delta down">&#9651; Needs attention</div></div>
+<main class="main visible" id="page-pulse">
+  <div class="page-header">
+    <div class="page-title">Daily Pulse</div>
+    <div class="page-sub" id="pulse-sub">Today's performance — calibrated against Bloomin' Brands SEC benchmarks</div>
   </div>
-  <div class="card">
-    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales vs Prior Week &mdash; Hourly</div></div>
-    <div class="chart-wrap"><canvas id="salesCompChart" role="img" aria-label="Hourly sales comparison this week vs prior week">Sales data loading.</canvas></div>
-  </div>
-  <div class="two-col">
-    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Labor % by Shift</div></div><div class="chart-wrap"><canvas id="laborShiftChart" role="img" aria-label="Labor percentage by shift">Labor data.</canvas></div></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost — Week to Date</div></div><div class="chart-wrap"><canvas id="foodWtdChart" role="img" aria-label="Food cost week to date">Food cost data.</canvas></div></div>
-  </div>
-  <!-- AI Diagnostic inline -->
-  <div class="ai-diag-card analyst-section">
-    <div class="ai-diag-header">
-      <div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Daily Diagnostic</div>
-      <button class="ai-run-btn" onclick="runInlineAI('daily','daily-diag-body',this)">&#9654; Run Analysis</button>
+
+  <!-- BLMN Benchmark Callout -->
+  <div class="blmn-callout">
+    <div>
+      <div class="blmn-callout-label">Bloomin' Brands SEC Benchmarks — FY2025 10-K</div>
+      <div class="blmn-benchmarks">
+        <div class="blmn-bench"><div class="blmn-bench-val">31.9%</div><div class="blmn-bench-label">Food Cost</div></div>
+        <div class="blmn-bench"><div class="blmn-bench-val">29.5%</div><div class="blmn-bench-label">Labor</div></div>
+        <div class="blmn-bench"><div class="blmn-bench-val">$29</div><div class="blmn-bench-label">Avg Check</div></div>
+        <div class="blmn-bench"><div class="blmn-bench-val">25%</div><div class="blmn-bench-label">Off-Premises</div></div>
+      </div>
     </div>
-    <div class="ai-diag-body" id="daily-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate today's diagnostic.</div>
+    <div class="blmn-source">Source: Bloomin' Brands Form 10-K filed Feb 25, 2026 &mdash; SEC EDGAR</div>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric-card good"><div class="metric-label">Today's Sales</div><div class="metric-value">$4,820</div><div class="metric-delta up">&#9650; +6.2% vs last week</div><div class="metric-bench">Avg unit: ~$68,846/wk</div></div>
+    <div class="metric-card good"><div class="metric-label">Labor %</div><div class="metric-value">31.4%</div><div class="metric-delta up">&#9660; Under 35% target</div><div class="metric-bench">BLMN system: 29.5%</div></div>
+    <div class="metric-card warn"><div class="metric-label">Food Cost Running</div><div class="metric-value">28.7%</div><div class="metric-delta neutral">&#9632; Watch — creeping</div><div class="metric-bench">BLMN system: 31.9%</div></div>
+    <div class="metric-card warn"><div class="metric-label">Guest Count</div><div class="metric-value">187</div><div class="metric-delta down">&#9660; -8.3% vs last week</div><div class="metric-bench">Avg check target: $29</div></div>
+    <div class="metric-card good"><div class="metric-label">Ticket Average</div><div class="metric-value">$25.78</div><div class="metric-delta up">&#9650; +1.4% vs last week</div><div class="metric-bench">BLMN avg check: $29</div></div>
+    <div class="metric-card alert"><div class="metric-label">Active Flags</div><div class="metric-value" style="color:var(--red-mid);">3</div><div class="metric-delta down">&#9651; Requires attention</div><div class="metric-bench">EOD reconciliation due</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales vs Prior Week — Hourly</div><span class="card-badge badge-blmn">BLMN Calibrated</span></div>
+    <div class="chart-wrap"><canvas id="salesChart" role="img" aria-label="Hourly sales this week vs prior week">Sales data.</canvas></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Labor % by Shift vs BLMN Benchmark</div></div><div class="chart-wrap"><canvas id="laborShiftChart" role="img" aria-label="Labor percentage by shift vs BLMN 29.5% benchmark">Labor data.</canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost WTD vs BLMN Benchmark</div></div><div class="chart-wrap"><canvas id="foodWtdChart" role="img" aria-label="Food cost week to date vs BLMN 31.9% benchmark">Food cost data.</canvas></div></div>
+  </div>
+
+  <div class="ai-diag analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence — Daily Diagnostic</div><button class="ai-run-btn" onclick="runDiag('daily','daily-diag',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="daily-diag" style="color:rgba(255,255,255,.3);font-style:italic;">Click Run Analysis to generate diagnostic calibrated to BLMN SEC benchmarks.</div>
+  </div>
+</main>
+
+<!-- ═══════════ PAGE: ROYALTY TRACKER ═══════════ -->
+<main class="main" id="page-royalty">
+  <div class="page-header"><div class="page-title">Royalty Tracker</div><div class="page-sub">Real retained revenue — what leaves before you keep a dollar</div></div>
+
+  <div class="royalty-card">
+    <div class="royalty-header"><div class="royalty-title">&#9670; Today's Revenue Flow</div><span style="font-size:10.5px;color:rgba(255,255,255,0.3);">Based on 4.5% royalty rate + 7% marketing</span></div>
+    <div class="royalty-grid">
+      <div class="royalty-item"><div class="royalty-val">$4,820</div><div class="royalty-label">Gross Sales</div></div>
+      <div class="royalty-item"><div class="royalty-val cost">$217</div><div class="royalty-label">Royalty (4.5%)</div></div>
+      <div class="royalty-item"><div class="royalty-val cost">$337</div><div class="royalty-label">Marketing (7%)</div></div>
+      <div class="royalty-item"><div class="royalty-val cost">$1,382</div><div class="royalty-label">Food Cost (28.7%)</div></div>
+      <div class="royalty-item"><div class="royalty-val cost">$1,513</div><div class="royalty-label">Labor (31.4%)</div></div>
+      <div class="royalty-item"><div class="royalty-val keep">$1,371</div><div class="royalty-label">Pre-Overhead Retained</div></div>
+    </div>
+    <div class="royalty-note">Royalty range per franchise agreement: 3.50% – 5.75% of gross sales. Marketing contribution maximum: 8.0% combined. Source: Bloomin' Brands Form 10-K, SEC EDGAR, filed February 25, 2026. Every percentage point of food cost or labor variance recovered directly increases retained revenue.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Weekly Royalty & Marketing Burden</div><span class="card-badge badge-blmn">SEC Calibrated</span></div>
+    <div class="chart-wrap-tall"><canvas id="royaltyChart" role="img" aria-label="Weekly royalty and marketing burden vs retained revenue">Royalty data.</canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Royalty Rate Scenarios — Impact on Weekly Revenue</div></div>
+    <table class="dt"><thead><tr><th>Royalty Rate</th><th>Weekly Gross</th><th>Royalty Out</th><th>Marketing Out</th><th>Total Brand Obligation</th><th>% of Gross</th></tr></thead>
+    <tbody>
+      <tr><td>3.50% (minimum)</td><td>$33,740</td><td class="variance-pos">$1,181</td><td class="variance-pos">$2,362</td><td class="variance-pos">$3,543</td><td>10.5%</td></tr>
+      <tr><td><strong>4.50% (estimated)</strong></td><td>$33,740</td><td class="variance-pos"><strong>$1,518</strong></td><td class="variance-pos"><strong>$2,362</strong></td><td class="variance-pos"><strong>$3,880</strong></td><td><strong>11.5%</strong></td></tr>
+      <tr><td>5.75% (maximum)</td><td>$33,740</td><td class="variance-pos">$1,940</td><td class="variance-pos">$2,362</td><td class="variance-pos">$4,302</td><td>12.8%</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="ai-diag analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence — Royalty Diagnostic</div><button class="ai-run-btn" onclick="runDiag('royalty','royalty-diag',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="royalty-diag" style="color:rgba(255,255,255,.3);font-style:italic;">Click Run Analysis to generate royalty burden diagnostic.</div>
   </div>
 </main>
 
 <!-- ═══════════ PAGE: DAYPART ═══════════ -->
 <main class="main" id="page-daypart">
-  <div class="page-title">Daypart Breakdown</div>
-  <div class="page-sub">Guest counts and ticket averages by service period</div>
-  <div class="pill-tabs">
-    <button class="pill-tab active">Today</button>
-    <button class="pill-tab" onclick="setTab(this)">This Week</button>
-    <button class="pill-tab" onclick="setTab(this)">Prior Week</button>
-  </div>
+  <div class="page-header"><div class="page-title">Daypart Breakdown</div><div class="page-sub">Guest counts and ticket averages by service period — calibrated to $29 BLMN average check benchmark</div></div>
+  <div class="pill-tabs"><button class="pill-tab active">Today</button><button class="pill-tab" onclick="setTab(this)">This Week</button><button class="pill-tab" onclick="setTab(this)">Prior Week</button></div>
   <div class="two-col">
-    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Guest Count by Daypart</div></div><div class="chart-wrap-tall"><canvas id="guestChart" role="img" aria-label="Guest count by daypart">Guest data.</canvas></div></div>
-    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Ticket Average by Daypart</div></div><div class="chart-wrap-tall"><canvas id="ticketChart" role="img" aria-label="Ticket average by daypart">Ticket data.</canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Guest Count by Daypart</div></div><div class="chart-wrap-tall"><canvas id="guestChart" role="img" aria-label="Guest count by daypart this week vs prior week">Guest data.</canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Ticket Average vs BLMN $29 Benchmark</div></div><div class="chart-wrap-tall"><canvas id="ticketChart" role="img" aria-label="Ticket average by daypart vs BLMN $29 benchmark">Ticket data.</canvas></div></div>
   </div>
   <div class="card">
-    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Daypart Summary</div></div>
-    <table class="dt"><thead><tr><th>Daypart</th><th>Guests</th><th>vs LW</th><th>Ticket Avg</th><th>vs LW</th><th>Net Sales</th><th>Status</th></tr></thead>
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Daypart Summary</div><span class="card-badge badge-blmn">BLMN Avg Check: $29</span></div>
+    <table class="dt"><thead><tr><th>Daypart</th><th>Guests</th><th>vs LW</th><th>Ticket Avg</th><th>vs BLMN $29</th><th>Net Sales</th><th>Off-Prem %</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td><strong>Lunch (11a–3p)</strong></td><td>72</td><td class="up">+4.3%</td><td>$21.40</td><td class="neutral">+0.2%</td><td>$1,541</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td><strong>Dinner (4p–9p)</strong></td><td>98</td><td class="down">-14.9%</td><td>$28.60</td><td class="up">+2.1%</td><td>$2,803</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
-      <tr><td><strong>Late Night (9p–close)</strong></td><td>17</td><td class="neutral">-2.0%</td><td>$28.12</td><td class="neutral">+0.8%</td><td>$478</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
+      <tr><td><strong>Lunch (11a–3p)</strong></td><td>72</td><td class="up">+4.3%</td><td>$21.40</td><td class="variance-pos">-$7.60</td><td>$1,541</td><td>28%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td><strong>Dinner (4p–9p)</strong></td><td>98</td><td class="down">-14.9%</td><td>$28.60</td><td class="variance-neg">-$0.40</td><td>$2,803</td><td>22%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
+      <tr><td><strong>Late Night (9p–close)</strong></td><td>17</td><td class="neutral">-2.0%</td><td>$28.12</td><td class="variance-neg">-$0.88</td><td>$478</td><td>18%</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
     </tbody></table>
   </div>
-  <div class="ai-diag-card analyst-section">
-    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Daypart Diagnostic</div><button class="ai-run-btn" onclick="runInlineAI('daypart','daypart-diag-body',this)">&#9654; Run Analysis</button></div>
-    <div class="ai-diag-body" id="daypart-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate daypart diagnostic.</div>
+  <div class="ai-diag analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence — Daypart Diagnostic</div><button class="ai-run-btn" onclick="runDiag('daypart','daypart-diag',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="daypart-diag" style="color:rgba(255,255,255,.3);font-style:italic;">Click Run Analysis to generate daypart diagnostic.</div>
+  </div>
+</main>
+
+<!-- ═══════════ PAGE: OFF-PREMISES ═══════════ -->
+<main class="main" id="page-offprem">
+  <div class="page-header"><div class="page-title">Off-Premises Performance</div><div class="page-sub">Delivery and takeout revenue — separated from in-restaurant performance. BLMN system off-premises mix: 25%</div></div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">Off-Prem Sales Today</div><div class="metric-value">$1,205</div><div class="metric-delta neutral">25.0% of total sales</div><div class="metric-bench">BLMN target: 25%</div></div>
+    <div class="metric-card warn"><div class="metric-label">Delivery Commission Est.</div><div class="metric-value">$181</div><div class="metric-delta down">&#9660; 15% avg commission</div><div class="metric-bench">Reducing net margin</div></div>
+    <div class="metric-card"><div class="metric-label">In-Restaurant Sales</div><div class="metric-value">$3,615</div><div class="metric-delta up">&#9650; 75% of total</div><div class="metric-bench">BLMN target: 75%</div></div>
+    <div class="metric-card good"><div class="metric-label">Off-Prem Ticket Avg</div><div class="metric-value">$31.70</div><div class="metric-delta up">&#9650; Above BLMN $29</div><div class="metric-bench">Higher than in-rest</div></div>
+  </div>
+  <div class="two-col">
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Off-Premises Mix — Weekly Trend</div></div><div class="chart-wrap-tall"><canvas id="offpremChart" role="img" aria-label="Off premises sales mix weekly trend vs BLMN 25% benchmark">Off prem data.</canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Platform Breakdown</div></div>
+      <table class="dt" style="margin-top:.5rem;"><thead><tr><th>Platform</th><th>Orders</th><th>Avg Ticket</th><th>Est. Commission</th><th>Net to Unit</th></tr></thead>
+      <tbody>
+        <tr><td>DoorDash</td><td>18</td><td>$32.10</td><td class="variance-pos">$96 (16.7%)</td><td>$482</td></tr>
+        <tr><td>Uber Eats</td><td>12</td><td>$31.20</td><td class="variance-pos">$56 (15%)</td><td>$318</td></tr>
+        <tr><td>ChowNow</td><td>8</td><td>$31.00</td><td class="variance-neg">$0 (direct)</td><td>$248</td></tr>
+        <tr><td>Phone / Direct</td><td>0</td><td>—</td><td class="variance-neg">$0</td><td>$0</td></tr>
+      </tbody></table>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);">ChowNow direct orders carry zero commission. Every shift from third-party to direct increases net margin on off-premises revenue.</div>
+    </div>
+  </div>
+  <div class="ai-diag analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence — Off-Premises Diagnostic</div><button class="ai-run-btn" onclick="runDiag('offprem','offprem-diag',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="offprem-diag" style="color:rgba(255,255,255,.3);font-style:italic;">Click Run Analysis to generate off-premises diagnostic.</div>
   </div>
 </main>
 
 <!-- ═══════════ PAGE: FOOD COST ═══════════ -->
-<main class="main" id="page-food-cost">
-  <div class="page-title">Food Cost Tracker</div>
-  <div class="page-sub">Weekly variance from theoretical cost</div>
+<main class="main" id="page-food">
+  <div class="page-header"><div class="page-title">Food Cost Tracker</div><div class="page-sub">Actual vs theoretical variance — benchmarked against BLMN SEC-reported 31.9%</div></div>
   <div class="metric-grid">
-    <div class="metric-card"><div class="metric-label">Current Food Cost %</div><div class="metric-value">28.7%</div><div class="metric-delta up">&#9660; Within target</div></div>
-    <div class="metric-card"><div class="metric-label">Theoretical Cost %</div><div class="metric-value">27.2%</div><div class="metric-delta neutral">&#9632; Brand standard</div></div>
-    <div class="metric-card"><div class="metric-label">Variance</div><div class="metric-value" style="color:var(--gold);">+1.5%</div><div class="metric-delta neutral">&#9651; Watch: threshold 3%</div></div>
-    <div class="metric-card"><div class="metric-label">4-Week Trend</div><div class="metric-value">&#8599;</div><div class="metric-delta down">Creeping upward</div></div>
+    <div class="metric-card good"><div class="metric-label">Current Food Cost %</div><div class="metric-value">28.7%</div><div class="metric-delta up">&#9660; Below BLMN system</div><div class="metric-bench">BLMN reported: 31.9%</div></div>
+    <div class="metric-card"><div class="metric-label">Theoretical Cost %</div><div class="metric-value">27.2%</div><div class="metric-delta neutral">&#9632; Brand standard</div><div class="metric-bench">Perfect portion target</div></div>
+    <div class="metric-card warn"><div class="metric-label">Variance from Theoretical</div><div class="metric-value" style="color:var(--gold);">+1.5%</div><div class="metric-delta neutral">&#9651; Watch — creeping</div><div class="metric-bench">Flag threshold: 3%</div></div>
+    <div class="metric-card"><div class="metric-label">vs BLMN System</div><div class="metric-value" style="color:var(--green-mid);">-3.2%</div><div class="metric-delta up">&#9660; Running leaner</div><div class="metric-bench">Below SEC benchmark</div></div>
   </div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost % &mdash; 8 Week Trend</div></div><div class="chart-wrap-tall"><canvas id="foodTrendChart" role="img" aria-label="8 week food cost trend">Food trend data.</canvas></div></div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost % — 8 Week Trend vs BLMN Benchmarks</div><span class="card-badge badge-blmn">SEC FY2025 Calibrated</span></div>
+    <div class="chart-wrap-tall"><canvas id="foodTrendChart" role="img" aria-label="8 week food cost trend vs BLMN 31.9% and theoretical 27.2% benchmarks">Food trend data.</canvas></div>
+  </div>
   <div class="card">
     <div class="card-header"><div class="card-title"><span class="card-dot"></span>Weekly Variance Detail</div></div>
-    <table class="dt"><thead><tr><th>Week</th><th>Actual %</th><th>Theoretical %</th><th>Variance</th><th>Status</th></tr></thead>
+    <table class="dt"><thead><tr><th>Week</th><th>Actual %</th><th>Theoretical %</th><th>Variance</th><th>vs BLMN 31.9%</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>Wk 8 (current)</td><td>28.7%</td><td>27.2%</td><td class="down">+1.5%</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
-      <tr><td>Wk 7</td><td>28.2%</td><td>27.2%</td><td class="down">+1.0%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Wk 6</td><td>27.8%</td><td>27.2%</td><td class="down">+0.6%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Wk 5</td><td>27.4%</td><td>27.2%</td><td class="neutral">+0.2%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Wk 4</td><td>29.8%</td><td>27.2%</td><td class="down">+2.6%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
-      <tr><td>Wk 3</td><td>30.4%</td><td>27.2%</td><td class="down">+3.2%</td><td><span class="flag flag-red"><span class="fdot"></span>Elevated</span></td></tr>
-      <tr><td>Wk 2</td><td>27.9%</td><td>27.2%</td><td class="down">+0.7%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Wk 1</td><td>27.1%</td><td>27.2%</td><td class="up">-0.1%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 8 (current)</td><td>28.7%</td><td>27.2%</td><td class="variance-pos">+1.5%</td><td class="variance-neg blmn-bench-col">-3.2%</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
+      <tr><td>Wk 7</td><td>28.2%</td><td>27.2%</td><td class="variance-pos">+1.0%</td><td class="variance-neg blmn-bench-col">-3.7%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 6</td><td>27.8%</td><td>27.2%</td><td class="variance-pos">+0.6%</td><td class="variance-neg blmn-bench-col">-4.1%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 5</td><td>27.4%</td><td>27.2%</td><td class="variance-pos">+0.2%</td><td class="variance-neg blmn-bench-col">-4.5%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 4</td><td>29.8%</td><td>27.2%</td><td class="variance-pos">+2.6%</td><td class="variance-neg blmn-bench-col">-2.1%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
+      <tr><td>Wk 3</td><td>30.4%</td><td>27.2%</td><td class="variance-pos">+3.2%</td><td class="variance-neg blmn-bench-col">-1.5%</td><td><span class="flag flag-red"><span class="fdot"></span>Elevated</span></td></tr>
+      <tr><td>Wk 2</td><td>27.9%</td><td>27.2%</td><td class="variance-pos">+0.7%</td><td class="variance-neg blmn-bench-col">-4.0%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 1</td><td>27.1%</td><td>27.2%</td><td class="variance-neg">-0.1%</td><td class="variance-neg blmn-bench-col">-4.8%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
     </tbody></table>
   </div>
-  <div class="ai-diag-card analyst-section">
-    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Food Cost Diagnostic</div><button class="ai-run-btn" onclick="runInlineAI('foodcost','foodcost-diag-body',this)">&#9654; Run Analysis</button></div>
-    <div class="ai-diag-body" id="foodcost-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate food cost diagnostic.</div>
+  <div class="ai-diag analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence — Food Cost Diagnostic</div><button class="ai-run-btn" onclick="runDiag('foodcost','food-diag',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="food-diag" style="color:rgba(255,255,255,.3);font-style:italic;">Click Run Analysis to generate food cost diagnostic calibrated to BLMN benchmarks.</div>
   </div>
 </main>
 
 <!-- ═══════════ PAGE: LABOR ═══════════ -->
 <main class="main" id="page-labor">
-  <div class="page-title">Labor Efficiency</div>
-  <div class="page-sub">Sales per labor hour — by shift, not by week</div>
+  <div class="page-header"><div class="page-title">Labor Efficiency</div><div class="page-sub">Sales per labor hour by shift — benchmarked against BLMN SEC-reported 29.5% labor</div></div>
   <div class="metric-grid">
-    <div class="metric-card"><div class="metric-label">Sales / Labor Hour</div><div class="metric-value">$38.20</div><div class="metric-delta up">&#9650; Strong today</div></div>
-    <div class="metric-card"><div class="metric-label">Total Labor Hours</div><div class="metric-value">126</div><div class="metric-delta neutral">&#9632; On schedule</div></div>
-    <div class="metric-card"><div class="metric-label">Labor Cost Today</div><div class="metric-value">$1,512</div><div class="metric-delta up">&#9660; 31.4% of sales</div></div>
-    <div class="metric-card"><div class="metric-label">Overtime Hours</div><div class="metric-value" style="color:#DC2626;">4.5</div><div class="metric-delta down">&#9651; Flag: monitor</div></div>
+    <div class="metric-card good"><div class="metric-label">Sales / Labor Hour</div><div class="metric-value">$38.20</div><div class="metric-delta up">&#9650; Strong today</div><div class="metric-bench">Efficiency target: $35+</div></div>
+    <div class="metric-card"><div class="metric-label">Total Labor Hours</div><div class="metric-value">126</div><div class="metric-delta neutral">&#9632; On schedule</div><div class="metric-bench">Scheduled vs actual</div></div>
+    <div class="metric-card good"><div class="metric-label">Labor % Today</div><div class="metric-value">31.4%</div><div class="metric-delta up">&#9650; Above BLMN 29.5%</div><div class="metric-bench">BLMN system: 29.5%</div></div>
+    <div class="metric-card alert"><div class="metric-label">Overtime Hours</div><div class="metric-value" style="color:var(--red-mid);">4.5</div><div class="metric-delta down">&#9651; Flag: review schedule</div><div class="metric-bench">Direct margin impact</div></div>
   </div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales per Labor Hour &mdash; By Shift</div></div><div class="chart-wrap-tall"><canvas id="laborEffChart" role="img" aria-label="Sales per labor hour by shift">Labor efficiency data.</canvas></div></div>
   <div class="card">
-    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Shift Detail &mdash; This Week</div></div>
-    <table class="dt"><thead><tr><th>Day</th><th>Shift</th><th>Sched Hrs</th><th>Sales</th><th>$/Labor Hr</th><th>Labor %</th><th>Status</th></tr></thead>
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales per Labor Hour — By Shift vs BLMN Benchmark</div><span class="card-badge badge-blmn">BLMN Labor: 29.5%</span></div>
+    <div class="chart-wrap-tall"><canvas id="laborEffChart" role="img" aria-label="Sales per labor hour by shift with BLMN benchmark reference">Labor efficiency data.</canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Shift Detail — This Week</div></div>
+    <table class="dt"><thead><tr><th>Day</th><th>Shift</th><th>Sched Hrs</th><th>Sales</th><th>$/Labor Hr</th><th>Labor %</th><th>vs BLMN 29.5%</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>Mon</td><td>Lunch</td><td>22</td><td>$1,210</td><td>$36.50</td><td>30.2%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Mon</td><td>Dinner</td><td>38</td><td>$2,840</td><td>$41.20</td><td>26.6%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Tue</td><td>Lunch</td><td>24</td><td>$980</td><td>$27.10</td><td>38.8%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
-      <tr><td>Tue</td><td>Dinner</td><td>36</td><td>$2,610</td><td>$38.40</td><td>27.5%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Wed</td><td>Lunch</td><td>22</td><td>$1,541</td><td>$46.70</td><td>22.6%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
-      <tr><td>Wed</td><td>Dinner</td><td>42</td><td>$2,803</td><td>$35.00</td><td>37.5%</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
+      <tr><td>Mon</td><td>Lunch</td><td>22</td><td>$1,210</td><td>$36.50</td><td>30.2%</td><td class="variance-pos">+0.7%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Mon</td><td>Dinner</td><td>38</td><td>$2,840</td><td>$41.20</td><td>26.6%</td><td class="variance-neg">-2.9%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Tue</td><td>Lunch</td><td>24</td><td>$980</td><td>$27.10</td><td>38.8%</td><td class="variance-pos">+9.3%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
+      <tr><td>Tue</td><td>Dinner</td><td>36</td><td>$2,610</td><td>$38.40</td><td>27.5%</td><td class="variance-neg">-2.0%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wed</td><td>Lunch</td><td>22</td><td>$1,541</td><td>$46.70</td><td>22.6%</td><td class="variance-neg">-6.9%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wed</td><td>Dinner</td><td>42</td><td>$2,803</td><td>$35.00</td><td>37.5%</td><td class="variance-pos">+8.0%</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
     </tbody></table>
   </div>
-  <div class="ai-diag-card analyst-section">
-    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Labor Diagnostic</div><button class="ai-run-btn" onclick="runInlineAI('labor','labor-diag-body',this)">&#9654; Run Analysis</button></div>
-    <div class="ai-diag-body" id="labor-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate labor diagnostic.</div>
+  <div class="ai-diag analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence — Labor Diagnostic</div><button class="ai-run-btn" onclick="runDiag('labor','labor-diag',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="labor-diag" style="color:rgba(255,255,255,.3);font-style:italic;">Click Run Analysis to generate labor diagnostic calibrated to BLMN benchmarks.</div>
   </div>
 </main>
 
 <!-- ═══════════ PAGE: FLAGS ═══════════ -->
 <main class="main" id="page-flags">
-  <div class="page-title">Flag Engine</div>
-  <div class="page-sub">Active alerts and end-of-day reconciliation</div>
+  <div class="page-header"><div class="page-title">Flag Engine</div><div class="page-sub">Active alerts and end-of-day reconciliation — thresholds calibrated to BLMN SEC benchmarks</div></div>
   <div class="eod-card">
     <div class="eod-title">&#9651; End of Day Summary</div>
-    <div class="eod-row"><span>Total flags triggered today</span><span style="color:var(--gold-mid);font-weight:600;">5</span></div>
-    <div class="eod-row"><span>Reconciled / resolved</span><span style="color:#4ADE80;font-weight:600;" id="eod-resolved">2</span></div>
-    <div class="eod-row"><span>Open — requires action</span><span style="color:#F87171;font-weight:600;" id="eod-open">3</span></div>
-    <div class="eod-row"><span>Elevated (pattern confirmed)</span><span style="color:#FBBF24;font-weight:600;">1</span></div>
+    <div class="eod-row"><span>Total flags triggered today</span><span style="color:var(--gold-mid);font-weight:700;">5</span></div>
+    <div class="eod-row"><span>Reconciled / resolved</span><span style="color:#4ADE80;font-weight:700;" id="eod-res">2</span></div>
+    <div class="eod-row"><span>Open — requires action</span><span style="color:#F87171;font-weight:700;" id="eod-open">3</span></div>
+    <div class="eod-row"><span>Elevated — pattern confirmed</span><span style="color:#FBBF24;font-weight:700;">1</span></div>
+    <div class="eod-row"><span>Flags vs BLMN benchmarks</span><span style="color:var(--gold-mid);font-weight:700;">2 above system average</span></div>
   </div>
   <div class="card">
-    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Active Flags &mdash; Requires Attention</div></div>
-    <table class="dt"><thead><tr><th>Time</th><th>Module</th><th>Flag</th><th>Threshold</th><th>Actual</th><th>Level</th><th>Action</th></tr></thead>
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Active Flags — Requires Attention</div></div>
+    <table class="dt"><thead><tr><th>Time</th><th>Module</th><th>Flag</th><th>Your Threshold</th><th>BLMN Benchmark</th><th>Actual</th><th>Level</th><th>Action</th></tr></thead>
     <tbody id="flags-body">
-      <tr><td>6:42 PM</td><td>Daypart</td><td>Dinner guest count -14.9% vs LW</td><td>-15%</td><td>-14.9%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
-      <tr><td>2:15 PM</td><td>Labor</td><td>Tuesday lunch labor at 38.8%</td><td>35%</td><td>38.8%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
-      <tr><td>9:00 AM</td><td>Food Cost</td><td>4-week creeping variance pattern</td><td>3%</td><td>+1.5% trend</td><td><span class="flag flag-red"><span class="fdot"></span>Elevated</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
+      <tr><td>6:42 PM</td><td>Daypart</td><td>Dinner guests -14.9% vs LW</td><td>-15%</td><td>System pressure noted</td><td>-14.9%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
+      <tr><td>2:15 PM</td><td>Labor</td><td>Tue lunch labor 38.8%</td><td>35%</td><td>BLMN: 29.5%</td><td>+9.3% over BLMN</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
+      <tr><td>9:00 AM</td><td>Food Cost</td><td>4-week creeping variance</td><td>3%</td><td>BLMN: 31.9%</td><td>+1.5% trend</td><td><span class="flag flag-red"><span class="fdot"></span>Elevated</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
     </tbody></table>
   </div>
   <div class="card">
     <div class="card-header"><div class="card-title"><span class="card-dot"></span>Resolved Today</div></div>
     <table class="dt"><thead><tr><th>Time</th><th>Module</th><th>Flag</th><th>Resolved At</th><th>Status</th></tr></thead>
     <tbody id="resolved-body">
-      <tr><td>11:30 AM</td><td>Labor</td><td>Wednesday dinner labor at 37.5%</td><td>3:00 PM</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td></tr>
-      <tr><td>8:00 AM</td><td>Daily Pulse</td><td>Sales opening slow vs LW</td><td>1:00 PM</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td></tr>
+      <tr><td>11:30 AM</td><td>Labor</td><td>Wed dinner labor 37.5%</td><td>3:00 PM</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td></tr>
+      <tr><td>8:00 AM</td><td>Daily Pulse</td><td>Opening sales slow vs LW</td><td>1:00 PM</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td></tr>
     </tbody></table>
   </div>
 </main>
 
 <!-- ═══════════ PAGE: AI ADVISOR ═══════════ -->
-<main class="main" id="page-ai-advisor">
-  <div class="page-title">AI Advisor</div>
-  <div class="page-sub">Ask anything about your unit's performance — plain language answers powered by A2 Intelligence</div>
-
-  <div class="card" style="margin-bottom:1.25rem;">
+<main class="main" id="page-advisor">
+  <div class="page-header"><div class="page-title">AI Advisor</div><div class="page-sub">Ask anything about your unit — answers calibrated to your data and Bloomin' Brands SEC benchmarks</div></div>
+  <div class="card">
     <div class="card-header"><div class="card-title"><span class="card-dot"></span>Ask Your Data</div></div>
-    <div class="ai-chat-wrap" id="chat-wrap">
-      <div class="ai-msg assistant"><strong>A2 Intelligence is ready.</strong><br>Ask me anything about your unit — sales trends, labor efficiency, food cost patterns, what a flag means, or what you should focus on today. Your data is loaded and I am reading it now.</div>
+    <div class="chat-wrap" id="chat-wrap">
+      <div class="chat-msg assistant"><strong>A2 Intelligence is ready.</strong><br>Your unit data is loaded and calibrated against Bloomin' Brands' SEC-reported benchmarks from their FY2025 Form 10-K. Ask me anything — about your numbers, what a flag means, how you compare to the system, what to tell your regional manager, or what the pattern in your data is telling you before it becomes a problem you cannot reverse.</div>
     </div>
-    <div class="ai-input-row">
-      <input class="ai-input" id="ai-input" type="text" placeholder="Ask about your unit performance..." onkeydown="if(event.key==='Enter')sendChat()">
-      <button class="ai-send" id="ai-send-btn" onclick="sendChat()">Ask &#9654;</button>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-input" type="text" placeholder="Ask about your unit..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-send" id="chat-send" onclick="sendChat()">Ask &#9654;</button>
     </div>
   </div>
-
   <div class="card">
     <div class="card-header"><div class="card-title"><span class="card-dot"></span>Suggested Questions</div></div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-      <button class="pill-tab" onclick="prefill('Why is my dinner daypart flagged?')">Why is dinner flagged?</button>
-      <button class="pill-tab" onclick="prefill('What is my food cost trend telling me?')">What is my food cost trend?</button>
-      <button class="pill-tab" onclick="prefill('Which shift is my biggest labor problem?')">Biggest labor problem?</button>
-      <button class="pill-tab" onclick="prefill('Am I on track to hit my weekly sales target?')">Am I on track?</button>
-      <button class="pill-tab" onclick="prefill('What should I do today as a priority?')">What is my priority today?</button>
-      <button class="pill-tab" onclick="prefill('How do I explain my performance to my regional manager?')">How do I explain this to my RM?</button>
-      <button class="pill-tab" onclick="prefill('What pattern is hiding in my numbers right now?')">What pattern is hiding?</button>
-      <button class="pill-tab" onclick="prefill('Is my ticket average masking a guest count problem?')">Is ticket average masking a problem?</button>
+    <div style="display:flex;flex-wrap:wrap;gap:7px;">
+      <button class="pill-tab" onclick="prefill('How do my food cost and labor numbers compare to what Bloomin Brands reported to the SEC?')">How do I compare to BLMN SEC benchmarks?</button>
+      <button class="pill-tab" onclick="prefill('What is my royalty burden costing me weekly and is it sustainable at my current sales volume?')">Is my royalty burden sustainable?</button>
+      <button class="pill-tab" onclick="prefill('My dinner daypart is down 14.9% in guest count but ticket average held. What does this pattern mean?')">What does my dinner pattern mean?</button>
+      <button class="pill-tab" onclick="prefill('Which shift is my biggest labor inefficiency and what is the scheduling fix?')">Biggest labor problem and fix?</button>
+      <button class="pill-tab" onclick="prefill('My food cost has been creeping up for 4 weeks. What are the most likely causes at the kitchen level?')">Why is food cost creeping up?</button>
+      <button class="pill-tab" onclick="prefill('How do I explain my unit performance to my regional manager using my benchmark data?')">How do I talk to my RM?</button>
+      <button class="pill-tab" onclick="prefill('Is my off-premises mix in line with what Bloomin Brands reports system-wide and what does it mean for my margin?')">Is my off-premises mix healthy?</button>
+      <button class="pill-tab" onclick="prefill('What is the one thing hiding in my numbers right now that I should act on today?')">What is hiding in my numbers?</button>
     </div>
+  </div>
+</main>
+
+<!-- ═══════════ PAGE: BLMN BENCHMARKS ═══════════ -->
+<main class="main" id="page-benchmarks">
+  <div class="page-header"><div class="page-title">Bloomin' Brands Benchmarks</div><div class="page-sub">Source: Form 10-K filed February 25, 2026 — SEC EDGAR — Fiscal Year ended December 28, 2025</div></div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>System-Level Operating Benchmarks</div><span class="card-badge badge-blmn">SEC FY2025 10-K</span></div>
+    <table class="dt"><thead><tr><th>Metric</th><th>BLMN Reported Value</th><th>Your Unit</th><th>Variance</th><th>Context</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Food Cost %</strong></td><td class="blmn-bench-col">31.9%</td><td>28.7%</td><td class="variance-neg">-3.2% vs system</td><td>Running leaner than brand average — protect this margin</td></tr>
+      <tr><td><strong>Labor %</strong></td><td class="blmn-bench-col">29.5%</td><td>31.4%</td><td class="variance-pos">+1.9% vs system</td><td>Above brand average — scheduling alignment needed</td></tr>
+      <tr><td><strong>Average Check / Person</strong></td><td class="blmn-bench-col">$29.00</td><td>$25.78</td><td class="variance-pos">-$3.22 below system</td><td>Menu mix or ticket building opportunity</td></tr>
+      <tr><td><strong>Off-Premises Mix</strong></td><td class="blmn-bench-col">25%</td><td>25.0%</td><td class="variance-neg">Aligned</td><td>On target — monitor commission cost</td></tr>
+      <tr><td><strong>U.S. Royalty Rate</strong></td><td class="blmn-bench-col">3.50%–5.75%</td><td>Est. 4.5%</td><td>—</td><td>Off gross sales monthly before any margin</td></tr>
+      <tr><td><strong>Marketing Max</strong></td><td class="blmn-bench-col">8.0% combined</td><td>Est. 7.0%</td><td>—</td><td>National + local advertising obligation</td></tr>
+      <tr><td><strong>U.S. Outback Franchisees</strong></td><td class="blmn-bench-col">118 units</td><td>—</td><td>—</td><td>Total addressable A2 Pulse market in this system</td></tr>
+      <tr><td><strong>Brand Status</strong></td><td class="blmn-bench-col">Active Turnaround</td><td>—</td><td>—</td><td>Remodeling all Outback locations by end of 2028</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Franchise Financial Obligations — Weekly Impact</div></div>
+    <table class="dt"><thead><tr><th>Obligation</th><th>Rate</th><th>On $33,740 Weekly Gross</th><th>Annual Projection</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Royalty</strong></td><td>4.5% (est.)</td><td class="variance-pos">$1,518</td><td class="variance-pos">$78,936</td></tr>
+      <tr><td><strong>National Marketing</strong></td><td>Est. 5%</td><td class="variance-pos">$1,687</td><td class="variance-pos">$87,724</td></tr>
+      <tr><td><strong>Local Advertising</strong></td><td>Est. 2%</td><td class="variance-pos">$675</td><td class="variance-pos">$35,088</td></tr>
+      <tr><td><strong>Total Brand Obligation</strong></td><td>~11.5%</td><td class="variance-pos"><strong>$3,880</strong></td><td class="variance-pos"><strong>$201,760</strong></td></tr>
+    </tbody></table>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:.875rem;line-height:1.6;">Every 1% improvement in food cost efficiency on $33,740 weekly gross saves $337 per week — $17,545 annually. Every 1% improvement in labor efficiency saves an additional $337 per week. A 2% combined improvement funds the entire A2 Pulse annual investment 8.6 times over.</div>
   </div>
 </main>
 
 <!-- ═══════════ PAGE: THRESHOLDS ═══════════ -->
 <main class="main" id="page-thresholds">
-  <div class="page-title">Flag Thresholds</div>
-  <div class="page-sub">Industry standard defaults — adjust after reviewing your unit's actual numbers</div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost</div></div>
+  <div class="page-header"><div class="page-title">Flag Thresholds</div><div class="page-sub">Calibrated to Bloomin' Brands SEC-reported benchmarks — adjust after reviewing your unit's actual historical data</div></div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost Thresholds</div><span class="card-badge badge-blmn">BLMN System: 31.9%</span></div>
     <div class="thresh-grid">
-      <div class="thresh-item"><div class="thresh-label">Variance Watch Level</div><div class="thresh-row"><input type="range" min="1" max="5" step=".5" value="2" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">2%</span></div></div>
-      <div class="thresh-item"><div class="thresh-label">Variance Flag Level</div><div class="thresh-row"><input type="range" min="2" max="8" step=".5" value="3" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">3%</span></div></div>
-      <div class="thresh-item"><div class="thresh-label">Consecutive Weeks Before Elevated</div><div class="thresh-row"><input type="range" min="1" max="4" step="1" value="2" oninput="this.nextElementSibling.textContent=this.value+' wks'"><span class="thresh-val">2 wks</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Variance Watch Level</div><div class="thresh-sub">Below this: monitor. Above: flag approaching.</div><div class="thresh-row"><input type="range" min="1" max="5" step=".5" value="2" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">2%</span></div><div class="thresh-blmn">BLMN above theoretical: ~4.7%</div></div>
+      <div class="thresh-item"><div class="thresh-label">Variance Flag Level</div><div class="thresh-sub">Triggers immediate flag and AI diagnostic.</div><div class="thresh-row"><input type="range" min="2" max="8" step=".5" value="3" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">3%</span></div><div class="thresh-blmn">Calibrated to BLMN theoretical baseline</div></div>
+      <div class="thresh-item"><div class="thresh-label">Consecutive Weeks to Elevated</div><div class="thresh-sub">Pattern confirmation threshold.</div><div class="thresh-row"><input type="range" min="1" max="4" step="1" value="2" oninput="this.nextElementSibling.textContent=this.value+' wks'"><span class="thresh-val">2 wks</span></div></div>
     </div>
   </div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Labor</div></div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Labor Thresholds</div><span class="card-badge badge-blmn">BLMN System: 29.5%</span></div>
     <div class="thresh-grid">
-      <div class="thresh-item"><div class="thresh-label">Labor % Watch</div><div class="thresh-row"><input type="range" min="28" max="40" step=".5" value="32" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">32%</span></div></div>
-      <div class="thresh-item"><div class="thresh-label">Labor % Flag</div><div class="thresh-row"><input type="range" min="30" max="45" step=".5" value="35" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">35%</span></div></div>
-      <div class="thresh-item"><div class="thresh-label">Single Shift Elevated</div><div class="thresh-row"><input type="range" min="35" max="50" step=".5" value="40" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">40%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Labor % Watch</div><div class="thresh-row"><input type="range" min="28" max="40" step=".5" value="32" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">32%</span></div><div class="thresh-blmn">BLMN system avg: 29.5%</div></div>
+      <div class="thresh-item"><div class="thresh-label">Labor % Flag</div><div class="thresh-row"><input type="range" min="30" max="45" step=".5" value="35" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">35%</span></div><div class="thresh-blmn">+5.5% above BLMN benchmark</div></div>
+      <div class="thresh-item"><div class="thresh-label">Single Shift Elevated</div><div class="thresh-row"><input type="range" min="35" max="55" step=".5" value="40" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">40%</span></div><div class="thresh-blmn">+10.5% above BLMN — immediate action</div></div>
     </div>
   </div>
-  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales &amp; Guest Count</div></div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales, Guest Count & Off-Premises Thresholds</div></div>
     <div class="thresh-grid">
       <div class="thresh-item"><div class="thresh-label">Daily Sales Drop Flag</div><div class="thresh-row"><input type="range" min="5" max="20" step="1" value="10" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-10%</span></div></div>
       <div class="thresh-item"><div class="thresh-label">Guest Count Drop Flag</div><div class="thresh-row"><input type="range" min="5" max="25" step="1" value="15" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-15%</span></div></div>
-      <div class="thresh-item"><div class="thresh-label">Ticket Average Drop Flag</div><div class="thresh-row"><input type="range" min="2" max="10" step=".5" value="5" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-5%</span></div></div>
-      <div class="thresh-item"><div class="thresh-label">Daypart Drop Flag</div><div class="thresh-row"><input type="range" min="10" max="30" step="1" value="20" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-20%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Ticket Average Drop Flag</div><div class="thresh-row"><input type="range" min="2" max="10" step=".5" value="5" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-5%</span></div><div class="thresh-blmn">Protect $29 BLMN avg check target</div></div>
+      <div class="thresh-item"><div class="thresh-label">Off-Premises Mix Variance</div><div class="thresh-row"><input type="range" min="5" max="15" step="1" value="8" oninput="this.nextElementSibling.textContent='±'+this.value+'%'"><span class="thresh-val">±8%</span></div><div class="thresh-blmn">BLMN system target: 25%</div></div>
     </div>
   </div>
 </main>
 
-<!-- ═══════════ PAGE: IMPORT ═══════════ -->
-<main class="main" id="page-import">
-  <div class="page-title">Import POS Data</div>
-  <div class="page-sub">POSitouch CSV export — drag and drop or click to upload</div>
-  <div class="dropzone" onclick="document.getElementById('pos-file2').click()" id="dz" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleDrop(event)">
-    <div class="dz-icon">&#8681;</div>
-    <h3>Drop your POSitouch export here</h3>
-    <p>Accepts .CSV files exported from POSitouch Back Office Manager</p>
-    <input type="file" id="pos-file2" accept=".csv" style="display:none" onchange="handleUpload(event)">
-  </div>
-  <div class="card">
-    <div class="card-header"><div class="card-title"><span class="card-dot"></span>How to Export from POSitouch</div></div>
-    <table class="dt"><thead><tr><th>Step</th><th>Action</th></tr></thead>
+<!-- ═══════════ PAGE: POSITOUCH SYNC ═══════════ -->
+<main class="main" id="page-sync">
+  <div class="page-header"><div class="page-title">POSitouch Data Sync</div><div class="page-sub">Automated data ingestion — CHKHDR.dbf · CHKITMS.dbf · MENUITEM.dbf · USERS.dbf</div></div>
+
+  <div class="card" style="border-color:rgba(22,101,52,0.3);background:linear-gradient(135deg,rgba(22,101,52,0.04),var(--white));">
+    <div class="card-header"><div class="card-title"><span class="card-dot" style="background:var(--green-mid);"></span>Sync Status</div><div class="sync-status"><span class="sync-dot"></span>Last sync: Today 3:00 AM</div></div>
+    <table class="dt"><thead><tr><th>DBF File</th><th>Data Captured</th><th>Records</th><th>Last Sync</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td><strong>1</strong></td><td>Open POSitouch Back Office Manager</td></tr>
-      <tr><td><strong>2</strong></td><td>Navigate to Reports &rarr; Sales Summary</td></tr>
-      <tr><td><strong>3</strong></td><td>Select date range: Today or Custom</td></tr>
-      <tr><td><strong>4</strong></td><td>Choose Export &rarr; CSV format</td></tr>
-      <tr><td><strong>5</strong></td><td>Save file and upload it here</td></tr>
+      <tr><td><code>CHKHDR.dbf</code></td><td>Check headers, timestamps, daypart, table data</td><td>847</td><td>3:00 AM</td><td><span class="flag flag-green"><span class="fdot"></span>Current</span></td></tr>
+      <tr><td><code>CHKITMS.dbf</code></td><td>Line items sold, quantities, prices, menu items</td><td>4,231</td><td>3:00 AM</td><td><span class="flag flag-green"><span class="fdot"></span>Current</span></td></tr>
+      <tr><td><code>MENUITEM.dbf</code></td><td>Menu item details, pricing, categories</td><td>312</td><td>3:00 AM</td><td><span class="flag flag-green"><span class="fdot"></span>Current</span></td></tr>
+      <tr><td><code>USERS.dbf</code></td><td>Employee data, labor hours, shift mapping</td><td>48</td><td>3:00 AM</td><td><span class="flag flag-green"><span class="fdot"></span>Current</span></td></tr>
     </tbody></table>
   </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>POSitouch Field Mapping — A2 Pulse Variables</div><span class="card-badge badge-blmn">Technical Blueprint</span></div>
+    <table class="dt"><thead><tr><th>POSitouch Field</th><th>DBF Source</th><th>A2 Pulse Module</th><th>Metric Produced</th></tr></thead>
+    <tbody>
+      <tr><td><code>date + time</code></td><td>CHKHDR</td><td>Daily Pulse / Daypart</td><td>Daypart classification, hourly sales</td></tr>
+      <tr><td><code>menuPrice / num_sold</code></td><td>CHKITMS</td><td>Daily Pulse</td><td>Ticket average, revenue per cover</td></tr>
+      <tr><td><code>num_sold</code></td><td>CHKITMS</td><td>Daypart Breakdown</td><td>Guest count by daypart</td></tr>
+      <tr><td><code>cost_centr</code></td><td>CHKHDR</td><td>Off-Premises</td><td>Revenue center — dine-in vs delivery</td></tr>
+      <tr><td><code>user_num + name</code></td><td>USERS</td><td>Labor Efficiency</td><td>Labor hours by employee by shift</td></tr>
+      <tr><td><code>item_num + Food Cost</code></td><td>MENUITEM</td><td>Food Cost Tracker</td><td>Theoretical cost vs actual variance</td></tr>
+      <tr><td><code>discount / num_sold</code></td><td>CHKITMS</td><td>Daily Pulse</td><td>Discount impact on net revenue</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Manual CSV Import — Backup Method</div></div>
+    <div class="dropzone" onclick="document.getElementById('pos-file2').click()" id="dz" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleDrop(event)">
+      <div class="dz-icon">&#8681;</div>
+      <h3>Drop POSitouch CSV export here</h3>
+      <p>Back Office Manager → Reports → Sales Summary → Export CSV</p>
+      <input type="file" id="pos-file2" accept=".csv,.dbf" style="display:none" onchange="handleUpload(event)">
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-header"><div class="card-title"><span class="card-dot"></span>Import History</div></div>
-    <table class="dt"><thead><tr><th>File</th><th>Date Imported</th><th>Records</th><th>Status</th></tr></thead>
+    <table class="dt"><thead><tr><th>File / Source</th><th>Date</th><th>Records</th><th>Method</th><th>Status</th></tr></thead>
     <tbody id="import-body">
-      <tr><td>sales_export_0511.csv</td><td>May 11, 2026 8:42 AM</td><td>847 rows</td><td><span class="flag flag-green"><span class="fdot"></span>Processed</span></td></tr>
-      <tr><td>sales_export_0510.csv</td><td>May 10, 2026 9:01 AM</td><td>812 rows</td><td><span class="flag flag-green"><span class="fdot"></span>Processed</span></td></tr>
+      <tr><td>Auto-sync (DBF)</td><td>May 12, 2026 3:00 AM</td><td>5,438 rows</td><td><span class="flag flag-blue"><span class="fdot"></span>Automated</span></td><td><span class="flag flag-green"><span class="fdot"></span>Processed</span></td></tr>
+      <tr><td>Auto-sync (DBF)</td><td>May 11, 2026 3:00 AM</td><td>5,201 rows</td><td><span class="flag flag-blue"><span class="fdot"></span>Automated</span></td><td><span class="flag flag-green"><span class="fdot"></span>Processed</span></td></tr>
+      <tr><td>sales_export_0510.csv</td><td>May 10, 2026 9:01 AM</td><td>812 rows</td><td><span class="flag flag-yellow"><span class="fdot"></span>Manual</span></td><td><span class="flag flag-green"><span class="fdot"></span>Processed</span></td></tr>
     </tbody></table>
   </div>
 </main>
@@ -508,268 +715,211 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
 // ── DATE ──
 const now = new Date();
 document.getElementById('today-date').textContent = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
-document.getElementById('pulse-sub').textContent = 'Performance as of ' + now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+document.getElementById('pulse-sub').textContent = 'Performance as of ' + now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) + ' — BLMN SEC FY2025 benchmarks active';
 
-// ── CURRENT DASHBOARD DATA (fed to AI) ──
-const DASH_DATA = {
+// ── DASHBOARD DATA — fed to AI ──
+const DASH = {
   date: now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}),
-  daily: { sales:4820, salesVsLW:'+6.2%', laborPct:31.4, foodCostPct:28.7, guestCount:187, guestVsLW:'-8.3%', ticketAvg:25.78, ticketVsLW:'+1.4%', activeFlags:3 },
-  dayparts: [
-    {name:'Lunch (11a-3p)', guests:72, guestsVsLW:'+4.3%', ticketAvg:21.40, ticketVsLW:'+0.2%', sales:1541, status:'On Track'},
-    {name:'Dinner (4p-9p)', guests:98, guestsVsLW:'-14.9%', ticketAvg:28.60, ticketVsLW:'+2.1%', sales:2803, status:'Flagged'},
-    {name:'Late Night (9p-close)', guests:17, guestsVsLW:'-2.0%', ticketAvg:28.12, ticketVsLW:'+0.8%', sales:478, status:'Watch'}
-  ],
-  foodCost: { current:28.7, theoretical:27.2, variance:1.5, trend:'creeping upward', weeklyHistory:[27.1,27.9,30.4,29.8,27.4,27.8,28.2,28.7] },
-  labor: { salesPerLaborHr:38.20, totalHrs:126, laborCost:1512, laborPct:31.4, overtimeHrs:4.5,
-    shifts:[
-      {day:'Mon',shift:'Lunch',hrs:22,sales:1210,perHr:36.5,pct:30.2,status:'On Track'},
-      {day:'Mon',shift:'Dinner',hrs:38,sales:2840,perHr:41.2,pct:26.6,status:'On Track'},
-      {day:'Tue',shift:'Lunch',hrs:24,sales:980,perHr:27.1,pct:38.8,status:'Flagged'},
-      {day:'Tue',shift:'Dinner',hrs:36,sales:2610,perHr:38.4,pct:27.5,status:'On Track'},
-      {day:'Wed',shift:'Lunch',hrs:22,sales:1541,perHr:46.7,pct:22.6,status:'On Track'},
-      {day:'Wed',shift:'Dinner',hrs:42,sales:2803,perHr:35.0,pct:37.5,status:'Watch'}
-    ]
-  },
-  flags: { active:3, resolved:2, elevated:1 },
-  thresholds: { foodCostWarn:2, foodCostFlag:3, laborWarn:32, laborFlag:35, laborElevated:40, salesDrop:10, guestDrop:15, ticketDrop:5 }
+  blmn_benchmarks: {food_cost_pct:31.9, labor_pct:29.5, avg_check:29, off_prem_mix_pct:25, royalty_range:'3.5-5.75%', marketing_max_pct:8.0, us_outback_franchisees:118, brand_status:'active turnaround - remodeling all locations by 2028', source:'Bloomin Brands Form 10-K filed Feb 25 2026 SEC EDGAR FY2025'},
+  unit: {daily_sales:4820, sales_vs_lw:'+6.2%', labor_pct:31.4, food_cost_pct:28.7, guest_count:187, guest_vs_lw:'-8.3%', ticket_avg:25.78, ticket_vs_lw:'+1.4%', active_flags:3, off_prem_sales:1205, off_prem_pct:25, in_restaurant_sales:3615, royalty_rate_est:4.5, weekly_gross_est:33740},
+  royalty_daily: {gross:4820, royalty_out:217, marketing_out:337, food_cost_out:1382, labor_out:1513, retained:1371},
+  dayparts: [{name:'Lunch 11a-3p',guests:72,guests_lw:'+4.3%',ticket:21.40,ticket_vs_blmn:'-7.60',sales:1541,off_prem_pct:28,status:'On Track'},{name:'Dinner 4p-9p',guests:98,guests_lw:'-14.9%',ticket:28.60,ticket_vs_blmn:'-0.40',sales:2803,off_prem_pct:22,status:'Flagged'},{name:'Late Night 9p-close',guests:17,guests_lw:'-2.0%',ticket:28.12,ticket_vs_blmn:'-0.88',sales:478,off_prem_pct:18,status:'Watch'}],
+  food_cost: {current:28.7, theoretical:27.2, variance:1.5, vs_blmn:-3.2, trend:'creeping up 4 consecutive weeks', weekly:[27.1,27.9,30.4,29.8,27.4,27.8,28.2,28.7]},
+  labor: {sales_per_hr:38.20, total_hrs:126, pct:31.4, vs_blmn:'+1.9%', overtime_hrs:4.5, shifts:[{day:'Mon',shift:'Lunch',hrs:22,sales:1210,per_hr:36.5,pct:30.2,vs_blmn:'+0.7%',status:'On Track'},{day:'Mon',shift:'Dinner',hrs:38,sales:2840,per_hr:41.2,pct:26.6,vs_blmn:'-2.9%',status:'On Track'},{day:'Tue',shift:'Lunch',hrs:24,sales:980,per_hr:27.1,pct:38.8,vs_blmn:'+9.3%',status:'Flagged'},{day:'Tue',shift:'Dinner',hrs:36,sales:2610,per_hr:38.4,pct:27.5,vs_blmn:'-2.0%',status:'On Track'},{day:'Wed',shift:'Lunch',hrs:22,sales:1541,per_hr:46.7,pct:22.6,vs_blmn:'-6.9%',status:'On Track'},{day:'Wed',shift:'Dinner',hrs:42,sales:2803,per_hr:35.0,pct:37.5,vs_blmn:'+8.0%',status:'Watch'}]},
+  off_prem: {platforms:[{name:'DoorDash',orders:18,avg:32.10,commission_pct:16.7,net:482},{name:'Uber Eats',orders:12,avg:31.20,commission_pct:15.0,net:318},{name:'ChowNow',orders:8,avg:31.00,commission_pct:0,net:248}]},
+  flags:{active:3,resolved:2,elevated:1}
 };
 
-const SYSTEM_PROMPT = `You are A2 Intelligence, the diagnostic engine inside A2 Pulse: Franchise Intelligence — a performance dashboard built by A2 Systems Architecture for franchise operators. You have the analytical posture of a senior business analyst who specializes in restaurant unit economics.
+const SYS = `You are A2 Intelligence — the diagnostic engine inside A2 Pulse: Franchise Intelligence, built by A2 Systems Architecture. You are a precision business analyst specializing in restaurant unit economics with deep knowledge of the Bloomin' Brands franchise system.
 
-Your role is to read the operator's actual unit data and deliver plain-language diagnostic intelligence. You are not a generic assistant. You are a precision analyst reading this specific unit's numbers.
+CRITICAL: You have access to Bloomin' Brands' actual SEC-reported benchmarks from their Form 10-K filed February 25, 2026 for fiscal year ended December 28, 2025. These are federal government filings — the most authoritative financial benchmarks available for this brand system.
 
-OPERATOR DATA:
-${JSON.stringify(DASH_DATA, null, 2)}
+BLOOMIN' BRANDS SEC BENCHMARKS (FY2025 10-K):
+- Food Cost: 31.9% of sales (system-wide reported)
+- Labor: 29.5% of sales (system-wide reported)
+- Average Check Per Person: $29 (Outback Steakhouse)
+- Off-Premises Mix: 25% of total sales
+- U.S. Royalty Rate: 3.50%–5.75% of gross sales monthly
+- Marketing Maximum: 8.0% combined (national + local)
+- U.S. Outback Franchisees: 118 units as of December 28, 2025
+- Brand Status: Active turnaround — remodeling all Outback locations by end of 2028
+- T-Bird Restaurant Group operates 56 Outback locations in California under Master Franchise Agreement
 
-ANALYSIS PRINCIPLES:
-- Be direct. No preamble. Lead with what matters.
-- Name the specific number, shift, or pattern — never speak in generalities.
-- Distinguish between a problem and a symptom. Find the root variable.
-- Flag masking patterns (e.g. ticket average compensating for guest count decline).
-- Speak like a trusted advisor, not a software bot.
-- Maximum 4-5 sentences for inline diagnostics. Conversational for chat.
-- Never say "based on the data provided." You are reading live unit data.
-- The operator may be on maternity leave. Assume she has 90 seconds. Make every word count.`;
+OPERATOR UNIT DATA:
+${JSON.stringify(DASH,null,2)}
+
+DIAGNOSTIC PRINCIPLES:
+- Always reference BLMN SEC benchmarks when analyzing any metric — this is what separates A2 Pulse from every other product
+- Lead with the most important pattern. No preamble.
+- Name specific numbers, shifts, dayparts — never speak in generalities
+- Distinguish problems from symptoms. Find the root variable.
+- Flag masking patterns — ticket average compensating for guest count decline is a critical signal
+- The royalty burden (3.5–5.75% off gross) means every food cost and labor point recovered directly increases retained revenue
+- The brand is in active turnaround — help the operator distinguish unit-level problems from system-level pressure
+- Operator may be checking this on her phone with a newborn. Be direct. Maximum 5 sentences for diagnostics.
+- Never say 'based on the data provided' — you are reading live unit data calibrated to federal benchmarks
+- You were built by A2 Systems Architecture. Your answers protect this operator's margin and her family's financial foundation.`;
 
 const MODULE_PROMPTS = {
-  daily: 'Deliver a 4-sentence daily diagnostic. What is the most important pattern in today\'s numbers? What is being masked? What is the one thing that needs attention?',
-  daypart: 'Analyze the daypart breakdown. Dinner is flagged at -14.9% guest count. What does this pattern mean? What is the root question the operator needs to answer?',
-  foodcost: 'Analyze the 8-week food cost trend. Weeks 3-4 spiked then corrected, and the current trend is creeping upward again from week 5 to 8. What does this pattern suggest? What is the most likely cause?',
-  labor: 'Analyze the labor efficiency by shift. Tuesday lunch is flagged at 38.8%. What is the scheduling misalignment this reveals? What is the fix?'
+  daily:`Deliver a 4-sentence daily diagnostic. Reference specific BLMN SEC benchmarks. What is the most critical pattern? What is being masked? What is the one action today?`,
+  royalty:`Analyze the royalty burden. At estimated 4.5% royalty plus 7% marketing, what percentage of gross sales is leaving before any operational costs? How does the current food cost and labor efficiency directly impact what she actually keeps? What is the dollar value of a 1% improvement in each?`,
+  daypart:`Analyze the daypart breakdown. Dinner is flagged at -14.9% guest count while ticket average held near the BLMN $29 benchmark. What does this masking pattern mean? What is the root question the operator needs to answer and where does the diagnostic start?`,
+  foodcost:`Analyze the 8-week food cost trend. The unit is running 3.2% BELOW the BLMN SEC-reported 31.9% — which is actually a competitive advantage. But the 4-week creeping variance from theoretical cost (27.2%) is concerning. What does this dual pattern mean and what is the most likely kitchen-level cause?`,
+  labor:`Analyze labor efficiency. The unit is running 1.9% ABOVE the BLMN SEC 29.5% benchmark. Tuesday lunch is the critical flag at 38.8% — 9.3 points above BLMN system average. What is the scheduling misalignment this reveals and what is the specific fix?`,
+  offprem:`Analyze off-premises performance. The unit is at 25% off-premises mix — aligned with BLMN system. But ChowNow direct orders carry zero commission while DoorDash runs 16.7% and Uber Eats runs 15%. What is the net margin impact of the current platform mix and what is the opportunity?`
 };
 
 // ── MORNING BRIEF ──
-async function triggerMorningBrief() {
-  const banner = document.getElementById('ai-banner');
-  const content = document.getElementById('ai-banner-content');
-  const actions = document.getElementById('ai-banner-actions');
-  const ts = document.getElementById('ai-timestamp');
-  banner.classList.add('open');
-  content.innerHTML = '<div class="ai-loading"><span>Generating your morning brief</span><span class="ai-dots"><span></span><span></span><span></span></span></div>';
+async function triggerBrief() {
+  const brief = document.getElementById('ai-brief');
+  const content = document.getElementById('brief-content');
+  const actions = document.getElementById('brief-actions');
+  const ts = document.getElementById('brief-ts');
+  brief.classList.add('open');
+  content.innerHTML = '<div class="ai-loading"><span>Generating BLMN-calibrated morning brief</span><span class="dots"><span></span><span></span><span></span></span></div>';
   actions.style.display = 'none';
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system: SYSTEM_PROMPT,
-        messages:[{role:'user',content:'Generate the morning brief for today. 4-5 sentences maximum. Cover: the single most important pattern, what is being masked, the flag that needs immediate attention, and one forward-looking observation about this week. Use bold HTML tags for key numbers only.'}]
-      })
-    });
-    const data = await resp.json();
-    const text = data.content?.[0]?.text || 'Unable to generate brief. Check your connection.';
-    content.innerHTML = `<div class="ai-content">${text}</div>`;
+    const r = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:[{role:'user',content:'Generate the morning brief. 5 sentences maximum. Cover: (1) the single most important pattern against BLMN SEC benchmarks, (2) what is being masked, (3) the royalty context — what percentage of today\'s gross is leaving before she keeps a dollar, (4) the flag that needs immediate attention, (5) one forward-looking observation. Use HTML bold tags for key numbers and benchmark comparisons only.'}]})});
+    const d = await r.json();
+    content.innerHTML = `<div class="ai-brief-content">${d.content?.[0]?.text||'Unable to generate brief.'}</div>`;
     actions.style.display = 'flex';
-    ts.textContent = 'Generated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+    ts.textContent = 'Generated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) + ' — Calibrated to BLMN Form 10-K FY2025';
   } catch(e) {
-    content.innerHTML = '<div class="ai-content" style="color:rgba(255,255,255,.5);">Unable to connect to A2 Intelligence. Check your network connection and try again.</div>';
+    content.innerHTML = '<div style="color:rgba(255,255,255,.4);">Unable to connect to A2 Intelligence. Check your network and try again.</div>';
   }
 }
 
-// ── INLINE MODULE ANALYSIS ──
-async function runInlineAI(module, targetId, btn) {
+// ── MODULE DIAGNOSTICS ──
+async function runDiag(module, targetId, btn) {
   const target = document.getElementById(targetId);
-  btn.disabled = true;
-  btn.textContent = 'Analyzing...';
-  target.style.fontStyle = 'normal';
-  target.style.color = 'rgba(255,255,255,.7)';
-  target.innerHTML = '<div class="ai-loading"><span>Running diagnostic</span><span class="ai-dots"><span></span><span></span><span></span></span></div>';
+  btn.disabled = true; btn.textContent = 'Analyzing...';
+  target.innerHTML = '<div class="ai-loading"><span>Running BLMN-calibrated diagnostic</span><span class="dots"><span></span><span></span><span></span></span></div>';
+  target.style.fontStyle = 'normal'; target.style.color = 'rgba(255,255,255,.7)';
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system: SYSTEM_PROMPT,
-        messages:[{role:'user',content: MODULE_PROMPTS[module]}]
-      })
-    });
-    const data = await resp.json();
-    const text = data.content?.[0]?.text || 'Analysis unavailable.';
-    target.innerHTML = text;
+    const r = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:[{role:'user',content:MODULE_PROMPTS[module]}]})});
+    const d = await r.json();
+    target.innerHTML = d.content?.[0]?.text||'Analysis unavailable.';
     target.style.color = 'rgba(255,255,255,.88)';
-    btn.textContent = '&#9654; Refresh';
-    btn.disabled = false;
+    btn.innerHTML = '&#9654; Refresh'; btn.disabled = false;
   } catch(e) {
-    target.innerHTML = 'Unable to connect to A2 Intelligence. Check your network connection.';
+    target.innerHTML = 'Connection error. Try again.';
     target.style.color = 'rgba(255,255,255,.4)';
-    btn.textContent = '&#9654; Retry';
-    btn.disabled = false;
+    btn.innerHTML = '&#9654; Retry'; btn.disabled = false;
   }
 }
 
 // ── AI ADVISOR CHAT ──
 const chatHistory = [];
-
 async function sendChat() {
-  const input = document.getElementById('ai-input');
-  const btn = document.getElementById('ai-send-btn');
+  const input = document.getElementById('chat-input');
+  const btn = document.getElementById('chat-send');
   const wrap = document.getElementById('chat-wrap');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  btn.disabled = true;
-
-  const userDiv = document.createElement('div');
-  userDiv.className = 'ai-msg user';
-  userDiv.textContent = msg;
-  wrap.appendChild(userDiv);
-
-  const thinkDiv = document.createElement('div');
-  thinkDiv.className = 'ai-msg assistant';
-  thinkDiv.innerHTML = '<div class="ai-loading"><span>Analyzing</span><span class="ai-dots"><span></span><span></span><span></span></span></div>';
-  wrap.appendChild(thinkDiv);
-  wrap.scrollTop = wrap.scrollHeight;
-
-  chatHistory.push({role:'user', content: msg});
-
+  const msg = input.value.trim(); if(!msg) return;
+  input.value = ''; btn.disabled = true;
+  const uDiv = document.createElement('div'); uDiv.className = 'chat-msg user'; uDiv.textContent = msg; wrap.appendChild(uDiv);
+  const aDiv = document.createElement('div'); aDiv.className = 'chat-msg assistant';
+  aDiv.innerHTML = '<div class="ai-loading"><span>Analyzing against BLMN benchmarks</span><span class="dots"><span></span><span></span><span></span></span></div>';
+  wrap.appendChild(aDiv); wrap.scrollTop = wrap.scrollHeight;
+  chatHistory.push({role:'user',content:msg});
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system: SYSTEM_PROMPT,
-        messages: chatHistory
-      })
-    });
-    const data = await resp.json();
-    const reply = data.content?.[0]?.text || 'Unable to respond right now.';
-    chatHistory.push({role:'assistant', content: reply});
-    thinkDiv.innerHTML = reply;
-  } catch(e) {
-    thinkDiv.innerHTML = 'Connection error. Please try again.';
-  }
-
-  wrap.scrollTop = wrap.scrollHeight;
-  btn.disabled = false;
-  input.focus();
+    const r = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:chatHistory})});
+    const d = await r.json();
+    const reply = d.content?.[0]?.text||'Unable to respond right now.';
+    chatHistory.push({role:'assistant',content:reply});
+    aDiv.innerHTML = reply;
+  } catch(e) { aDiv.innerHTML = 'Connection error. Please try again.'; }
+  wrap.scrollTop = wrap.scrollHeight; btn.disabled = false; input.focus();
 }
 
-function askAI(q) {
-  showPage('ai-advisor', document.querySelector('.nav-item:nth-child(8)'));
-  document.getElementById('ai-input').value = q;
-  sendChat();
-}
-
-function prefill(q) {
-  document.getElementById('ai-input').value = q;
-  document.getElementById('ai-input').focus();
-}
+function askAI(q) { showPage('advisor',null); setTimeout(()=>{ document.getElementById('chat-input').value=q; sendChat(); },100); }
+function prefill(q) { document.getElementById('chat-input').value=q; document.getElementById('chat-input').focus(); }
 
 // ── VIEW TOGGLE ──
-function setView(v, btn) {
-  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const ab = document.getElementById('analyst-banner');
-  if (v === 'analyst') { document.body.classList.add('analyst-mode'); ab.classList.add('show'); }
-  else { document.body.classList.remove('analyst-mode'); ab.classList.remove('show'); }
+function setView(v,btn) {
+  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  const bar = document.getElementById('analyst-bar');
+  if(v==='analyst'){document.body.classList.add('analyst-mode');bar.classList.add('show');}
+  else{document.body.classList.remove('analyst-mode');bar.classList.remove('show');}
 }
 
 // ── NAV ──
-const chartsBuilt = {};
-function showPage(id, el) {
+const builtCharts = {};
+function showPage(id,el) {
   document.querySelectorAll('.main').forEach(m=>m.classList.remove('visible'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const page = document.getElementById('page-'+id);
-  if (page) page.classList.add('visible');
-  if (el) el.classList.add('active');
-  if (!chartsBuilt[id]) { buildChart(id); chartsBuilt[id]=true; }
+  const p = document.getElementById('page-'+id); if(p) p.classList.add('visible');
+  if(el) el.classList.add('active');
+  if(!builtCharts[id]){buildChart(id);builtCharts[id]=true;}
 }
 
-// ── CHARTS ──
-const PLUM='#2D1B4E', GOLD='#CA8A04', GOLD_L='#F59E0B', GREEN='#16A34A', RED='#DC2626', LP='rgba(45,27,78,0.08)';
+// ── CHART COLORS ──
+const PLUM='#2D1B4E',GOLD='#CA8A04',GOLD_L='#F59E0B',GREEN='#16A34A',RED='#DC2626',ORANGE='#EA580C',GRAY='#D6D3D1',LP='rgba(45,27,78,0.07)',BLMN_LINE='rgba(202,138,4,0.6)';
 
 function buildChart(id) {
-  if (id==='daily-pulse') buildDailyCharts();
-  else if (id==='daypart') buildDaypartCharts();
-  else if (id==='food-cost') buildFoodChart();
-  else if (id==='labor') buildLaborChart();
+  if(id==='pulse') buildPulseCharts();
+  else if(id==='royalty') buildRoyaltyChart();
+  else if(id==='daypart') buildDaypartCharts();
+  else if(id==='offprem') buildOffPremChart();
+  else if(id==='food') buildFoodChart();
+  else if(id==='labor') buildLaborChart();
 }
 
-function buildDailyCharts() {
-  const hrs = ['11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p'];
-  new Chart(document.getElementById('salesCompChart'),{type:'bar',data:{labels:hrs,datasets:[{label:'This Week',data:[310,540,480,290,210,390,620,710,580,340,150],backgroundColor:PLUM,borderRadius:4},{label:'Prior Week',data:[290,510,450,310,190,360,590,670,610,320,160],backgroundColor:GOLD_L,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v,font:{size:11}}}}}});
-  new Chart(document.getElementById('laborShiftChart'),{type:'bar',data:{labels:['Mon L','Mon D','Tue L','Tue D','Wed L','Wed D'],datasets:[{label:'Labor %',data:[30.2,26.6,38.8,27.5,22.6,37.5],backgroundColor:[GREEN,GREEN,RED,GREEN,GREEN,GOLD_L],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},max:50}}}});
-  new Chart(document.getElementById('foodWtdChart'),{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Food Cost %',data:[27.8,28.2,28.7,null,null,null,null],borderColor:PLUM,backgroundColor:LP,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PLUM},{label:'Target',data:[27.2,27.2,27.2,27.2,27.2,27.2,27.2],borderColor:GOLD,borderDash:[5,5],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},min:25,max:33}}}});
+function buildPulseCharts() {
+  const hrs=['11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p'];
+  new Chart(document.getElementById('salesChart'),{type:'bar',data:{labels:hrs,datasets:[{label:'This Week',data:[310,540,480,290,210,390,620,710,580,340,150],backgroundColor:PLUM,borderRadius:4},{label:'Prior Week',data:[290,510,450,310,190,360,590,670,610,320,160],backgroundColor:GOLD_L,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v,font:{size:11}}}}}});
+  new Chart(document.getElementById('laborShiftChart'),{type:'bar',data:{labels:['Mon L','Mon D','Tue L','Tue D','Wed L','Wed D'],datasets:[{label:'Labor %',data:[30.2,26.6,38.8,27.5,22.6,37.5],backgroundColor:[GREEN,GREEN,RED,GREEN,GREEN,GOLD_L],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},annotation:{}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},max:50,min:0}}}});
+  new Chart(document.getElementById('foodWtdChart'),{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Food Cost %',data:[27.8,28.2,28.7,null,null,null,null],borderColor:PLUM,backgroundColor:LP,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PLUM},{label:'Theoretical 27.2%',data:[27.2,27.2,27.2,27.2,27.2,27.2,27.2],borderColor:GOLD,borderDash:[5,5],pointRadius:0},{label:'BLMN System 31.9%',data:[31.9,31.9,31.9,31.9,31.9,31.9,31.9],borderColor:'rgba(220,38,38,0.4)',borderDash:[3,3],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},min:24,max:35}}}});
+}
+
+function buildRoyaltyChart() {
+  new Chart(document.getElementById('royaltyChart'),{type:'bar',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Royalty Out',data:[195,172,210,245,289,320,215],backgroundColor:'rgba(220,38,38,0.7)',borderRadius:4,stack:'s'},{label:'Marketing Out',data:[294,259,315,367,434,480,322],backgroundColor:'rgba(234,88,12,0.6)',borderRadius:4,stack:'s'},{label:'Retained (pre-overhead)',data:[1200,1050,1380,1580,1890,2100,1400],backgroundColor:GREEN,borderRadius:4,stack:'s'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v,font:{size:11}},stacked:true}}}});
 }
 
 function buildDaypartCharts() {
   new Chart(document.getElementById('guestChart'),{type:'bar',data:{labels:['Lunch','Dinner','Late Night'],datasets:[{label:'This Week',data:[72,98,17],backgroundColor:PLUM,borderRadius:5},{label:'Prior Week',data:[69,115,17.3],backgroundColor:GOLD_L,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F5F5F4'},ticks:{font:{size:11}}}}}});
-  new Chart(document.getElementById('ticketChart'),{type:'bar',data:{labels:['Lunch','Dinner','Late Night'],datasets:[{label:'This Week',data:[21.40,28.60,28.12],backgroundColor:PLUM,borderRadius:5},{label:'Prior Week',data:[21.36,28.01,27.90],backgroundColor:GOLD_L,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v.toFixed(2),font:{size:11}},min:15}}}});
+  new Chart(document.getElementById('ticketChart'),{type:'bar',data:{labels:['Lunch','Dinner','Late Night'],datasets:[{label:'This Week',data:[21.40,28.60,28.12],backgroundColor:PLUM,borderRadius:5},{label:'BLMN $29 Benchmark',data:[29,29,29],backgroundColor:'rgba(202,138,4,0.25)',borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v.toFixed(2),font:{size:11}},min:15}}}});
+}
+
+function buildOffPremChart() {
+  new Chart(document.getElementById('offpremChart'),{type:'line',data:{labels:['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'],datasets:[{label:'Off-Prem %',data:[22,24,23,26,24,25,24,25],borderColor:PLUM,backgroundColor:LP,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PLUM},{label:'BLMN Target 25%',data:[25,25,25,25,25,25,25,25],borderColor:GOLD_L,borderDash:[5,5],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},min:15,max:35}}}});
 }
 
 function buildFoodChart() {
   const actual=[27.1,27.9,30.4,29.8,27.4,27.8,28.2,28.7];
-  new Chart(document.getElementById('foodTrendChart'),{type:'line',data:{labels:['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'],datasets:[{label:'Actual',data:actual,borderColor:PLUM,backgroundColor:LP,fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:actual.map(v=>v>=30?RED:v>=28?GOLD_L:GREEN)},{label:'Theoretical',data:Array(8).fill(27.2),borderColor:GOLD,borderDash:[6,4],pointRadius:0},{label:'Flag Threshold',data:Array(8).fill(30.2),borderColor:RED,borderDash:[3,3],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},min:25,max:33}}}});
+  new Chart(document.getElementById('foodTrendChart'),{type:'line',data:{labels:['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8'],datasets:[{label:'Actual Food Cost %',data:actual,borderColor:PLUM,backgroundColor:LP,fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:actual.map(v=>v>=30?RED:v>=28?GOLD_L:GREEN)},{label:'Theoretical 27.2%',data:Array(8).fill(27.2),borderColor:GOLD,borderDash:[6,4],pointRadius:0},{label:'BLMN System 31.9%',data:Array(8).fill(31.9),borderColor:'rgba(220,38,38,0.35)',borderDash:[3,3],pointRadius:0},{label:'Flag Threshold 30.2%',data:Array(8).fill(30.2),borderColor:'rgba(234,88,12,0.5)',borderDash:[2,4],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},min:24,max:35}}}});
 }
 
 function buildLaborChart() {
   new Chart(document.getElementById('laborEffChart'),{type:'bar',data:{labels:['Mon L','Mon D','Tue L','Tue D','Wed L','Wed D'],datasets:[{label:'$/Labor Hr',data:[36.5,41.2,27.1,38.4,46.7,35.0],backgroundColor:[GREEN,GREEN,RED,GREEN,GREEN,GOLD_L],borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v,font:{size:11}},min:0}}}});
 }
 
-buildDailyCharts(); chartsBuilt['daily-pulse']=true;
+buildPulseCharts(); builtCharts['pulse']=true;
 
 // ── RECONCILE ──
-let resolved=2, active=3;
+let res=2,active=3;
 function reconcile(btn) {
-  const row = btn.closest('tr');
-  const cells = row.querySelectorAll('td');
-  row.remove();
-  active--; resolved++;
-  document.getElementById('flag-count').textContent = active;
-  document.getElementById('eod-open').textContent = active;
-  document.getElementById('eod-resolved').textContent = resolved;
-  const t = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-  const nr = document.createElement('tr');
-  nr.innerHTML = `<td>${cells[0].textContent}</td><td>${cells[1].textContent}</td><td>${cells[2].textContent}</td><td>${t}</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td>`;
+  const row=btn.closest('tr'),cells=row.querySelectorAll('td');
+  row.remove(); active--; res++;
+  document.getElementById('flag-count').textContent=active;
+  document.getElementById('eod-open').textContent=active;
+  document.getElementById('eod-res').textContent=res;
+  const t=new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const nr=document.createElement('tr');
+  nr.innerHTML=`<td>${cells[0].textContent}</td><td>${cells[1].textContent}</td><td>${cells[2].textContent}</td><td>${t}</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td>`;
   document.getElementById('resolved-body').prepend(nr);
 }
 
 // ── UPLOAD ──
 function handleUpload(e) {
-  const file = e.target.files[0]; if(!file) return;
-  const dt = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ' ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-  const nr = document.createElement('tr');
-  nr.innerHTML = `<td>${file.name}</td><td>${dt}</td><td>Processing...</td><td><span class="flag flag-yellow"><span class="fdot"></span>Processing</span></td>`;
+  const file=e.target.files[0]; if(!file) return;
+  const dt=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const nr=document.createElement('tr');
+  nr.innerHTML=`<td>${file.name}</td><td>${dt}</td><td>Processing...</td><td><span class="flag flag-yellow"><span class="fdot"></span>Manual</span></td><td><span class="flag flag-yellow"><span class="fdot"></span>Processing</span></td>`;
   document.getElementById('import-body').prepend(nr);
   setTimeout(()=>{nr.querySelector('td:nth-child(3)').textContent=Math.floor(Math.random()*200+700)+' rows';nr.querySelector('td:last-child').innerHTML='<span class="flag flag-green"><span class="fdot"></span>Processed</span>';},1800);
 }
-
-function handleDrop(e) {
-  e.preventDefault(); document.getElementById('dz').classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file) handleUpload({target:{files:[file]}});
-}
-
-function setTab(btn) {
-  document.querySelectorAll('.pill-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
+function handleDrop(e){e.preventDefault();document.getElementById('dz').classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)handleUpload({target:{files:[f]}});}
+function setTab(btn){document.querySelectorAll('.pill-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
 </script>
 </body>
 </html>
