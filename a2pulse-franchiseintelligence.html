@@ -5,1575 +5,770 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A2 Pulse: Franchise Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --plum: #2D1B4E;
-    --plum-light: #3D2560;
-    --plum-dark: #1A0F2E;
-    --gold: #CA8A04;
-    --gold-light: #FEF3C7;
-    --gold-mid: #F59E0B;
-    --cream: #FFFBEB;
-    --cream-dark: #FEF9C3;
-    --white: #FFFFFF;
-    --text-primary: #1C1917;
-    --text-secondary: #57534E;
-    --text-muted: #A8A29E;
-    --border: #E7E5E4;
-    --surface: #FAFAF9;
-    --flag-green: #166534;
-    --flag-green-bg: #DCFCE7;
-    --flag-yellow: #854D0E;
-    --flag-yellow-bg: #FEF9C3;
-    --flag-orange: #9A3412;
-    --flag-orange-bg: #FFEDD5;
-    --flag-red: #991B1B;
-    --flag-red-bg: #FEE2E2;
-    --sidebar-w: 220px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #F5F3EF;
-    color: var(--text-primary);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── TOP BAR ── */
-  .topbar {
-    background: var(--plum);
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1.5rem;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-shrink: 0;
-  }
-
-  .topbar-brand {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
-
-  .topbar-brand .wordmark {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--white);
-    letter-spacing: -0.3px;
-  }
-
-  .topbar-brand .subtitle {
-    font-size: 12px;
-    color: var(--gold-mid);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .topbar-brand .sep {
-    color: var(--gold);
-    font-size: 20px;
-    font-family: 'DM Serif Display', serif;
-  }
-
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .view-toggle {
-    display: flex;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    padding: 3px;
-    gap: 2px;
-  }
-
-  .view-toggle button {
-    background: transparent;
-    border: none;
-    color: rgba(255,255,255,0.6);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 5px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-
-  .view-toggle button.active {
-    background: var(--gold);
-    color: var(--plum-dark);
-  }
-
-  .topbar-date {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-  }
-
-  .upload-btn {
-    background: var(--gold);
-    color: var(--plum-dark);
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 7px 14px;
-    border-radius: 7px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: opacity 0.2s;
-  }
-
-  .upload-btn:hover { opacity: 0.88; }
-
-  /* ── LAYOUT ── */
-  .layout {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: var(--sidebar-w);
-    background: var(--plum-dark);
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem 0;
-    overflow-y: auto;
-  }
-
-  .sidebar-section-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-    padding: 0 1.25rem;
-    margin-bottom: 6px;
-    margin-top: 1.25rem;
-  }
-
-  .sidebar-section-label:first-child { margin-top: 0; }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 1.25rem;
-    color: rgba(255,255,255,0.55);
-    font-size: 13.5px;
-    font-weight: 400;
-    cursor: pointer;
-    border-left: 3px solid transparent;
-    transition: all 0.15s;
-    text-decoration: none;
-  }
-
-  .nav-item:hover {
-    color: var(--white);
-    background: rgba(255,255,255,0.05);
-  }
-
-  .nav-item.active {
-    color: var(--gold-mid);
-    border-left-color: var(--gold);
-    background: rgba(202,138,4,0.08);
-    font-weight: 500;
-  }
-
-  .nav-icon {
-    font-size: 15px;
-    width: 18px;
-    text-align: center;
-  }
-
-  .flag-badge {
-    margin-left: auto;
-    background: #DC2626;
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .sidebar-tagline {
-    margin-top: auto;
-    padding: 1.25rem;
-    font-size: 11px;
-    font-style: italic;
-    color: rgba(255,255,255,0.25);
-    line-height: 1.5;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    margin-top: 2rem;
-  }
-
-  /* ── MAIN CONTENT ── */
-  .main {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.75rem 2rem;
-    display: none;
-  }
-
-  .main.visible { display: block; }
-
-  .page-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    color: var(--plum);
-    margin-bottom: 4px;
-  }
-
-  .page-sub {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-  }
-
-  /* ── METRIC CARDS ── */
-  .metric-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 1.5rem;
-  }
-
-  .metric-card {
-    background: var(--white);
-    border-radius: 10px;
-    padding: 1rem 1.125rem;
-    border: 1px solid var(--border);
-  }
-
-  .metric-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-  }
-
-  .metric-value {
-    font-size: 26px;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .metric-delta {
-    font-size: 12px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
-
-  .delta-up { color: #16A34A; }
-  .delta-down { color: #DC2626; }
-  .delta-neutral { color: var(--text-muted); }
-
-  /* ── SECTION CARD ── */
-  .section-card {
-    background: var(--white);
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .section-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-card-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--plum);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .section-card-title .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--gold);
-    flex-shrink: 0;
-  }
-
-  /* ── FLAG BADGES ── */
-  .flag {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11.5px;
-    font-weight: 600;
-    padding: 3px 9px;
-    border-radius: 20px;
-  }
-
-  .flag-green { background: var(--flag-green-bg); color: var(--flag-green); }
-  .flag-yellow { background: var(--flag-yellow-bg); color: var(--flag-yellow); }
-  .flag-orange { background: var(--flag-orange-bg); color: var(--flag-orange); }
-  .flag-red { background: var(--flag-red-bg); color: var(--flag-red); }
-
-  .flag-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .flag-green .flag-dot { background: #16A34A; }
-  .flag-yellow .flag-dot { background: #CA8A04; }
-  .flag-orange .flag-dot { background: #EA580C; }
-  .flag-red .flag-dot { background: #DC2626; }
-
-  /* ── TABLES ── */
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-
-  .data-table th {
-    text-align: left;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    padding: 6px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .data-table td {
-    padding: 10px 10px;
-    border-bottom: 1px solid #F5F5F4;
-    color: var(--text-primary);
-  }
-
-  .data-table tr:last-child td { border-bottom: none; }
-  .data-table tr:hover td { background: #FAFAF9; }
-
-  /* ── CHART WRAPPERS ── */
-  .chart-wrap {
-    position: relative;
-    width: 100%;
-    height: 220px;
-  }
-
-  .chart-wrap-tall {
-    position: relative;
-    width: 100%;
-    height: 260px;
-  }
-
-  /* ── THRESHOLD CONTROLS ── */
-  .threshold-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-
-  .threshold-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.875rem 1rem;
-  }
-
-  .threshold-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-  }
-
-  .threshold-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .threshold-row input[type=range] {
-    flex: 1;
-    accent-color: var(--gold);
-  }
-
-  .threshold-val {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--plum);
-    min-width: 36px;
-    text-align: right;
-  }
-
-  /* ── UPLOAD DROP ZONE ── */
-  .dropzone {
-    border: 2px dashed var(--border);
-    border-radius: 12px;
-    padding: 3rem 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--surface);
-    margin-bottom: 1.5rem;
-  }
-
-  .dropzone:hover, .dropzone.drag-over {
-    border-color: var(--gold);
-    background: var(--gold-light);
-  }
-
-  .dropzone-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  .dropzone h3 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 4px;
-  }
-
-  .dropzone p {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  .dropzone input[type=file] {
-    display: none;
-  }
-
-  /* ── ANALYST BADGE ── */
-  .analyst-banner {
-    background: var(--plum);
-    color: var(--gold-light);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 6px 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    letter-spacing: 0.3px;
-  }
-
-  .analyst-banner .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--gold-mid);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ── RECONCILE BTN ── */
-  .reconcile-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11.5px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .reconcile-btn:hover {
-    border-color: var(--flag-green);
-    color: var(--flag-green);
-    background: var(--flag-green-bg);
-  }
-
-  /* ── EOD SUMMARY ── */
-  .eod-card {
-    background: var(--plum-dark);
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-    color: var(--white);
-  }
-
-  .eod-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 16px;
-    color: var(--gold-mid);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .eod-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 7px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    font-size: 13px;
-  }
-
-  .eod-row:last-child { border-bottom: none; }
-
-  /* ── TWO COL ── */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main { padding: 1.25rem 1rem; }
-    .two-col { grid-template-columns: 1fr; }
-    .topbar-date { display: none; }
-    .sidebar-w { width: 0; }
-  }
-
-  @media (max-width: 480px) {
-    .metric-grid { grid-template-columns: 1fr 1fr; }
-    .topbar-brand .subtitle { display: none; }
-  }
-
-  /* ── PILL TABS ── */
-  .pill-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .pill-tab {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 5px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .pill-tab.active {
-    background: var(--plum);
-    border-color: var(--plum);
-    color: var(--white);
-  }
-
-  /* ── ANALYST EXTRA ── */
-  .analyst-section {
-    display: none;
-  }
-
-  .analyst-mode .analyst-section {
-    display: block;
-  }
-
-  .insight-box {
-    background: linear-gradient(135deg, var(--plum-dark) 0%, var(--plum) 100%);
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    color: var(--white);
-    font-size: 13px;
-    line-height: 1.6;
-    border-left: 4px solid var(--gold);
-  }
-
-  .insight-box strong {
-    color: var(--gold-mid);
-    display: block;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
+:root {
+  --plum:#2D1B4E; --plum-light:#3D2560; --plum-dark:#1A0F2E; --plum-mid:#4A2B7A;
+  --gold:#CA8A04; --gold-light:#FEF3C7; --gold-mid:#F59E0B; --gold-bright:#FBBF24;
+  --cream:#FFFBEB; --white:#FFFFFF;
+  --text-primary:#1C1917; --text-secondary:#57534E; --text-muted:#A8A29E;
+  --border:#E7E5E4; --surface:#FAFAF9; --bg:#F0EDE8;
+  --green:#166534; --green-bg:#DCFCE7;
+  --yellow:#854D0E; --yellow-bg:#FEF9C3;
+  --orange:#9A3412; --orange-bg:#FFEDD5;
+  --red:#991B1B; --red-bg:#FEE2E2;
+  --sidebar-w:230px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--plum);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:58px;position:sticky;top:0;z-index:200;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
+.brand{display:flex;align-items:baseline;gap:5px;}
+.brand-main{font-family:'DM Serif Display',serif;font-size:21px;color:#fff;letter-spacing:-0.3px;}
+.brand-sep{color:var(--gold-mid);font-family:'DM Serif Display',serif;font-size:21px;}
+.brand-sub{font-size:11px;color:var(--gold-mid);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-date{font-size:12px;color:rgba(255,255,255,0.45);}
+
+.view-toggle{display:flex;background:rgba(255,255,255,0.08);border-radius:8px;padding:3px;gap:2px;}
+.vt-btn{background:transparent;border:none;color:rgba(255,255,255,0.55);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:5px 13px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.vt-btn.active{background:var(--gold);color:var(--plum-dark);font-weight:600;}
+
+.upload-btn{background:var(--gold);color:var(--plum-dark);border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:7px 14px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s;}
+.upload-btn:hover{opacity:.85;}
+
+/* ── AI BANNER ── */
+.ai-banner{background:linear-gradient(90deg,var(--plum-dark) 0%,#1e0a3c 100%);border-bottom:1px solid rgba(202,138,4,0.3);padding:0;overflow:hidden;transition:max-height .4s ease;max-height:0;}
+.ai-banner.open{max-height:500px;}
+.ai-banner-inner{padding:1rem 1.5rem;}
+.ai-banner-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;}
+.ai-badge{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold-mid);}
+.ai-pulse{width:8px;height:8px;border-radius:50%;background:var(--gold-bright);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
+.ai-close{background:transparent;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;}
+.ai-close:hover{color:#fff;background:rgba(255,255,255,0.1);}
+.ai-content{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,0.88);}
+.ai-content strong{color:var(--gold-bright);}
+.ai-loading{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.5);font-size:13px;}
+.ai-dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold-mid);animation:dot-bounce 1.2s infinite;margin:0 2px;}
+.ai-dots span:nth-child(2){animation-delay:.2s;}
+.ai-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dot-bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);}}
+.ai-actions{display:flex;gap:8px;margin-top:.875rem;flex-wrap:wrap;}
+.ai-action-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(202,138,4,0.3);color:var(--gold-light);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .15s;}
+.ai-action-btn:hover{background:rgba(202,138,4,0.15);border-color:var(--gold-mid);}
+.ai-timestamp{font-size:11px;color:rgba(255,255,255,0.3);margin-top:.5rem;}
+
+.analyst-banner{background:var(--plum);color:var(--gold-light);font-size:12px;font-weight:500;padding:6px 1.5rem;display:none;align-items:center;gap:8px;}
+.analyst-banner.show{display:flex;}
+.a-dot{width:7px;height:7px;border-radius:50%;background:var(--gold-mid);animation:pulse 2s infinite;}
+
+/* ── LAYOUT ── */
+.layout{display:flex;flex:1;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);background:var(--plum-dark);flex-shrink:0;display:flex;flex-direction:column;padding:1.25rem 0;overflow-y:auto;}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:0 1.25rem;margin-bottom:5px;margin-top:1.25rem;}
+.sidebar-label:first-child{margin-top:0;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 1.25rem;color:rgba(255,255,255,0.5);font-size:13.5px;cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,0.04);}
+.nav-item.active{color:var(--gold-mid);border-left-color:var(--gold);background:rgba(202,138,4,0.07);font-weight:500;}
+.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
+.flag-badge{margin-left:auto;background:#DC2626;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* AI Diagnostic nav button */
+.nav-ai{background:linear-gradient(135deg,rgba(202,138,4,0.15),rgba(45,27,78,0.3));border:1px solid rgba(202,138,4,0.25);margin:1rem .75rem .25rem;border-radius:10px;padding:.75rem 1rem;cursor:pointer;transition:all .2s;}
+.nav-ai:hover{border-color:var(--gold-mid);background:rgba(202,138,4,0.12);}
+.nav-ai-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--gold-mid);margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.nav-ai-desc{font-size:11.5px;color:rgba(255,255,255,0.5);line-height:1.4;}
+
+.sidebar-tagline{margin-top:auto;padding:1.25rem;font-size:11px;font-style:italic;color:rgba(255,255,255,.2);line-height:1.5;border-top:1px solid rgba(255,255,255,.05);margin-top:2rem;}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;padding:1.75rem 2rem;display:none;}
+.main.visible{display:block;}
+.page-title{font-family:'DM Serif Display',serif;font-size:23px;color:var(--plum);margin-bottom:3px;}
+.page-sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem;}
+
+/* ── METRICS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:1.5rem;}
+.metric-card{background:var(--white);border-radius:10px;padding:1rem 1.125rem;border:1px solid var(--border);}
+.metric-label{font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.metric-value{font-size:26px;font-weight:600;color:var(--text-primary);line-height:1;margin-bottom:4px;}
+.metric-delta{font-size:12px;font-weight:500;display:flex;align-items:center;gap:3px;}
+.up{color:#16A34A;} .down{color:#DC2626;} .neutral{color:var(--text-muted);}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
+.card-title{font-size:14px;font-weight:600;color:var(--plum);display:flex;align-items:center;gap:8px;}
+.card-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;}
+.chart-wrap{position:relative;width:100%;height:220px;}
+.chart-wrap-tall{position:relative;width:100%;height:260px;}
+
+/* ── FLAGS ── */
+.flag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;}
+.flag-green{background:var(--green-bg);color:var(--green);}
+.flag-yellow{background:var(--yellow-bg);color:var(--yellow);}
+.flag-orange{background:var(--orange-bg);color:var(--orange);}
+.flag-red{background:var(--red-bg);color:var(--red);}
+.fdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.flag-green .fdot{background:#16A34A;} .flag-yellow .fdot{background:#CA8A04;}
+.flag-orange .fdot{background:#EA580C;} .flag-red .fdot{background:#DC2626;}
+
+/* ── TABLE ── */
+.dt{width:100%;border-collapse:collapse;font-size:13px;}
+.dt th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);padding:6px 10px;border-bottom:1px solid var(--border);}
+.dt td{padding:10px;border-bottom:1px solid #F5F5F4;color:var(--text-primary);}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr:hover td{background:#FAFAF9;}
+
+/* ── AI DIAGNOSTIC CARD ── */
+.ai-diag-card{background:var(--plum-dark);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;border:1px solid rgba(202,138,4,0.2);}
+.ai-diag-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;}
+.ai-diag-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--gold-mid);display:flex;align-items:center;gap:8px;}
+.ai-diag-body{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.85);}
+.ai-diag-body strong{color:var(--gold-bright);}
+.ai-run-btn{background:rgba(202,138,4,0.15);border:1px solid rgba(202,138,4,0.4);color:var(--gold-light);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:600;padding:5px 13px;border-radius:7px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.ai-run-btn:hover{background:rgba(202,138,4,0.25);border-color:var(--gold-mid);}
+.ai-run-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+/* ── EOD ── */
+.eod-card{background:var(--plum-dark);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;color:#fff;border:1px solid rgba(255,255,255,0.06);}
+.eod-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--gold-mid);margin-bottom:.75rem;display:flex;align-items:center;gap:8px;}
+.eod-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13px;}
+.eod-row:last-child{border-bottom:none;}
+
+/* ── THRESHOLD ── */
+.thresh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+.thresh-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.875rem 1rem;}
+.thresh-label{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;}
+.thresh-row{display:flex;align-items:center;gap:10px;}
+.thresh-row input[type=range]{flex:1;accent-color:var(--gold);}
+.thresh-val{font-size:13px;font-weight:600;color:var(--plum);min-width:40px;text-align:right;}
+
+/* ── DROPZONE ── */
+.dropzone{border:2px dashed var(--border);border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);margin-bottom:1.5rem;}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--gold);background:var(--gold-light);}
+.dz-icon{font-size:2.5rem;margin-bottom:.75rem;color:var(--text-muted);}
+.dropzone h3{font-size:15px;font-weight:600;margin-bottom:4px;}
+.dropzone p{font-size:13px;color:var(--text-muted);}
+
+/* ── RECONCILE ── */
+.rec-btn{background:transparent;border:1px solid var(--border);color:var(--text-secondary);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .15s;}
+.rec-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-bg);}
+
+/* ── PILL TABS ── */
+.pill-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;}
+.pill-tab{background:var(--surface);border:1px solid var(--border);color:var(--text-secondary);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:5px 13px;border-radius:20px;cursor:pointer;transition:all .15s;}
+.pill-tab.active{background:var(--plum);border-color:var(--plum);color:#fff;}
+
+/* ── AI CHAT ── */
+.ai-chat-wrap{display:flex;flex-direction:column;gap:.75rem;max-height:400px;overflow-y:auto;margin-bottom:1rem;padding:.25rem 0;}
+.ai-msg{padding:.875rem 1rem;border-radius:10px;font-size:13.5px;line-height:1.65;}
+.ai-msg.assistant{background:rgba(45,27,78,0.06);border-left:3px solid var(--gold);color:var(--text-primary);}
+.ai-msg.user{background:var(--plum);color:#fff;border-radius:10px;align-self:flex-end;max-width:85%;}
+.ai-msg strong{color:var(--plum);}
+.ai-msg.assistant strong{color:var(--plum);}
+.ai-input-row{display:flex;gap:8px;}
+.ai-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:.625rem .875rem;font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color .15s;}
+.ai-input:focus{border-color:var(--gold);}
+.ai-send{background:var(--plum);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:.625rem 1rem;border-radius:8px;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.ai-send:hover{opacity:.85;}
+.ai-send:disabled{opacity:.45;cursor:not-allowed;}
+
+/* ── ANALYST SECTION ── */
+.analyst-section{display:none;}
+.analyst-mode .analyst-section{display:block;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){.sidebar{display:none;}.main{padding:1.25rem 1rem;}.two-col{grid-template-columns:1fr;}.topbar-date{display:none;}}
+@media(max-width:480px){.metric-grid{grid-template-columns:1fr 1fr;}.brand-sub{display:none;}}
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
+<!-- TOPBAR -->
 <div class="topbar">
-  <div class="topbar-brand">
-    <span class="wordmark">A2 Pulse</span>
-    <span class="sep">:</span>
-    <span class="subtitle">Franchise Intelligence</span>
+  <div class="brand">
+    <span class="brand-main">A2 Pulse</span>
+    <span class="brand-sep">:</span>
+    <span class="brand-sub">Franchise Intelligence</span>
   </div>
   <div class="topbar-right">
     <span class="topbar-date" id="today-date"></span>
     <div class="view-toggle">
-      <button class="active" onclick="setView('operator')">Operator View</button>
-      <button onclick="setView('analyst')">Analyst View</button>
+      <button class="vt-btn active" onclick="setView('operator',this)">Operator</button>
+      <button class="vt-btn" onclick="setView('analyst',this)">Analyst</button>
     </div>
-    <button class="upload-btn" onclick="document.getElementById('pos-upload').click()">
-      &#8593; Import POS Data
-    </button>
-    <input type="file" id="pos-upload" accept=".csv" onchange="handleUpload(event)">
+    <button class="upload-btn" onclick="document.getElementById('pos-file').click()">&#8593; Import POS</button>
+    <input type="file" id="pos-file" accept=".csv" style="display:none" onchange="handleUpload(event)">
+  </div>
+</div>
+
+<!-- AI MORNING BRIEF BANNER -->
+<div class="ai-banner" id="ai-banner">
+  <div class="ai-banner-inner">
+    <div class="ai-banner-header">
+      <div class="ai-badge"><span class="ai-pulse"></span>A2 Intelligence &mdash; Morning Brief</div>
+      <button class="ai-close" onclick="document.getElementById('ai-banner').classList.remove('open')">&#215;</button>
+    </div>
+    <div class="ai-content" id="ai-banner-content">
+      <div class="ai-loading"><span>Generating your diagnostic</span><span class="ai-dots"><span></span><span></span><span></span></span></div>
+    </div>
+    <div class="ai-actions" id="ai-banner-actions" style="display:none;">
+      <button class="ai-action-btn" onclick="askAI('What is my biggest risk today?')">What is my biggest risk today?</button>
+      <button class="ai-action-btn" onclick="askAI('Which daypart needs my attention most?')">Which daypart needs attention?</button>
+      <button class="ai-action-btn" onclick="askAI('What should I tell my manager about this week?')">What do I tell my manager?</button>
+    </div>
+    <div class="ai-timestamp" id="ai-timestamp"></div>
   </div>
 </div>
 
 <!-- ANALYST BANNER -->
-<div class="analyst-banner" id="analyst-banner" style="display:none;">
-  <span class="dot"></span>
-  Analyst View Active — A2 Systems Architecture diagnostic layer enabled
+<div class="analyst-banner" id="analyst-banner">
+  <span class="a-dot"></span>
+  Analyst View Active &mdash; A2 Systems Architecture diagnostic layer enabled
 </div>
 
 <!-- LAYOUT -->
 <div class="layout">
 
-  <!-- SIDEBAR -->
-  <nav class="sidebar">
-    <div class="sidebar-section-label">Dashboard</div>
-    <a class="nav-item active" onclick="showPage('daily-pulse')">
-      <span class="nav-icon">&#9632;</span> Daily Pulse
-    </a>
-    <a class="nav-item" onclick="showPage('daypart')">
-      <span class="nav-icon">&#9650;</span> Daypart Breakdown
-    </a>
-    <a class="nav-item" onclick="showPage('food-cost')">
-      <span class="nav-icon">&#9670;</span> Food Cost Tracker
-    </a>
-    <a class="nav-item" onclick="showPage('labor')">
-      <span class="nav-icon">&#9711;</span> Labor Efficiency
-    </a>
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <!-- AI Trigger -->
+  <div class="nav-ai" onclick="triggerMorningBrief()">
+    <div class="nav-ai-label"><span class="ai-pulse"></span>A2 Intelligence</div>
+    <div class="nav-ai-desc">Run today's diagnostic brief</div>
+  </div>
 
-    <div class="sidebar-section-label">Alerts</div>
-    <a class="nav-item" onclick="showPage('flags')">
-      <span class="nav-icon">&#9651;</span> Flag Engine
-      <span class="flag-badge" id="flag-count">3</span>
-    </a>
+  <div class="sidebar-label" style="margin-top:.75rem;">Dashboard</div>
+  <div class="nav-item active" onclick="showPage('daily-pulse',this)"><span class="nav-icon">&#9632;</span>Daily Pulse</div>
+  <div class="nav-item" onclick="showPage('daypart',this)"><span class="nav-icon">&#9650;</span>Daypart Breakdown</div>
+  <div class="nav-item" onclick="showPage('food-cost',this)"><span class="nav-icon">&#9670;</span>Food Cost Tracker</div>
+  <div class="nav-item" onclick="showPage('labor',this)"><span class="nav-icon">&#9711;</span>Labor Efficiency</div>
 
-    <div class="sidebar-section-label">Settings</div>
-    <a class="nav-item" onclick="showPage('thresholds')">
-      <span class="nav-icon">&#9633;</span> Thresholds
-    </a>
-    <a class="nav-item" onclick="showPage('import')">
-      <span class="nav-icon">&#8593;</span> Import Data
-    </a>
+  <div class="sidebar-label">Alerts</div>
+  <div class="nav-item" onclick="showPage('flags',this)"><span class="nav-icon">&#9651;</span>Flag Engine<span class="flag-badge" id="flag-count">3</span></div>
 
-    <div class="sidebar-tagline">"Strong units build strong brands."</div>
-  </nav>
+  <div class="sidebar-label">Intelligence</div>
+  <div class="nav-item" onclick="showPage('ai-advisor',this)"><span class="nav-icon">&#9670;</span>AI Advisor</div>
 
-  <!-- ═══════════════════════════════════════════
-       PAGE: DAILY PULSE
-  ═══════════════════════════════════════════ -->
-  <main class="main visible" id="page-daily-pulse">
-    <div class="page-title">Daily Pulse</div>
-    <div class="page-sub" id="pulse-sub">Today's performance at a glance</div>
+  <div class="sidebar-label">Settings</div>
+  <div class="nav-item" onclick="showPage('thresholds',this)"><span class="nav-icon">&#9633;</span>Thresholds</div>
+  <div class="nav-item" onclick="showPage('import',this)"><span class="nav-icon">&#8593;</span>Import Data</div>
 
-    <div class="metric-grid">
-      <div class="metric-card">
-        <div class="metric-label">Today's Sales</div>
-        <div class="metric-value" id="m-sales">$4,820</div>
-        <div class="metric-delta delta-up" id="m-sales-d">&#9650; +6.2% vs last week</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Labor %</div>
-        <div class="metric-value" id="m-labor">31.4%</div>
-        <div class="metric-delta delta-up" id="m-labor-d">&#9660; Under 35% target</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Food Cost Running</div>
-        <div class="metric-value" id="m-food">28.7%</div>
-        <div class="metric-delta delta-neutral" id="m-food-d">&#9632; Within range</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Guest Count</div>
-        <div class="metric-value" id="m-guests">187</div>
-        <div class="metric-delta delta-down" id="m-guests-d">&#9660; -8.3% vs last week</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Ticket Average</div>
-        <div class="metric-value" id="m-ticket">$25.78</div>
-        <div class="metric-delta delta-up" id="m-ticket-d">&#9650; +1.4% vs last week</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Active Flags</div>
-        <div class="metric-value" style="color:#DC2626;" id="m-flags">3</div>
-        <div class="metric-delta delta-down">&#9651; Needs attention</div>
-      </div>
+  <div class="sidebar-tagline">"Strong units build strong brands."</div>
+</nav>
+
+<!-- ═══════════ PAGE: DAILY PULSE ═══════════ -->
+<main class="main visible" id="page-daily-pulse">
+  <div class="page-title">Daily Pulse</div>
+  <div class="page-sub" id="pulse-sub">Today's performance at a glance</div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">Today's Sales</div><div class="metric-value">$4,820</div><div class="metric-delta up">&#9650; +6.2% vs last week</div></div>
+    <div class="metric-card"><div class="metric-label">Labor %</div><div class="metric-value">31.4%</div><div class="metric-delta up">&#9660; Under 35% target</div></div>
+    <div class="metric-card"><div class="metric-label">Food Cost Running</div><div class="metric-value">28.7%</div><div class="metric-delta neutral">&#9632; Within range</div></div>
+    <div class="metric-card"><div class="metric-label">Guest Count</div><div class="metric-value">187</div><div class="metric-delta down">&#9660; -8.3% vs last week</div></div>
+    <div class="metric-card"><div class="metric-label">Ticket Average</div><div class="metric-value">$25.78</div><div class="metric-delta up">&#9650; +1.4% vs last week</div></div>
+    <div class="metric-card"><div class="metric-label">Active Flags</div><div class="metric-value" style="color:#DC2626;">3</div><div class="metric-delta down">&#9651; Needs attention</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales vs Prior Week &mdash; Hourly</div></div>
+    <div class="chart-wrap"><canvas id="salesCompChart" role="img" aria-label="Hourly sales comparison this week vs prior week">Sales data loading.</canvas></div>
+  </div>
+  <div class="two-col">
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Labor % by Shift</div></div><div class="chart-wrap"><canvas id="laborShiftChart" role="img" aria-label="Labor percentage by shift">Labor data.</canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost — Week to Date</div></div><div class="chart-wrap"><canvas id="foodWtdChart" role="img" aria-label="Food cost week to date">Food cost data.</canvas></div></div>
+  </div>
+  <!-- AI Diagnostic inline -->
+  <div class="ai-diag-card analyst-section">
+    <div class="ai-diag-header">
+      <div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Daily Diagnostic</div>
+      <button class="ai-run-btn" onclick="runInlineAI('daily','daily-diag-body',this)">&#9654; Run Analysis</button>
     </div>
+    <div class="ai-diag-body" id="daily-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate today's diagnostic.</div>
+  </div>
+</main>
 
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Sales vs Prior Week — Same Day</div>
-      </div>
-      <div class="chart-wrap">
-        <canvas id="salesCompChart" role="img" aria-label="Bar chart comparing today's sales by hour vs same day last week">Sales comparison data loading.</canvas>
-      </div>
+<!-- ═══════════ PAGE: DAYPART ═══════════ -->
+<main class="main" id="page-daypart">
+  <div class="page-title">Daypart Breakdown</div>
+  <div class="page-sub">Guest counts and ticket averages by service period</div>
+  <div class="pill-tabs">
+    <button class="pill-tab active">Today</button>
+    <button class="pill-tab" onclick="setTab(this)">This Week</button>
+    <button class="pill-tab" onclick="setTab(this)">Prior Week</button>
+  </div>
+  <div class="two-col">
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Guest Count by Daypart</div></div><div class="chart-wrap-tall"><canvas id="guestChart" role="img" aria-label="Guest count by daypart">Guest data.</canvas></div></div>
+    <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Ticket Average by Daypart</div></div><div class="chart-wrap-tall"><canvas id="ticketChart" role="img" aria-label="Ticket average by daypart">Ticket data.</canvas></div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Daypart Summary</div></div>
+    <table class="dt"><thead><tr><th>Daypart</th><th>Guests</th><th>vs LW</th><th>Ticket Avg</th><th>vs LW</th><th>Net Sales</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Lunch (11a–3p)</strong></td><td>72</td><td class="up">+4.3%</td><td>$21.40</td><td class="neutral">+0.2%</td><td>$1,541</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td><strong>Dinner (4p–9p)</strong></td><td>98</td><td class="down">-14.9%</td><td>$28.60</td><td class="up">+2.1%</td><td>$2,803</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
+      <tr><td><strong>Late Night (9p–close)</strong></td><td>17</td><td class="neutral">-2.0%</td><td>$28.12</td><td class="neutral">+0.8%</td><td>$478</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
+    </tbody></table>
+  </div>
+  <div class="ai-diag-card analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Daypart Diagnostic</div><button class="ai-run-btn" onclick="runInlineAI('daypart','daypart-diag-body',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="daypart-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate daypart diagnostic.</div>
+  </div>
+</main>
+
+<!-- ═══════════ PAGE: FOOD COST ═══════════ -->
+<main class="main" id="page-food-cost">
+  <div class="page-title">Food Cost Tracker</div>
+  <div class="page-sub">Weekly variance from theoretical cost</div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">Current Food Cost %</div><div class="metric-value">28.7%</div><div class="metric-delta up">&#9660; Within target</div></div>
+    <div class="metric-card"><div class="metric-label">Theoretical Cost %</div><div class="metric-value">27.2%</div><div class="metric-delta neutral">&#9632; Brand standard</div></div>
+    <div class="metric-card"><div class="metric-label">Variance</div><div class="metric-value" style="color:var(--gold);">+1.5%</div><div class="metric-delta neutral">&#9651; Watch: threshold 3%</div></div>
+    <div class="metric-card"><div class="metric-label">4-Week Trend</div><div class="metric-value">&#8599;</div><div class="metric-delta down">Creeping upward</div></div>
+  </div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost % &mdash; 8 Week Trend</div></div><div class="chart-wrap-tall"><canvas id="foodTrendChart" role="img" aria-label="8 week food cost trend">Food trend data.</canvas></div></div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Weekly Variance Detail</div></div>
+    <table class="dt"><thead><tr><th>Week</th><th>Actual %</th><th>Theoretical %</th><th>Variance</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Wk 8 (current)</td><td>28.7%</td><td>27.2%</td><td class="down">+1.5%</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
+      <tr><td>Wk 7</td><td>28.2%</td><td>27.2%</td><td class="down">+1.0%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 6</td><td>27.8%</td><td>27.2%</td><td class="down">+0.6%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 5</td><td>27.4%</td><td>27.2%</td><td class="neutral">+0.2%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 4</td><td>29.8%</td><td>27.2%</td><td class="down">+2.6%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
+      <tr><td>Wk 3</td><td>30.4%</td><td>27.2%</td><td class="down">+3.2%</td><td><span class="flag flag-red"><span class="fdot"></span>Elevated</span></td></tr>
+      <tr><td>Wk 2</td><td>27.9%</td><td>27.2%</td><td class="down">+0.7%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wk 1</td><td>27.1%</td><td>27.2%</td><td class="up">-0.1%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+    </tbody></table>
+  </div>
+  <div class="ai-diag-card analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Food Cost Diagnostic</div><button class="ai-run-btn" onclick="runInlineAI('foodcost','foodcost-diag-body',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="foodcost-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate food cost diagnostic.</div>
+  </div>
+</main>
+
+<!-- ═══════════ PAGE: LABOR ═══════════ -->
+<main class="main" id="page-labor">
+  <div class="page-title">Labor Efficiency</div>
+  <div class="page-sub">Sales per labor hour — by shift, not by week</div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">Sales / Labor Hour</div><div class="metric-value">$38.20</div><div class="metric-delta up">&#9650; Strong today</div></div>
+    <div class="metric-card"><div class="metric-label">Total Labor Hours</div><div class="metric-value">126</div><div class="metric-delta neutral">&#9632; On schedule</div></div>
+    <div class="metric-card"><div class="metric-label">Labor Cost Today</div><div class="metric-value">$1,512</div><div class="metric-delta up">&#9660; 31.4% of sales</div></div>
+    <div class="metric-card"><div class="metric-label">Overtime Hours</div><div class="metric-value" style="color:#DC2626;">4.5</div><div class="metric-delta down">&#9651; Flag: monitor</div></div>
+  </div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales per Labor Hour &mdash; By Shift</div></div><div class="chart-wrap-tall"><canvas id="laborEffChart" role="img" aria-label="Sales per labor hour by shift">Labor efficiency data.</canvas></div></div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Shift Detail &mdash; This Week</div></div>
+    <table class="dt"><thead><tr><th>Day</th><th>Shift</th><th>Sched Hrs</th><th>Sales</th><th>$/Labor Hr</th><th>Labor %</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Mon</td><td>Lunch</td><td>22</td><td>$1,210</td><td>$36.50</td><td>30.2%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Mon</td><td>Dinner</td><td>38</td><td>$2,840</td><td>$41.20</td><td>26.6%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Tue</td><td>Lunch</td><td>24</td><td>$980</td><td>$27.10</td><td>38.8%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td></tr>
+      <tr><td>Tue</td><td>Dinner</td><td>36</td><td>$2,610</td><td>$38.40</td><td>27.5%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wed</td><td>Lunch</td><td>22</td><td>$1,541</td><td>$46.70</td><td>22.6%</td><td><span class="flag flag-green"><span class="fdot"></span>On Track</span></td></tr>
+      <tr><td>Wed</td><td>Dinner</td><td>42</td><td>$2,803</td><td>$35.00</td><td>37.5%</td><td><span class="flag flag-yellow"><span class="fdot"></span>Watch</span></td></tr>
+    </tbody></table>
+  </div>
+  <div class="ai-diag-card analyst-section">
+    <div class="ai-diag-header"><div class="ai-diag-title"><span class="ai-pulse"></span>A2 Intelligence &mdash; Labor Diagnostic</div><button class="ai-run-btn" onclick="runInlineAI('labor','labor-diag-body',this)">&#9654; Run Analysis</button></div>
+    <div class="ai-diag-body" id="labor-diag-body" style="color:rgba(255,255,255,.4);font-style:italic;">Click Run Analysis to generate labor diagnostic.</div>
+  </div>
+</main>
+
+<!-- ═══════════ PAGE: FLAGS ═══════════ -->
+<main class="main" id="page-flags">
+  <div class="page-title">Flag Engine</div>
+  <div class="page-sub">Active alerts and end-of-day reconciliation</div>
+  <div class="eod-card">
+    <div class="eod-title">&#9651; End of Day Summary</div>
+    <div class="eod-row"><span>Total flags triggered today</span><span style="color:var(--gold-mid);font-weight:600;">5</span></div>
+    <div class="eod-row"><span>Reconciled / resolved</span><span style="color:#4ADE80;font-weight:600;" id="eod-resolved">2</span></div>
+    <div class="eod-row"><span>Open — requires action</span><span style="color:#F87171;font-weight:600;" id="eod-open">3</span></div>
+    <div class="eod-row"><span>Elevated (pattern confirmed)</span><span style="color:#FBBF24;font-weight:600;">1</span></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Active Flags &mdash; Requires Attention</div></div>
+    <table class="dt"><thead><tr><th>Time</th><th>Module</th><th>Flag</th><th>Threshold</th><th>Actual</th><th>Level</th><th>Action</th></tr></thead>
+    <tbody id="flags-body">
+      <tr><td>6:42 PM</td><td>Daypart</td><td>Dinner guest count -14.9% vs LW</td><td>-15%</td><td>-14.9%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
+      <tr><td>2:15 PM</td><td>Labor</td><td>Tuesday lunch labor at 38.8%</td><td>35%</td><td>38.8%</td><td><span class="flag flag-orange"><span class="fdot"></span>Flagged</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
+      <tr><td>9:00 AM</td><td>Food Cost</td><td>4-week creeping variance pattern</td><td>3%</td><td>+1.5% trend</td><td><span class="flag flag-red"><span class="fdot"></span>Elevated</span></td><td><button class="rec-btn" onclick="reconcile(this)">Reconcile</button></td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Resolved Today</div></div>
+    <table class="dt"><thead><tr><th>Time</th><th>Module</th><th>Flag</th><th>Resolved At</th><th>Status</th></tr></thead>
+    <tbody id="resolved-body">
+      <tr><td>11:30 AM</td><td>Labor</td><td>Wednesday dinner labor at 37.5%</td><td>3:00 PM</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td></tr>
+      <tr><td>8:00 AM</td><td>Daily Pulse</td><td>Sales opening slow vs LW</td><td>1:00 PM</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td></tr>
+    </tbody></table>
+  </div>
+</main>
+
+<!-- ═══════════ PAGE: AI ADVISOR ═══════════ -->
+<main class="main" id="page-ai-advisor">
+  <div class="page-title">AI Advisor</div>
+  <div class="page-sub">Ask anything about your unit's performance — plain language answers powered by A2 Intelligence</div>
+
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Ask Your Data</div></div>
+    <div class="ai-chat-wrap" id="chat-wrap">
+      <div class="ai-msg assistant"><strong>A2 Intelligence is ready.</strong><br>Ask me anything about your unit — sales trends, labor efficiency, food cost patterns, what a flag means, or what you should focus on today. Your data is loaded and I am reading it now.</div>
     </div>
-
-    <div class="two-col">
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Labor % by Shift</div>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="laborShiftChart" role="img" aria-label="Labor percentage by shift compared to 35% target">Labor shift data.</canvas>
-        </div>
-      </div>
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Food Cost — Week to Date</div>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="foodWtdChart" role="img" aria-label="Food cost week to date by day">Food cost data.</canvas>
-        </div>
-      </div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-input" type="text" placeholder="Ask about your unit performance..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="ai-send" id="ai-send-btn" onclick="sendChat()">Ask &#9654;</button>
     </div>
+  </div>
 
-    <!-- ANALYST EXTRA: Daily -->
-    <div class="analyst-section">
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Analyst Diagnostic — Daily</div>
-        </div>
-        <div class="insight-box">
-          <strong>A2 Diagnostic Note</strong>
-          Guest count is down 8.3% week-over-week while ticket average is up 1.4% — sales are holding because spend-per-guest is compensating for traffic decline. This is a common masking pattern. If guest count continues declining for 2+ more days, the ticket average increase will not offset the revenue loss. Monitor daypart breakdown for where the traffic drop is concentrated.
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Suggested Questions</div></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <button class="pill-tab" onclick="prefill('Why is my dinner daypart flagged?')">Why is dinner flagged?</button>
+      <button class="pill-tab" onclick="prefill('What is my food cost trend telling me?')">What is my food cost trend?</button>
+      <button class="pill-tab" onclick="prefill('Which shift is my biggest labor problem?')">Biggest labor problem?</button>
+      <button class="pill-tab" onclick="prefill('Am I on track to hit my weekly sales target?')">Am I on track?</button>
+      <button class="pill-tab" onclick="prefill('What should I do today as a priority?')">What is my priority today?</button>
+      <button class="pill-tab" onclick="prefill('How do I explain my performance to my regional manager?')">How do I explain this to my RM?</button>
+      <button class="pill-tab" onclick="prefill('What pattern is hiding in my numbers right now?')">What pattern is hiding?</button>
+      <button class="pill-tab" onclick="prefill('Is my ticket average masking a guest count problem?')">Is ticket average masking a problem?</button>
     </div>
-  </main>
+  </div>
+</main>
 
-  <!-- ═══════════════════════════════════════════
-       PAGE: DAYPART BREAKDOWN
-  ═══════════════════════════════════════════ -->
-  <main class="main" id="page-daypart">
-    <div class="page-title">Daypart Breakdown</div>
-    <div class="page-sub">Guest counts and ticket averages by service period</div>
-
-    <div class="pill-tabs">
-      <button class="pill-tab active" onclick="setDaypartTab(this,'today')">Today</button>
-      <button class="pill-tab" onclick="setDaypartTab(this,'week')">This Week</button>
-      <button class="pill-tab" onclick="setDaypartTab(this,'prior')">Prior Week</button>
+<!-- ═══════════ PAGE: THRESHOLDS ═══════════ -->
+<main class="main" id="page-thresholds">
+  <div class="page-title">Flag Thresholds</div>
+  <div class="page-sub">Industry standard defaults — adjust after reviewing your unit's actual numbers</div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Food Cost</div></div>
+    <div class="thresh-grid">
+      <div class="thresh-item"><div class="thresh-label">Variance Watch Level</div><div class="thresh-row"><input type="range" min="1" max="5" step=".5" value="2" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">2%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Variance Flag Level</div><div class="thresh-row"><input type="range" min="2" max="8" step=".5" value="3" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">3%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Consecutive Weeks Before Elevated</div><div class="thresh-row"><input type="range" min="1" max="4" step="1" value="2" oninput="this.nextElementSibling.textContent=this.value+' wks'"><span class="thresh-val">2 wks</span></div></div>
     </div>
-
-    <div class="two-col">
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Guest Count by Daypart</div>
-        </div>
-        <div class="chart-wrap-tall">
-          <canvas id="guestDaypartChart" role="img" aria-label="Guest counts by lunch, dinner, and late night dayparts">Guest daypart data.</canvas>
-        </div>
-      </div>
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Ticket Average by Daypart</div>
-        </div>
-        <div class="chart-wrap-tall">
-          <canvas id="ticketDaypartChart" role="img" aria-label="Average ticket value by daypart">Ticket average data.</canvas>
-        </div>
-      </div>
+  </div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Labor</div></div>
+    <div class="thresh-grid">
+      <div class="thresh-item"><div class="thresh-label">Labor % Watch</div><div class="thresh-row"><input type="range" min="28" max="40" step=".5" value="32" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">32%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Labor % Flag</div><div class="thresh-row"><input type="range" min="30" max="45" step=".5" value="35" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">35%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Single Shift Elevated</div><div class="thresh-row"><input type="range" min="35" max="50" step=".5" value="40" oninput="this.nextElementSibling.textContent=this.value+'%'"><span class="thresh-val">40%</span></div></div>
     </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Daypart Summary Table</div>
-      </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Daypart</th>
-            <th>Guests</th>
-            <th>vs LW</th>
-            <th>Ticket Avg</th>
-            <th>vs LW</th>
-            <th>Net Sales</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Lunch (11a–3p)</strong></td>
-            <td>72</td>
-            <td class="delta-up">+4.3%</td>
-            <td>$21.40</td>
-            <td class="delta-neutral">+0.2%</td>
-            <td>$1,541</td>
-            <td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td>
-          </tr>
-          <tr>
-            <td><strong>Dinner (4p–9p)</strong></td>
-            <td>98</td>
-            <td class="delta-down">-14.9%</td>
-            <td>$28.60</td>
-            <td class="delta-up">+2.1%</td>
-            <td>$2,803</td>
-            <td><span class="flag flag-orange"><span class="flag-dot"></span>Flagged</span></td>
-          </tr>
-          <tr>
-            <td><strong>Late Night (9p–close)</strong></td>
-            <td>17</td>
-            <td class="delta-neutral">-2.0%</td>
-            <td>$28.12</td>
-            <td class="delta-neutral">+0.8%</td>
-            <td>$478</td>
-            <td><span class="flag flag-yellow"><span class="flag-dot"></span>Watch</span></td>
-          </tr>
-        </tbody>
-      </table>
+  </div>
+  <div class="card"><div class="card-header"><div class="card-title"><span class="card-dot"></span>Sales &amp; Guest Count</div></div>
+    <div class="thresh-grid">
+      <div class="thresh-item"><div class="thresh-label">Daily Sales Drop Flag</div><div class="thresh-row"><input type="range" min="5" max="20" step="1" value="10" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-10%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Guest Count Drop Flag</div><div class="thresh-row"><input type="range" min="5" max="25" step="1" value="15" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-15%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Ticket Average Drop Flag</div><div class="thresh-row"><input type="range" min="2" max="10" step=".5" value="5" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-5%</span></div></div>
+      <div class="thresh-item"><div class="thresh-label">Daypart Drop Flag</div><div class="thresh-row"><input type="range" min="10" max="30" step="1" value="20" oninput="this.nextElementSibling.textContent='-'+this.value+'%'"><span class="thresh-val">-20%</span></div></div>
     </div>
+  </div>
+</main>
 
-    <div class="analyst-section">
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Analyst Diagnostic — Daypart</div>
-        </div>
-        <div class="insight-box">
-          <strong>A2 Diagnostic Note</strong>
-          Dinner is carrying the flag. A 14.9% guest count drop in your highest-volume daypart is not noise — it is a pattern to isolate. Lunch held and even grew. The question is whether dinner is a staffing signal (service quality driving attrition), a competitive signal (guests going elsewhere), or a marketing signal (less visibility on your peak hours). Cross-reference with comp complaints and staff scheduling for that window.
-        </div>
-      </div>
-    </div>
-  </main>
+<!-- ═══════════ PAGE: IMPORT ═══════════ -->
+<main class="main" id="page-import">
+  <div class="page-title">Import POS Data</div>
+  <div class="page-sub">POSitouch CSV export — drag and drop or click to upload</div>
+  <div class="dropzone" onclick="document.getElementById('pos-file2').click()" id="dz" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleDrop(event)">
+    <div class="dz-icon">&#8681;</div>
+    <h3>Drop your POSitouch export here</h3>
+    <p>Accepts .CSV files exported from POSitouch Back Office Manager</p>
+    <input type="file" id="pos-file2" accept=".csv" style="display:none" onchange="handleUpload(event)">
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>How to Export from POSitouch</div></div>
+    <table class="dt"><thead><tr><th>Step</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1</strong></td><td>Open POSitouch Back Office Manager</td></tr>
+      <tr><td><strong>2</strong></td><td>Navigate to Reports &rarr; Sales Summary</td></tr>
+      <tr><td><strong>3</strong></td><td>Select date range: Today or Custom</td></tr>
+      <tr><td><strong>4</strong></td><td>Choose Export &rarr; CSV format</td></tr>
+      <tr><td><strong>5</strong></td><td>Save file and upload it here</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-dot"></span>Import History</div></div>
+    <table class="dt"><thead><tr><th>File</th><th>Date Imported</th><th>Records</th><th>Status</th></tr></thead>
+    <tbody id="import-body">
+      <tr><td>sales_export_0511.csv</td><td>May 11, 2026 8:42 AM</td><td>847 rows</td><td><span class="flag flag-green"><span class="fdot"></span>Processed</span></td></tr>
+      <tr><td>sales_export_0510.csv</td><td>May 10, 2026 9:01 AM</td><td>812 rows</td><td><span class="flag flag-green"><span class="fdot"></span>Processed</span></td></tr>
+    </tbody></table>
+  </div>
+</main>
 
-  <!-- ═══════════════════════════════════════════
-       PAGE: FOOD COST TRACKER
-  ═══════════════════════════════════════════ -->
-  <main class="main" id="page-food-cost">
-    <div class="page-title">Food Cost Tracker</div>
-    <div class="page-sub">Weekly variance from theoretical cost</div>
-
-    <div class="metric-grid">
-      <div class="metric-card">
-        <div class="metric-label">Current Food Cost %</div>
-        <div class="metric-value">28.7%</div>
-        <div class="metric-delta delta-up">&#9660; Within target</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Theoretical Cost %</div>
-        <div class="metric-value">27.2%</div>
-        <div class="metric-delta delta-neutral">&#9632; Brand standard</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Variance</div>
-        <div class="metric-value" style="color:#CA8A04;">+1.5%</div>
-        <div class="metric-delta delta-neutral">&#9651; Watch threshold: 3%</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">4-Week Trend</div>
-        <div class="metric-value">&#8599;</div>
-        <div class="metric-delta delta-down">Creeping upward</div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Food Cost % — 8 Week Trend</div>
-      </div>
-      <div class="chart-wrap-tall">
-        <canvas id="foodTrendChart" role="img" aria-label="Food cost percentage over 8 weeks with theoretical and flag threshold lines">Food cost trend data.</canvas>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Weekly Variance Detail</div>
-      </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Week</th>
-            <th>Actual %</th>
-            <th>Theoretical %</th>
-            <th>Variance</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="food-table-body">
-          <tr><td>Wk 8 (current)</td><td>28.7%</td><td>27.2%</td><td class="delta-down">+1.5%</td><td><span class="flag flag-yellow"><span class="flag-dot"></span>Watch</span></td></tr>
-          <tr><td>Wk 7</td><td>28.2%</td><td>27.2%</td><td class="delta-down">+1.0%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Wk 6</td><td>27.8%</td><td>27.2%</td><td class="delta-down">+0.6%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Wk 5</td><td>27.4%</td><td>27.2%</td><td class="delta-neutral">+0.2%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Wk 4</td><td>29.8%</td><td>27.2%</td><td class="delta-down">+2.6%</td><td><span class="flag flag-orange"><span class="flag-dot"></span>Flagged</span></td></tr>
-          <tr><td>Wk 3</td><td>30.4%</td><td>27.2%</td><td class="delta-down">+3.2%</td><td><span class="flag flag-red"><span class="flag-dot"></span>Elevated</span></td></tr>
-          <tr><td>Wk 2</td><td>27.9%</td><td>27.2%</td><td class="delta-down">+0.7%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Wk 1</td><td>27.1%</td><td>27.2%</td><td class="delta-up">-0.1%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="analyst-section">
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Analyst Diagnostic — Food Cost</div>
-        </div>
-        <div class="insight-box">
-          <strong>A2 Diagnostic Note</strong>
-          Weeks 3 and 4 show an elevated spike that self-corrected by Week 5 — which can indicate a one-time delivery or waste event, or a correction behavior that masked the root cause. The current creep from Wk 5 to Wk 8 suggests the root cause was not eliminated. Priority question: what changed in portioning or waste tracking between Wk 2 and Wk 3? That event may be recurring at a lower level.
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ═══════════════════════════════════════════
-       PAGE: LABOR EFFICIENCY
-  ═══════════════════════════════════════════ -->
-  <main class="main" id="page-labor">
-    <div class="page-title">Labor Efficiency</div>
-    <div class="page-sub">Sales per labor hour — by shift, not by week</div>
-
-    <div class="metric-grid">
-      <div class="metric-card">
-        <div class="metric-label">Sales / Labor Hour</div>
-        <div class="metric-value">$38.20</div>
-        <div class="metric-delta delta-up">&#9650; Strong today</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Total Labor Hours</div>
-        <div class="metric-value">126</div>
-        <div class="metric-delta delta-neutral">&#9632; On schedule</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Labor Cost Today</div>
-        <div class="metric-value">$1,512</div>
-        <div class="metric-delta delta-up">&#9660; 31.4% of sales</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Overtime Hours</div>
-        <div class="metric-value" style="color:#DC2626;">4.5</div>
-        <div class="metric-delta delta-down">&#9651; Flag: monitor</div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Sales per Labor Hour — By Shift</div>
-      </div>
-      <div class="chart-wrap-tall">
-        <canvas id="laborEffChart" role="img" aria-label="Sales per labor hour by shift for each day of the week">Labor efficiency data.</canvas>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Shift Detail — This Week</div>
-      </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Day</th>
-            <th>Shift</th>
-            <th>Scheduled Hrs</th>
-            <th>Sales</th>
-            <th>$/Labor Hr</th>
-            <th>Labor %</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Mon</td><td>Lunch</td><td>22</td><td>$1,210</td><td>$36.50</td><td>30.2%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Mon</td><td>Dinner</td><td>38</td><td>$2,840</td><td>$41.20</td><td>26.6%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Tue</td><td>Lunch</td><td>24</td><td>$980</td><td>$27.10</td><td>38.8%</td><td><span class="flag flag-orange"><span class="flag-dot"></span>Flagged</span></td></tr>
-          <tr><td>Tue</td><td>Dinner</td><td>36</td><td>$2,610</td><td>$38.40</td><td>27.5%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Wed</td><td>Lunch</td><td>22</td><td>$1,541</td><td>$46.70</td><td>22.6%</td><td><span class="flag flag-green"><span class="flag-dot"></span>On Track</span></td></tr>
-          <tr><td>Wed</td><td>Dinner</td><td>42</td><td>$2,803</td><td>$35.00</td><td>37.5%</td><td><span class="flag flag-yellow"><span class="flag-dot"></span>Watch</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="analyst-section">
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Analyst Diagnostic — Labor</div>
-        </div>
-        <div class="insight-box">
-          <strong>A2 Diagnostic Note</strong>
-          Tuesday lunch is the standout inefficiency — 38.8% labor on a $980 sales shift means you are carrying too many hours for the actual guest flow. This is a scheduling misalignment, not a staffing quality issue. The fix is in the schedule, not in performance management. Wednesday dinner is trending toward the flag threshold — one more comparable shift puts it over 35%. Review whether the dinner schedule for that day is built on historical averages or on actual recent guest count patterns.
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ═══════════════════════════════════════════
-       PAGE: FLAG ENGINE
-  ═══════════════════════════════════════════ -->
-  <main class="main" id="page-flags">
-    <div class="page-title">Flag Engine</div>
-    <div class="page-sub">Active alerts and end-of-day reconciliation</div>
-
-    <!-- EOD Summary -->
-    <div class="eod-card">
-      <div class="eod-title">&#9651; End of Day Summary</div>
-      <div class="eod-row">
-        <span>Total flags triggered today</span>
-        <span style="color:var(--gold-mid); font-weight:600;">5</span>
-      </div>
-      <div class="eod-row">
-        <span>Reconciled / resolved</span>
-        <span style="color:#4ADE80; font-weight:600;">2</span>
-      </div>
-      <div class="eod-row">
-        <span>Open — requires action</span>
-        <span style="color:#F87171; font-weight:600;">3</span>
-      </div>
-      <div class="eod-row">
-        <span>Elevated (pattern confirmed)</span>
-        <span style="color:#FBBF24; font-weight:600;">1</span>
-      </div>
-    </div>
-
-    <!-- Active Flags -->
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Active Flags — Requires Attention</div>
-      </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Module</th>
-            <th>Flag</th>
-            <th>Threshold</th>
-            <th>Actual</th>
-            <th>Level</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="flags-body">
-          <tr>
-            <td>6:42 PM</td>
-            <td>Daypart</td>
-            <td>Dinner guest count -14.9% vs LW</td>
-            <td>-15%</td>
-            <td>-14.9%</td>
-            <td><span class="flag flag-orange"><span class="flag-dot"></span>Flagged</span></td>
-            <td><button class="reconcile-btn" onclick="reconcileFlag(this)">Reconcile</button></td>
-          </tr>
-          <tr>
-            <td>2:15 PM</td>
-            <td>Labor</td>
-            <td>Tuesday lunch labor at 38.8%</td>
-            <td>35%</td>
-            <td>38.8%</td>
-            <td><span class="flag flag-orange"><span class="flag-dot"></span>Flagged</span></td>
-            <td><button class="reconcile-btn" onclick="reconcileFlag(this)">Reconcile</button></td>
-          </tr>
-          <tr>
-            <td>9:00 AM</td>
-            <td>Food Cost</td>
-            <td>4-week creeping variance pattern</td>
-            <td>3%</td>
-            <td>+1.5% (trending)</td>
-            <td><span class="flag flag-red"><span class="flag-dot"></span>Elevated</span></td>
-            <td><button class="reconcile-btn" onclick="reconcileFlag(this)">Reconcile</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Resolved Flags -->
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Resolved Today</div>
-      </div>
-      <table class="data-table" id="resolved-table">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Module</th>
-            <th>Flag</th>
-            <th>Resolved At</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="resolved-body">
-          <tr>
-            <td>11:30 AM</td>
-            <td>Labor</td>
-            <td>Wednesday dinner labor at 37.5%</td>
-            <td>3:00 PM</td>
-            <td><span class="flag flag-green"><span class="flag-dot"></span>Resolved</span></td>
-          </tr>
-          <tr>
-            <td>8:00 AM</td>
-            <td>Daily Pulse</td>
-            <td>Sales opening slow vs LW</td>
-            <td>1:00 PM</td>
-            <td><span class="flag flag-green"><span class="flag-dot"></span>Resolved</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="analyst-section">
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title"><span class="dot"></span>Analyst Diagnostic — Flag Patterns</div>
-        </div>
-        <div class="insight-box">
-          <strong>A2 Diagnostic Note</strong>
-          Three of five flags today involve the same root variable — dinner guest count and the labor scheduled to support it. This is not three separate problems. It is one problem expressing itself across three modules. The food cost trend flag is independent and requires separate investigation. Priority sequencing: isolate the dinner traffic decline first, then address food cost variance. Fixing labor scheduling without understanding the traffic drop will produce temporary improvement only.
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ═══════════════════════════════════════════
-       PAGE: THRESHOLDS
-  ═══════════════════════════════════════════ -->
-  <main class="main" id="page-thresholds">
-    <div class="page-title">Flag Thresholds</div>
-    <div class="page-sub">Industry standard defaults — adjust after reviewing your unit's actual numbers</div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Food Cost Thresholds</div>
-      </div>
-      <div class="threshold-grid">
-        <div class="threshold-item">
-          <div class="threshold-label">Variance Watch Level (%)</div>
-          <div class="threshold-row">
-            <input type="range" min="1" max="5" step="0.5" value="2" oninput="this.nextElementSibling.textContent=this.value+'%'">
-            <span class="threshold-val">2%</span>
-          </div>
-        </div>
-        <div class="threshold-item">
-          <div class="threshold-label">Variance Flag Level (%)</div>
-          <div class="threshold-row">
-            <input type="range" min="2" max="8" step="0.5" value="3" oninput="this.nextElementSibling.textContent=this.value+'%'">
-            <span class="threshold-val">3%</span>
-          </div>
-        </div>
-        <div class="threshold-item">
-          <div class="threshold-label">Consecutive Weeks Before Elevated</div>
-          <div class="threshold-row">
-            <input type="range" min="1" max="4" step="1" value="2" oninput="this.nextElementSibling.textContent=this.value+' wks'">
-            <span class="threshold-val">2 wks</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Labor Thresholds</div>
-      </div>
-      <div class="threshold-grid">
-        <div class="threshold-item">
-          <div class="threshold-label">Labor % Watch Level</div>
-          <div class="threshold-row">
-            <input type="range" min="28" max="40" step="0.5" value="32" oninput="this.nextElementSibling.textContent=this.value+'%'">
-            <span class="threshold-val">32%</span>
-          </div>
-        </div>
-        <div class="threshold-item">
-          <div class="threshold-label">Labor % Flag Level</div>
-          <div class="threshold-row">
-            <input type="range" min="30" max="45" step="0.5" value="35" oninput="this.nextElementSibling.textContent=this.value+'%'">
-            <span class="threshold-val">35%</span>
-          </div>
-        </div>
-        <div class="threshold-item">
-          <div class="threshold-label">Single Shift Elevated Level</div>
-          <div class="threshold-row">
-            <input type="range" min="35" max="50" step="0.5" value="40" oninput="this.nextElementSibling.textContent=this.value+'%'">
-            <span class="threshold-val">40%</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Sales & Guest Count Thresholds</div>
-      </div>
-      <div class="threshold-grid">
-        <div class="threshold-item">
-          <div class="threshold-label">Daily Sales Drop Flag (%)</div>
-          <div class="threshold-row">
-            <input type="range" min="5" max="20" step="1" value="10" oninput="this.nextElementSibling.textContent='-'+this.value+'%'">
-            <span class="threshold-val">-10%</span>
-          </div>
-        </div>
-        <div class="threshold-item">
-          <div class="threshold-label">Guest Count Drop Flag (%)</div>
-          <div class="threshold-row">
-            <input type="range" min="5" max="25" step="1" value="15" oninput="this.nextElementSibling.textContent='-'+this.value+'%'">
-            <span class="threshold-val">-15%</span>
-          </div>
-        </div>
-        <div class="threshold-item">
-          <div class="threshold-label">Ticket Average Drop Flag (%)</div>
-          <div class="threshold-row">
-            <input type="range" min="2" max="10" step="0.5" value="5" oninput="this.nextElementSibling.textContent='-'+this.value+'%'">
-            <span class="threshold-val">-5%</span>
-          </div>
-        </div>
-        <div class="threshold-item">
-          <div class="threshold-label">Daypart Drop Flag (%)</div>
-          <div class="threshold-row">
-            <input type="range" min="10" max="30" step="1" value="20" oninput="this.nextElementSibling.textContent='-'+this.value+'%'">
-            <span class="threshold-val">-20%</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ═══════════════════════════════════════════
-       PAGE: IMPORT DATA
-  ═══════════════════════════════════════════ -->
-  <main class="main" id="page-import">
-    <div class="page-title">Import POS Data</div>
-    <div class="page-sub">POSitouch CSV export — drag and drop or click to upload</div>
-
-    <div class="dropzone" onclick="document.getElementById('pos-upload-2').click()" id="dropzone"
-         ondragover="event.preventDefault(); this.classList.add('drag-over')"
-         ondragleave="this.classList.remove('drag-over')"
-         ondrop="handleDrop(event)">
-      <div class="dropzone-icon">&#8681;</div>
-      <h3>Drop your POSitouch export here</h3>
-      <p>Accepts .CSV files exported from POSitouch</p>
-      <input type="file" id="pos-upload-2" accept=".csv" onchange="handleUpload(event)">
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>How to Export from POSitouch</div>
-      </div>
-      <table class="data-table">
-        <thead><tr><th>Step</th><th>Action</th></tr></thead>
-        <tbody>
-          <tr><td><strong>1</strong></td><td>Open POSitouch Back Office Manager</td></tr>
-          <tr><td><strong>2</strong></td><td>Navigate to Reports → Sales Summary</td></tr>
-          <tr><td><strong>3</strong></td><td>Select date range: Today or Custom</td></tr>
-          <tr><td><strong>4</strong></td><td>Choose Export → CSV format</td></tr>
-          <tr><td><strong>5</strong></td><td>Save file and upload it here</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section-card">
-      <div class="section-card-header">
-        <div class="section-card-title"><span class="dot"></span>Import History</div>
-      </div>
-      <table class="data-table" id="import-history">
-        <thead><tr><th>File</th><th>Date Imported</th><th>Records</th><th>Status</th></tr></thead>
-        <tbody id="import-history-body">
-          <tr><td>sales_export_0511.csv</td><td>May 11, 2026 8:42 AM</td><td>847 rows</td><td><span class="flag flag-green"><span class="flag-dot"></span>Processed</span></td></tr>
-          <tr><td>sales_export_0510.csv</td><td>May 10, 2026 9:01 AM</td><td>812 rows</td><td><span class="flag flag-green"><span class="flag-dot"></span>Processed</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </main>
-
-</div>
+</div><!-- /layout -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 // ── DATE ──
-const d = new Date();
-document.getElementById('today-date').textContent =
-  d.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric', year:'numeric'});
-document.getElementById('pulse-sub').textContent =
-  'Performance as of ' + d.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+const now = new Date();
+document.getElementById('today-date').textContent = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+document.getElementById('pulse-sub').textContent = 'Performance as of ' + now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
 
-// ── VIEW TOGGLE ──
-let currentView = 'operator';
-function setView(v) {
-  currentView = v;
-  document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  const banner = document.getElementById('analyst-banner');
-  if (v === 'analyst') {
-    document.body.classList.add('analyst-mode');
-    banner.style.display = 'flex';
-  } else {
-    document.body.classList.remove('analyst-mode');
-    banner.style.display = 'none';
+// ── CURRENT DASHBOARD DATA (fed to AI) ──
+const DASH_DATA = {
+  date: now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}),
+  daily: { sales:4820, salesVsLW:'+6.2%', laborPct:31.4, foodCostPct:28.7, guestCount:187, guestVsLW:'-8.3%', ticketAvg:25.78, ticketVsLW:'+1.4%', activeFlags:3 },
+  dayparts: [
+    {name:'Lunch (11a-3p)', guests:72, guestsVsLW:'+4.3%', ticketAvg:21.40, ticketVsLW:'+0.2%', sales:1541, status:'On Track'},
+    {name:'Dinner (4p-9p)', guests:98, guestsVsLW:'-14.9%', ticketAvg:28.60, ticketVsLW:'+2.1%', sales:2803, status:'Flagged'},
+    {name:'Late Night (9p-close)', guests:17, guestsVsLW:'-2.0%', ticketAvg:28.12, ticketVsLW:'+0.8%', sales:478, status:'Watch'}
+  ],
+  foodCost: { current:28.7, theoretical:27.2, variance:1.5, trend:'creeping upward', weeklyHistory:[27.1,27.9,30.4,29.8,27.4,27.8,28.2,28.7] },
+  labor: { salesPerLaborHr:38.20, totalHrs:126, laborCost:1512, laborPct:31.4, overtimeHrs:4.5,
+    shifts:[
+      {day:'Mon',shift:'Lunch',hrs:22,sales:1210,perHr:36.5,pct:30.2,status:'On Track'},
+      {day:'Mon',shift:'Dinner',hrs:38,sales:2840,perHr:41.2,pct:26.6,status:'On Track'},
+      {day:'Tue',shift:'Lunch',hrs:24,sales:980,perHr:27.1,pct:38.8,status:'Flagged'},
+      {day:'Tue',shift:'Dinner',hrs:36,sales:2610,perHr:38.4,pct:27.5,status:'On Track'},
+      {day:'Wed',shift:'Lunch',hrs:22,sales:1541,perHr:46.7,pct:22.6,status:'On Track'},
+      {day:'Wed',shift:'Dinner',hrs:42,sales:2803,perHr:35.0,pct:37.5,status:'Watch'}
+    ]
+  },
+  flags: { active:3, resolved:2, elevated:1 },
+  thresholds: { foodCostWarn:2, foodCostFlag:3, laborWarn:32, laborFlag:35, laborElevated:40, salesDrop:10, guestDrop:15, ticketDrop:5 }
+};
+
+const SYSTEM_PROMPT = `You are A2 Intelligence, the diagnostic engine inside A2 Pulse: Franchise Intelligence — a performance dashboard built by A2 Systems Architecture for franchise operators. You have the analytical posture of a senior business analyst who specializes in restaurant unit economics.
+
+Your role is to read the operator's actual unit data and deliver plain-language diagnostic intelligence. You are not a generic assistant. You are a precision analyst reading this specific unit's numbers.
+
+OPERATOR DATA:
+${JSON.stringify(DASH_DATA, null, 2)}
+
+ANALYSIS PRINCIPLES:
+- Be direct. No preamble. Lead with what matters.
+- Name the specific number, shift, or pattern — never speak in generalities.
+- Distinguish between a problem and a symptom. Find the root variable.
+- Flag masking patterns (e.g. ticket average compensating for guest count decline).
+- Speak like a trusted advisor, not a software bot.
+- Maximum 4-5 sentences for inline diagnostics. Conversational for chat.
+- Never say "based on the data provided." You are reading live unit data.
+- The operator may be on maternity leave. Assume she has 90 seconds. Make every word count.`;
+
+const MODULE_PROMPTS = {
+  daily: 'Deliver a 4-sentence daily diagnostic. What is the most important pattern in today\'s numbers? What is being masked? What is the one thing that needs attention?',
+  daypart: 'Analyze the daypart breakdown. Dinner is flagged at -14.9% guest count. What does this pattern mean? What is the root question the operator needs to answer?',
+  foodcost: 'Analyze the 8-week food cost trend. Weeks 3-4 spiked then corrected, and the current trend is creeping upward again from week 5 to 8. What does this pattern suggest? What is the most likely cause?',
+  labor: 'Analyze the labor efficiency by shift. Tuesday lunch is flagged at 38.8%. What is the scheduling misalignment this reveals? What is the fix?'
+};
+
+// ── MORNING BRIEF ──
+async function triggerMorningBrief() {
+  const banner = document.getElementById('ai-banner');
+  const content = document.getElementById('ai-banner-content');
+  const actions = document.getElementById('ai-banner-actions');
+  const ts = document.getElementById('ai-timestamp');
+  banner.classList.add('open');
+  content.innerHTML = '<div class="ai-loading"><span>Generating your morning brief</span><span class="ai-dots"><span></span><span></span><span></span></span></div>';
+  actions.style.display = 'none';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: SYSTEM_PROMPT,
+        messages:[{role:'user',content:'Generate the morning brief for today. 4-5 sentences maximum. Cover: the single most important pattern, what is being masked, the flag that needs immediate attention, and one forward-looking observation about this week. Use bold HTML tags for key numbers only.'}]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.[0]?.text || 'Unable to generate brief. Check your connection.';
+    content.innerHTML = `<div class="ai-content">${text}</div>`;
+    actions.style.display = 'flex';
+    ts.textContent = 'Generated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  } catch(e) {
+    content.innerHTML = '<div class="ai-content" style="color:rgba(255,255,255,.5);">Unable to connect to A2 Intelligence. Check your network connection and try again.</div>';
   }
 }
 
-// ── NAV ──
-function showPage(id) {
-  document.querySelectorAll('.main').forEach(m => m.classList.remove('visible'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('visible');
-  event.currentTarget.classList.add('active');
-  if (!chartsBuilt[id]) { buildChart(id); chartsBuilt[id] = true; }
+// ── INLINE MODULE ANALYSIS ──
+async function runInlineAI(module, targetId, btn) {
+  const target = document.getElementById(targetId);
+  btn.disabled = true;
+  btn.textContent = 'Analyzing...';
+  target.style.fontStyle = 'normal';
+  target.style.color = 'rgba(255,255,255,.7)';
+  target.innerHTML = '<div class="ai-loading"><span>Running diagnostic</span><span class="ai-dots"><span></span><span></span><span></span></span></div>';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: SYSTEM_PROMPT,
+        messages:[{role:'user',content: MODULE_PROMPTS[module]}]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.[0]?.text || 'Analysis unavailable.';
+    target.innerHTML = text;
+    target.style.color = 'rgba(255,255,255,.88)';
+    btn.textContent = '&#9654; Refresh';
+    btn.disabled = false;
+  } catch(e) {
+    target.innerHTML = 'Unable to connect to A2 Intelligence. Check your network connection.';
+    target.style.color = 'rgba(255,255,255,.4)';
+    btn.textContent = '&#9654; Retry';
+    btn.disabled = false;
+  }
 }
 
-const chartsBuilt = {};
+// ── AI ADVISOR CHAT ──
+const chatHistory = [];
 
-// ── PLUM / GOLD palette for Chart.js ──
-const PLUM = '#2D1B4E';
-const GOLD = '#CA8A04';
-const GOLD_L = '#F59E0B';
-const GREEN = '#16A34A';
-const RED = '#DC2626';
-const ORANGE = '#EA580C';
-const GRAY = '#D6D3D1';
-const LIGHT_PLUM = 'rgba(45,27,78,0.08)';
+async function sendChat() {
+  const input = document.getElementById('ai-input');
+  const btn = document.getElementById('ai-send-btn');
+  const wrap = document.getElementById('chat-wrap');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  btn.disabled = true;
+
+  const userDiv = document.createElement('div');
+  userDiv.className = 'ai-msg user';
+  userDiv.textContent = msg;
+  wrap.appendChild(userDiv);
+
+  const thinkDiv = document.createElement('div');
+  thinkDiv.className = 'ai-msg assistant';
+  thinkDiv.innerHTML = '<div class="ai-loading"><span>Analyzing</span><span class="ai-dots"><span></span><span></span><span></span></span></div>';
+  wrap.appendChild(thinkDiv);
+  wrap.scrollTop = wrap.scrollHeight;
+
+  chatHistory.push({role:'user', content: msg});
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: SYSTEM_PROMPT,
+        messages: chatHistory
+      })
+    });
+    const data = await resp.json();
+    const reply = data.content?.[0]?.text || 'Unable to respond right now.';
+    chatHistory.push({role:'assistant', content: reply});
+    thinkDiv.innerHTML = reply;
+  } catch(e) {
+    thinkDiv.innerHTML = 'Connection error. Please try again.';
+  }
+
+  wrap.scrollTop = wrap.scrollHeight;
+  btn.disabled = false;
+  input.focus();
+}
+
+function askAI(q) {
+  showPage('ai-advisor', document.querySelector('.nav-item:nth-child(8)'));
+  document.getElementById('ai-input').value = q;
+  sendChat();
+}
+
+function prefill(q) {
+  document.getElementById('ai-input').value = q;
+  document.getElementById('ai-input').focus();
+}
+
+// ── VIEW TOGGLE ──
+function setView(v, btn) {
+  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const ab = document.getElementById('analyst-banner');
+  if (v === 'analyst') { document.body.classList.add('analyst-mode'); ab.classList.add('show'); }
+  else { document.body.classList.remove('analyst-mode'); ab.classList.remove('show'); }
+}
+
+// ── NAV ──
+const chartsBuilt = {};
+function showPage(id, el) {
+  document.querySelectorAll('.main').forEach(m=>m.classList.remove('visible'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const page = document.getElementById('page-'+id);
+  if (page) page.classList.add('visible');
+  if (el) el.classList.add('active');
+  if (!chartsBuilt[id]) { buildChart(id); chartsBuilt[id]=true; }
+}
+
+// ── CHARTS ──
+const PLUM='#2D1B4E', GOLD='#CA8A04', GOLD_L='#F59E0B', GREEN='#16A34A', RED='#DC2626', LP='rgba(45,27,78,0.08)';
 
 function buildChart(id) {
-  if (id === 'daily-pulse') buildDailyCharts();
-  else if (id === 'daypart') buildDaypartCharts();
-  else if (id === 'food-cost') buildFoodChart();
-  else if (id === 'labor') buildLaborChart();
+  if (id==='daily-pulse') buildDailyCharts();
+  else if (id==='daypart') buildDaypartCharts();
+  else if (id==='food-cost') buildFoodChart();
+  else if (id==='labor') buildLaborChart();
 }
 
-// Build initial charts
 function buildDailyCharts() {
-  const hours = ['11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p'];
-  new Chart(document.getElementById('salesCompChart'), {
-    type: 'bar',
-    data: {
-      labels: hours,
-      datasets: [
-        { label: 'This Week', data: [310,540,480,290,210,390,620,710,580,340,150], backgroundColor: PLUM, borderRadius: 4 },
-        { label: 'Prior Week', data: [290,510,450,310,190,360,590,670,610,320,160], backgroundColor: GOLD_L, borderRadius: 4 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-        y: { grid: { color: '#F5F5F4' }, ticks: { callback: v => '$' + v, font: { size: 11 } } }
-      }
-    }
-  });
-
-  new Chart(document.getElementById('laborShiftChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Mon L','Mon D','Tue L','Tue D','Wed L','Wed D'],
-      datasets: [
-        { label: 'Labor %', data: [30.2, 26.6, 38.8, 27.5, 22.6, 37.5], backgroundColor: [GREEN,GREEN,RED,GREEN,GREEN,GOLD_L], borderRadius: 4 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        annotation: {}
-      },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-        y: { grid: { color: '#F5F5F4' }, ticks: { callback: v => v + '%', font: { size: 11 } }, max: 50 }
-      }
-    }
-  });
-
-  new Chart(document.getElementById('foodWtdChart'), {
-    type: 'line',
-    data: {
-      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-      datasets: [
-        { label: 'Food Cost %', data: [27.8, 28.2, 28.7, null, null, null, null], borderColor: PLUM, backgroundColor: LIGHT_PLUM, fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: PLUM },
-        { label: 'Target', data: [27.2, 27.2, 27.2, 27.2, 27.2, 27.2, 27.2], borderColor: GOLD, borderDash: [5,5], pointRadius: 0 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-        y: { grid: { color: '#F5F5F4' }, ticks: { callback: v => v + '%', font: { size: 11 } }, min: 25, max: 33 }
-      }
-    }
-  });
+  const hrs = ['11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p'];
+  new Chart(document.getElementById('salesCompChart'),{type:'bar',data:{labels:hrs,datasets:[{label:'This Week',data:[310,540,480,290,210,390,620,710,580,340,150],backgroundColor:PLUM,borderRadius:4},{label:'Prior Week',data:[290,510,450,310,190,360,590,670,610,320,160],backgroundColor:GOLD_L,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v,font:{size:11}}}}}});
+  new Chart(document.getElementById('laborShiftChart'),{type:'bar',data:{labels:['Mon L','Mon D','Tue L','Tue D','Wed L','Wed D'],datasets:[{label:'Labor %',data:[30.2,26.6,38.8,27.5,22.6,37.5],backgroundColor:[GREEN,GREEN,RED,GREEN,GREEN,GOLD_L],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},max:50}}}});
+  new Chart(document.getElementById('foodWtdChart'),{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Food Cost %',data:[27.8,28.2,28.7,null,null,null,null],borderColor:PLUM,backgroundColor:LP,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PLUM},{label:'Target',data:[27.2,27.2,27.2,27.2,27.2,27.2,27.2],borderColor:GOLD,borderDash:[5,5],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},min:25,max:33}}}});
 }
 
 function buildDaypartCharts() {
-  new Chart(document.getElementById('guestDaypartChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Lunch','Dinner','Late Night'],
-      datasets: [
-        { label: 'This Week', data: [72, 98, 17], backgroundColor: PLUM, borderRadius: 5 },
-        { label: 'Prior Week', data: [69, 115, 17.3], backgroundColor: GOLD_L, borderRadius: 5 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false } },
-        y: { grid: { color: '#F5F5F4' }, ticks: { font: { size: 11 } } }
-      }
-    }
-  });
-
-  new Chart(document.getElementById('ticketDaypartChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Lunch','Dinner','Late Night'],
-      datasets: [
-        { label: 'This Week', data: [21.40, 28.60, 28.12], backgroundColor: PLUM, borderRadius: 5 },
-        { label: 'Prior Week', data: [21.36, 28.01, 27.90], backgroundColor: GOLD_L, borderRadius: 5 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false } },
-        y: { grid: { color: '#F5F5F4' }, ticks: { callback: v => '$' + v.toFixed(2), font: { size: 11 } }, min: 15 }
-      }
-    }
-  });
+  new Chart(document.getElementById('guestChart'),{type:'bar',data:{labels:['Lunch','Dinner','Late Night'],datasets:[{label:'This Week',data:[72,98,17],backgroundColor:PLUM,borderRadius:5},{label:'Prior Week',data:[69,115,17.3],backgroundColor:GOLD_L,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F5F5F4'},ticks:{font:{size:11}}}}}});
+  new Chart(document.getElementById('ticketChart'),{type:'bar',data:{labels:['Lunch','Dinner','Late Night'],datasets:[{label:'This Week',data:[21.40,28.60,28.12],backgroundColor:PLUM,borderRadius:5},{label:'Prior Week',data:[21.36,28.01,27.90],backgroundColor:GOLD_L,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v.toFixed(2),font:{size:11}},min:15}}}});
 }
 
 function buildFoodChart() {
-  const weeks = ['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'];
-  const actual = [27.1, 27.9, 30.4, 29.8, 27.4, 27.8, 28.2, 28.7];
-  new Chart(document.getElementById('foodTrendChart'), {
-    type: 'line',
-    data: {
-      labels: weeks,
-      datasets: [
-        { label: 'Actual Food Cost %', data: actual, borderColor: PLUM, backgroundColor: LIGHT_PLUM, fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: actual.map(v => v >= 30 ? RED : v >= 28 ? GOLD_L : GREEN) },
-        { label: 'Theoretical', data: Array(8).fill(27.2), borderColor: GOLD, borderDash: [6,4], pointRadius: 0 },
-        { label: 'Flag Threshold', data: Array(8).fill(30.2), borderColor: RED, borderDash: [3,3], pointRadius: 0 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-        y: { grid: { color: '#F5F5F4' }, ticks: { callback: v => v + '%', font: { size: 11 } }, min: 25, max: 33 }
-      }
-    }
-  });
+  const actual=[27.1,27.9,30.4,29.8,27.4,27.8,28.2,28.7];
+  new Chart(document.getElementById('foodTrendChart'),{type:'line',data:{labels:['Wk 1','Wk 2','Wk 3','Wk 4','Wk 5','Wk 6','Wk 7','Wk 8'],datasets:[{label:'Actual',data:actual,borderColor:PLUM,backgroundColor:LP,fill:true,tension:0.3,pointRadius:5,pointBackgroundColor:actual.map(v=>v>=30?RED:v>=28?GOLD_L:GREEN)},{label:'Theoretical',data:Array(8).fill(27.2),borderColor:GOLD,borderDash:[6,4],pointRadius:0},{label:'Flag Threshold',data:Array(8).fill(30.2),borderColor:RED,borderDash:[3,3],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>v+'%',font:{size:11}},min:25,max:33}}}});
 }
 
 function buildLaborChart() {
-  new Chart(document.getElementById('laborEffChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Mon L','Mon D','Tue L','Tue D','Wed L','Wed D'],
-      datasets: [
-        { label: '$/Labor Hr', data: [36.5, 41.2, 27.1, 38.4, 46.7, 35.0], backgroundColor: [GREEN, GREEN, RED, GREEN, GREEN, GOLD_L], borderRadius: 5 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-        y: { grid: { color: '#F5F5F4' }, ticks: { callback: v => '$' + v, font: { size: 11 } }, min: 0 }
-      }
-    }
-  });
+  new Chart(document.getElementById('laborEffChart'),{type:'bar',data:{labels:['Mon L','Mon D','Tue L','Tue D','Wed L','Wed D'],datasets:[{label:'$/Labor Hr',data:[36.5,41.2,27.1,38.4,46.7,35.0],backgroundColor:[GREEN,GREEN,RED,GREEN,GREEN,GOLD_L],borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#F5F5F4'},ticks:{callback:v=>'$'+v,font:{size:11}},min:0}}}});
 }
 
-// Build initial page charts
-buildDailyCharts();
-chartsBuilt['daily-pulse'] = true;
-
-// ── DAYPART TAB ──
-function setDaypartTab(btn, tab) {
-  document.querySelectorAll('.pill-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
+buildDailyCharts(); chartsBuilt['daily-pulse']=true;
 
 // ── RECONCILE ──
-let resolvedCount = 2;
-let activeCount = 3;
-
-function reconcileFlag(btn) {
+let resolved=2, active=3;
+function reconcile(btn) {
   const row = btn.closest('tr');
   const cells = row.querySelectorAll('td');
-  const module = cells[1].textContent;
-  const flag = cells[2].textContent;
-
   row.remove();
-  activeCount--;
-  resolvedCount++;
-  document.getElementById('flag-count').textContent = activeCount;
-  document.getElementById('m-flags').textContent = activeCount;
-
-  const now = new Date();
-  const time = now.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
-  const newRow = document.createElement('tr');
-  newRow.innerHTML = `
-    <td>${cells[0].textContent}</td>
-    <td>${module}</td>
-    <td>${flag}</td>
-    <td>${time}</td>
-    <td><span class="flag flag-green"><span class="flag-dot"></span>Resolved</span></td>
-  `;
-  document.getElementById('resolved-body').prepend(newRow);
-
-  const eodRows = document.querySelectorAll('.eod-row span[style]');
-  eodRows[1].textContent = resolvedCount;
-  eodRows[2].textContent = activeCount;
+  active--; resolved++;
+  document.getElementById('flag-count').textContent = active;
+  document.getElementById('eod-open').textContent = active;
+  document.getElementById('eod-resolved').textContent = resolved;
+  const t = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const nr = document.createElement('tr');
+  nr.innerHTML = `<td>${cells[0].textContent}</td><td>${cells[1].textContent}</td><td>${cells[2].textContent}</td><td>${t}</td><td><span class="flag flag-green"><span class="fdot"></span>Resolved</span></td>`;
+  document.getElementById('resolved-body').prepend(nr);
 }
 
-// ── UPLOAD HANDLER ──
+// ── UPLOAD ──
 function handleUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) +
-    ' ' + now.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
-  const newRow = document.createElement('tr');
-  newRow.innerHTML = `
-    <td>${file.name}</td>
-    <td>${dateStr}</td>
-    <td>Processing...</td>
-    <td><span class="flag flag-yellow"><span class="flag-dot"></span>Processing</span></td>
-  `;
-  document.getElementById('import-history-body').prepend(newRow);
-  setTimeout(() => {
-    newRow.querySelector('td:nth-child(3)').textContent = Math.floor(Math.random()*200+700) + ' rows';
-    newRow.querySelector('td:last-child').innerHTML = '<span class="flag flag-green"><span class="flag-dot"></span>Processed</span>';
-  }, 1800);
+  const file = e.target.files[0]; if(!file) return;
+  const dt = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ' ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const nr = document.createElement('tr');
+  nr.innerHTML = `<td>${file.name}</td><td>${dt}</td><td>Processing...</td><td><span class="flag flag-yellow"><span class="fdot"></span>Processing</span></td>`;
+  document.getElementById('import-body').prepend(nr);
+  setTimeout(()=>{nr.querySelector('td:nth-child(3)').textContent=Math.floor(Math.random()*200+700)+' rows';nr.querySelector('td:last-child').innerHTML='<span class="flag flag-green"><span class="fdot"></span>Processed</span>';},1800);
 }
 
 function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('dropzone').classList.remove('drag-over');
+  e.preventDefault(); document.getElementById('dz').classList.remove('drag-over');
   const file = e.dataTransfer.files[0];
-  if (file) handleUpload({ target: { files: [file] } });
+  if (file) handleUpload({target:{files:[file]}});
+}
+
+function setTab(btn) {
+  document.querySelectorAll('.pill-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
 </script>
 </body>
