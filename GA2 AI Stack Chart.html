@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GA2 Enterprises — AI Stack by Vertical</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --plum: #2D1B4E;
+    --gold: #CA8A04;
+    --cream: #FFFBEB;
+    --lavender: #FAF5FF;
+    --near-black: #1C1917;
+    --plum-light: #3d2668;
+    --gold-light: #f5c842;
+    --edu-blue: #1565C0;
+    --franchise-green: #1B5E20;
+    --realestate-amber: #B45309;
+    --consumer-purple: #6A0DAD;
+    --ops-slate: #374151;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--plum);
+    font-family: Arial, sans-serif;
+    color: var(--near-black);
+    min-height: 100vh;
+    padding: 40px 24px 60px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1380px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    color: var(--lavender);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .header-sub {
+    font-size: 13px;
+    color: rgba(250,245,255,0.55);
+    letter-spacing: 0.04em;
+  }
+
+  .gold-rule {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 16px auto 0;
+  }
+
+  .foundation {
+    background: var(--gold);
+    border-radius: 10px;
+    padding: 16px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .foundation-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--plum);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .foundation-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .foundation-pill {
+    background: var(--plum);
+    color: var(--gold-light);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+  }
+
+  .foundation-note {
+    font-size: 12px;
+    color: var(--plum);
+    margin-left: auto;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 32px;
+    align-content: flex-start;
+  }
+
+  .card {
+    background: var(--lavender);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.15s;
+    width: 300px;
+    flex-shrink: 0;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.35);
+  }
+
+  .card:active { cursor: grabbing; }
+
+  .card.dragging {
+    opacity: 0.35;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .card.drag-over {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .card.locked {
+    cursor: default;
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .card.locked:hover {
+    transform: none;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+
+  .locked-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(202,138,4,0.15);
+    border: 1px solid rgba(202,138,4,0.35);
+    border-radius: 100px;
+    padding: 2px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .card-header {
+    padding: 16px 20px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: white;
+    min-width: 0;
+  }
+
+  .card-title-block {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .card-vertical {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 3px;
+  }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    line-height: 1.2;
+  }
+
+  .card-body {
+    padding: 14px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .tool-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tool-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .badge-primary    { background: var(--plum);   color: var(--gold-light); }
+  .badge-secondary  { background: #E9D8FD;        color: var(--plum); }
+  .badge-support    { background: #FEF3C7;        color: #92400E; }
+  .badge-automation { background: #D1FAE5;        color: #065F46; }
+  .badge-intel      { background: #FEE2E2;        color: #991B1B; }
+
+  .tool-desc {
+    font-size: 11.5px;
+    color: var(--near-black);
+    line-height: 1.45;
+    padding-top: 2px;
+  }
+
+  .tool-divider {
+    height: 1px;
+    background: rgba(45,27,78,0.08);
+    margin: 2px 0;
+  }
+
+  .edu    .card-header { background: var(--edu-blue); }
+  .fran   .card-header { background: var(--franchise-green); }
+  .re     .card-header { background: var(--realestate-amber); }
+  .cons   .card-header { background: var(--consumer-purple); }
+  .ops    .card-header { background: var(--ops-slate); }
+
+  .edu    { border-top: 3px solid var(--edu-blue); }
+  .fran   { border-top: 3px solid var(--franchise-green); }
+  .re     { border-top: 3px solid var(--realestate-amber); }
+  .cons   { border-top: 3px solid var(--consumer-purple); }
+  .ops    { border-top: 3px solid var(--ops-slate); }
+
+  .legend {
+    background: rgba(250,245,255,0.07);
+    border: 1px solid rgba(202,138,4,0.25);
+    border-radius: 10px;
+    padding: 16px 24px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .legend-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-right: 4px;
+  }
+
+  .legend-items {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: rgba(250,245,255,0.7);
+  }
+
+  .legend-dot {
+    width: 22px;
+    height: 14px;
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 36px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(250,245,255,0.3);
+    text-transform: uppercase;
+  }
+
+  .drag-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(250,245,255,0.35);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .foundation { flex-direction: column; align-items: flex-start; }
+    .foundation-note { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="header-eyebrow">GA2 Enterprises</div>
+    <h1>AI Stack by Product Vertical</h1>
+    <div class="header-sub">Tool combinations mapped to each product ecosystem</div>
+    <div class="gold-rule"></div>
+  </div>
+
+  <div class="foundation">
+    <div class="foundation-label">Core Stack — All Verticals</div>
+    <div class="foundation-pills">
+      <span class="foundation-pill">Claude</span>
+      <span class="foundation-pill">Manus</span>
+    </div>
+    <div class="foundation-note">Reasoning + Research — every product runs on both</div>
+  </div>
+
+  <div class="drag-hint">&#8942;&#8942; Drag cards to reorder</div>
+
+  <div class="grid" id="board">
+
+    <!-- GA2 ENTERPRISES — LOCKED FOUNDATION -->
+    <div class="card ops locked" draggable="false" id="card-locked">
+      <div class="card-header">
+        <div class="card-icon">🏢</div>
+        <div class="card-title-block">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <div class="card-vertical" style="margin-bottom:0;">Parent Company Operations</div>
+            <span class="locked-badge">Foundation</span>
+          </div>
+          <div class="card-title">GA2 Enterprises<br>Umbrella Operations</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="tool-row">
+          <span class="tool-badge badge-primary">Claude</span>
+          <div class="tool-desc">All strategic documents, pitch narratives, investor decks, legal entity docs, stakeholder communication</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-secondary">Manus</span>
+          <div class="tool-desc">Market sizing, investor landscape analysis, comparable company valuations</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-intel">Grok</span>
+          <div class="tool-desc">Real-time news and financial data — live market signals alongside Manus deep research</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-support">Gamma.app</span>
+          <div class="tool-desc">Rapid pitch deck and presentation creation — Claude feeds content, Gamma renders it</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-automation">Lindy</span>
+          <div class="tool-desc">Automating relationship and operations workflows — follow-ups, meeting summaries, CRM updates across all verticals</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDUCATION VERTICAL -->
+    <div class="card edu" draggable="true">
+      <div class="card-header">
+        <div class="card-icon">🎓</div>
+        <div class="card-title-block">
+          <div class="card-vertical">Education Vertical</div>
+          <div class="card-title">A2 Systems Architecture<br>A2 Insight · A2 Pulse</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="tool-row">
+          <span class="tool-badge badge-primary">Claude</span>
+          <div class="tool-desc">Diagnostic briefs, intervention recommendations, IAG module drafts, parent talking points</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-secondary">Manus</span>
+          <div class="tool-desc">FAST/EOC/SAT benchmarks, state education policy, charter school regulation research</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-secondary">NotebookLM</span>
+          <div class="tool-desc">Queries the full IAG corpus in real time — surfaces exact citations from RS, PB, and AC documents during client meetings</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-support">Cursor / Claude Code</span>
+          <div class="tool-desc">A2 Pulse dashboard — Leadership View and Teacher View architecture</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-support">Notion AI / Mem.ai</span>
+          <div class="tool-desc">Resource Sheets, Playbook Modules, Activation Cards — searchable methodology library</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-automation">Whisper / AssemblyAI</span>
+          <div class="tool-desc">Transcribes debrief sessions and walkthroughs — feeds into Claude for summaries and next-step documentation</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRANCHISE VERTICAL -->
+    <div class="card fran" draggable="true">
+      <div class="card-header">
+        <div class="card-icon">🍽️</div>
+        <div class="card-title-block">
+          <div class="card-vertical">Franchise Vertical</div>
+          <div class="card-title">A2 Pulse<br>Franchise Intelligence</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="tool-row">
+          <span class="tool-badge badge-primary">Claude</span>
+          <div class="tool-desc">Core intelligence engine — reads unit data, delivers plain-language daily diagnostics to operators</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-secondary">Manus</span>
+          <div class="tool-desc">SEC filings, earnings reports, franchise disclosure documents (FDDs) for benchmark calibration</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-support">Cursor / Claude Code</span>
+          <div class="tool-desc">Dashboard infrastructure and daily POS data ingestion pipeline</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-automation">Make.com / n8n</span>
+          <div class="tool-desc">Automates: data pull → Claude analysis → operator delivery — the daily operational heartbeat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REAL ESTATE VERTICAL -->
+    <div class="card re" draggable="true">
+      <div class="card-header">
+        <div class="card-icon">🏠</div>
+        <div class="card-title-block">
+          <div class="card-vertical">Real Estate Vertical</div>
+          <div class="card-title">HomeTrue</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="tool-row">
+          <span class="tool-badge badge-primary">Claude</span>
+          <div class="tool-desc">Explains complex mortgage scenarios in plain language for the consumer-facing educational layer</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-secondary">Manus</span>
+          <div class="tool-desc">County-level tax rate research, HOA data, flood zone mapping, insurance benchmarks — 11-state expansion</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-support">Perplexity</span>
+          <div class="tool-desc">Fast, citation-backed lookups for rapidly changing data — millage rates, state insurance regulations</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-automation">No Backend</span>
+          <div class="tool-desc">Browser-only architecture — keep it clean, no server required</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONSUMER APP VERTICAL -->
+    <div class="card cons" draggable="true">
+      <div class="card-header">
+        <div class="card-icon">📱</div>
+        <div class="card-title-block">
+          <div class="card-vertical">Consumer App Vertical</div>
+          <div class="card-title">SpamShieldPro · RawRoute</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="tool-row">
+          <span class="tool-badge badge-primary">Claude</span>
+          <div class="tool-desc">SpamShieldPro call challenge and scam detection logic. RawRoute community reporting tone and filter layer</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-secondary">Manus</span>
+          <div class="tool-desc">TCPA/FCC regulatory research, competitor pricing analysis, Mapbox vs Google Maps SDK comparison for RawRoute</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-intel">Grok</span>
+          <div class="tool-desc">Real-time X/social scam and spam trend detection — keeps SpamShieldPro threat intelligence current</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-support">Perplexity</span>
+          <div class="tool-desc">General web scam database lookups and regulatory updates</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-row">
+          <span class="tool-badge badge-support">Cursor</span>
+          <div class="tool-desc">Android development for SpamShieldPro and mobile app architecture for RawRoute</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="legend">
+    <span class="legend-label">Key</span>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#2D1B4E;"></span>
+        Primary — Reasoning &amp; Writing
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#E9D8FD;"></span>
+        Research
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#FEF3C7;"></span>
+        Build / Lookup
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#D1FAE5;"></span>
+        Automation / Workflow
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:#FEE2E2;"></span>
+        Real-Time Intelligence
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">A2 Systems Architecture LLC &nbsp;·&nbsp; GA2 Enterprises &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; 2026</div>
+
+</div>
+
+<script>
+  const board = document.getElementById('board');
+  let dragged = null;
+
+  board.addEventListener('dragstart', e => {
+    dragged = e.target.closest('.card');
+    if (!dragged || dragged.classList.contains('locked')) { dragged = null; return; }
+    setTimeout(() => dragged.classList.add('dragging'), 0);
+  });
+
+  board.addEventListener('dragend', () => {
+    if (dragged) dragged.classList.remove('dragging');
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
+    dragged = null;
+  });
+
+  board.addEventListener('dragover', e => {
+    e.preventDefault();
+    const target = e.target.closest('.card');
+    if (!target || target === dragged || target.classList.contains('locked')) return;
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
+    target.classList.add('drag-over');
+    const rect = target.getBoundingClientRect();
+    const mid = rect.left + rect.width / 2;
+    if (e.clientX < mid) {
+      board.insertBefore(dragged, target);
+    } else {
+      board.insertBefore(dragged, target.nextSibling);
+    }
+  });
+
+  board.addEventListener('dragleave', e => {
+    const target = e.target.closest('.card');
+    if (target) target.classList.remove('drag-over');
+  });
+
+  board.addEventListener('drop', e => {
+    e.preventDefault();
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
+  });
+</script>
+</body>
+</html>
