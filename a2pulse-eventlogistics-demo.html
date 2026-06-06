@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GA2 Event Platform | SAMPLE EVENT | A2 Systems Architecture</title>
+<title>A2 Pulse: Event Logistics | Sample Event | A2 Systems Architecture</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -16,10 +16,10 @@
   --amber:#92400e;--amber-bg:#fffbeb;
 }
 body{background:var(--cream);color:var(--nearblack);font-family:Arial,sans-serif;min-height:100vh;padding:0 0 60px;}
-.demo-banner{background:#1a0a2e;border-bottom:3px solid var(--gold);padding:11px 32px;display:flex;align-items:center;justify-content:center;gap:14px;position:sticky;top:0;z-index:200;}
+.demo-banner{background:#1a0a2e;border-bottom:3px solid var(--gold);padding:11px 32px;display:flex;align-items:center;justify-content:center;gap:14px;}
 .demo-banner-text{color:var(--white);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;}
 .demo-badge{background:var(--gold);color:var(--plum);font-size:11px;font-weight:700;padding:4px 12px;letter-spacing:1px;text-transform:uppercase;}
-.top-bar{background:var(--plum);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid var(--gold);position:sticky;top:74px;z-index:100;}
+.top-bar{background:var(--plum);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid var(--gold);}
 .top-bar-left{display:flex;align-items:center;gap:12px;}
 .firm-badge{background:var(--gold);color:var(--plum);font-size:12px;font-weight:700;padding:5px 12px;letter-spacing:.5px;}
 .firm-name{color:var(--white);font-size:14px;font-weight:700;}
@@ -60,7 +60,6 @@ textarea{
   outline:none;transition:border-color .2s;
   resize:none;overflow:hidden;min-height:40px;display:block;}
 textarea:focus{border-color:var(--plum);background:var(--lavender);}
-.gold-rule{height:2px;background:var(--gold);margin:18px 0;}
 .check-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;}
 .check-table th{background:var(--plum);color:var(--white);padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:700;}
 .check-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;word-wrap:break-word;}
@@ -117,8 +116,6 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
 .site-footer .fl{color:rgba(255,255,255,.6);font-size:10px;}
 .site-footer .fl strong{color:var(--gold);}
 .site-footer .fr{color:rgba(255,255,255,.4);font-size:10px;font-style:italic;}
-
-/* Modal overlay for New Event confirmation */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(45,27,78,.7);z-index:999;align-items:center;justify-content:center;}
 .modal-overlay.active{display:flex;}
 .modal-box{background:var(--white);border-top:4px solid var(--gold);padding:32px;max-width:460px;width:90%;position:relative;}
@@ -131,7 +128,6 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
 .modal-confirm-btn:hover{background:var(--gold-light);}
 .modal-cancel-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:10px 22px;cursor:pointer;font-family:Arial,sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;transition:all .2s;}
 .modal-cancel-btn:hover{border-color:var(--plum);color:var(--plum);}
-
 @media print{
   body *{visibility:hidden;}
   #briefingOutput,#briefingOutput *{visibility:visible;}
@@ -147,8 +143,6 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
   .page{padding:20px 12px;}
   .demo-banner{padding:10px 16px;flex-wrap:wrap;}
 }
-
-/* ── SESSION BAR ── */
 .session-bar{background:#0f0620;border-bottom:2px solid var(--gold);padding:8px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
 .session-bar-left{display:flex;align-items:center;gap:10px;}
 .session-bar-right{display:flex;align-items:center;gap:8px;}
@@ -163,7 +157,6 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
 </head>
 <body>
 
-<!-- NEW EVENT MODAL -->
 <div class="modal-overlay" id="newEventModal">
   <div class="modal-box">
     <h3>Start a New Event File</h3>
@@ -183,7 +176,6 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
   <div class="demo-badge">Sample Event</div>
 </div>
 
-<!-- SESSION BAR -->
 <div class="session-bar">
   <div class="session-bar-left">
     <span class="session-status" id="sessionStatus">No session saved</span>
@@ -194,12 +186,13 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
     <input type="file" id="sessionFileInput" accept=".json" onchange="loadSession(event)"/>
   </div>
 </div>
+
 <div class="top-bar">
   <div class="top-bar-left">
     <div class="firm-badge">A2</div>
     <div>
       <div class="firm-name">A2 Systems Architecture</div>
-      <div class="tool-label">GA2 Event Platform</div>
+      <div class="tool-label">A2 Pulse: Event Logistics</div>
     </div>
   </div>
   <div class="top-bar-right">
@@ -217,7 +210,6 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
     <button class="tab-btn" onclick="switchTab(3)">04 - Generate Briefing</button>
   </div>
 
-  <!-- TAB 1 -->
   <div class="tab-panel active" id="tab-0">
     <div class="section-card">
       <div class="section-head"><div class="s-num">A</div><h3>Core Event Information</h3></div>
@@ -295,7 +287,6 @@ Leadership giving society cards</textarea></div>
     </div>
   </div>
 
-  <!-- TAB 2 -->
   <div class="tab-panel" id="tab-1">
     <div class="section-card">
       <div class="section-head"><div class="s-num">A</div><h3>Advancement Invitation Strategy</h3></div>
@@ -376,7 +367,6 @@ Naming opportunities remain available in the performing arts wing and three acad
     </div>
   </div>
 
-  <!-- TAB 3 -->
   <div class="tab-panel" id="tab-2">
     <div class="section-card"><div class="section-head"><div class="s-num">1</div><h3>Event Owner Tasks</h3></div><div class="section-body"><table class="check-table" id="tbl-owner"></table></div></div>
     <div class="section-card"><div class="section-head"><div class="s-num">2</div><h3>Data Team Tasks</h3></div><div class="section-body"><table class="check-table" id="tbl-data"></table></div></div>
@@ -386,7 +376,6 @@ Naming opportunities remain available in the performing arts wing and three acad
     <div class="section-card"><div class="section-head"><div class="s-num">6</div><h3>Security &amp; Logistics Tasks</h3></div><div class="section-body"><table class="check-table" id="tbl-security"></table></div></div>
   </div>
 
-  <!-- TAB 4 -->
   <div class="tab-panel" id="tab-3">
     <div class="generate-hero">
       <h2>Generate Event Briefing Document</h2>
@@ -407,25 +396,20 @@ Naming opportunities remain available in the performing arts wing and three acad
 </div>
 
 <div class="site-footer">
-  <div class="fl"><strong>A2 Systems Architecture LLC</strong> &nbsp;|&nbsp; GA2 Event Platform &nbsp;|&nbsp; Confidential</div>
+  <div class="fl"><strong>A2 Systems Architecture LLC</strong> &nbsp;|&nbsp; A2 Pulse: Event Logistics &nbsp;|&nbsp; Confidential</div>
   <div class="fr">First will be best, then will be first.</div>
 </div>
 
 <script>
-/* ── TAB NAVIGATION ── */
 function switchTab(i){
   document.querySelectorAll('.tab-btn').forEach((b,idx)=>b.classList.toggle('active',idx===i));
   document.querySelectorAll('.tab-panel').forEach((p,idx)=>p.classList.toggle('active',idx===i));
   if(i===3)updateReadiness();
 }
-
-/* ── DISPLAY ── */
 function updateDisplay(){
   const n=document.getElementById('eventName').value;
   document.getElementById('eventNameDisplay').textContent=n||'No Event Loaded';
 }
-
-/* ── DATE ALERT ── */
 function checkDateAlert(){
   const d=document.getElementById('eventDate').value;
   if(!d)return;
@@ -437,11 +421,7 @@ function checkDateAlert(){
   else if(diff<0){banner.className='alert-banner green';banner.textContent='This event has already passed.';banner.style.display='block';}
   else{banner.style.display='none';}
 }
-
-/* ── TEXTAREA AUTO-EXPAND ── */
 function autoExpand(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
-
-/* ── PERSON ENTRIES ── */
 function addPerson(containerId,type){
   const c=document.getElementById(containerId);
   const div=document.createElement('div');
@@ -453,8 +433,6 @@ function addPerson(containerId,type){
   div.innerHTML=`<button class="remove-btn" onclick="this.parentElement.remove()" title="Remove">×</button>${fields}`;
   c.appendChild(div);
 }
-
-/* ── CHECKLIST TABLES ── */
 const CHECKLIST_DATA={
   'tbl-owner':[
     ['Event Purpose defined','Event Owner','done','2026-08-20','Confirmed fundraising and cultivation'],
@@ -542,15 +520,11 @@ function buildTables(){
   });
   setTimeout(()=>{document.querySelectorAll('textarea').forEach(t=>autoExpand(t));},100);
 }
-
-/* ── READINESS ── */
 function updateReadiness(){
   let done=0,total=0;
   document.querySelectorAll('.check-table select').forEach(s=>{total++;if(s.value==='done')done++;});
   document.getElementById('r-checklist').textContent=total>0?(done+'/'+total):'—';
 }
-
-/* ── SAMPLE PEOPLE ── */
 function loadSamplePeople(){
   const prospects=[
     ['Thomas and Rebecca Harrington','Assigned to Board Chair outreach - top priority','https://research.sample-system.com/prospect-profile'],
@@ -559,8 +533,7 @@ function loadSamplePeople(){
   ];
   prospects.forEach(p=>{
     const c=document.getElementById('prospectsContainer');
-    const div=document.createElement('div');
-    div.className='person-entry';
+    const div=document.createElement('div');div.className='person-entry';
     div.innerHTML=`<button class="remove-btn" onclick="this.parentElement.remove()" title="Remove">×</button><div class="field-grid"><div class="field"><label class="fl">Full Name</label><input type="text" class="p-name" value="${p[0]}"/></div><div class="field"><label class="fl">Assignment / Notes</label><input type="text" class="p-notes" value="${p[1]}"/></div><div class="field wide"><label class="fl">Research Link (optional)</label><input type="url" class="p-link" value="${p[2]}"/></div></div>`;
     c.appendChild(div);
   });
@@ -571,8 +544,7 @@ function loadSamplePeople(){
   ];
   donors.forEach(d=>{
     const c=document.getElementById('donorsContainer');
-    const div=document.createElement('div');
-    div.className='person-entry';
+    const div=document.createElement('div');div.className='person-entry';
     div.innerHTML=`<button class="remove-btn" onclick="this.parentElement.remove()" title="Remove">×</button><div class="field-grid"><div class="field"><label class="fl">Full Name</label><input type="text" class="p-name" value="${d[0]}"/></div><div class="field"><label class="fl">Giving History / Notes</label><input type="text" class="p-notes" value="${d[1]}"/></div><div class="field wide"><label class="fl">Proposal / Notes Link (optional)</label><input type="url" class="p-link" value="${d[2]}"/></div></div>`;
     c.appendChild(div);
   });
@@ -582,14 +554,11 @@ function loadSamplePeople(){
   ];
   students.forEach(s=>{
     const c=document.getElementById('studentsContainer');
-    const div=document.createElement('div');
-    div.className='person-entry';
+    const div=document.createElement('div');div.className='person-entry';
     div.innerHTML=`<button class="remove-btn" onclick="this.parentElement.remove()" title="Remove">×</button><div class="field-grid"><div class="field"><label class="fl">Student Name</label><input type="text" class="p-name" value="${s[0]}"/></div><div class="field"><label class="fl">Grade / Program</label><input type="text" class="p-notes" value="${s[1]}"/></div></div>`;
     c.appendChild(div);
   });
 }
-
-/* ── BRIEFING GENERATION ── */
 function toList(v){return v?'<ul>'+v.split('\n').filter(l=>l.trim()).map(l=>`<li>${l}</li>`).join('')+'</ul>':'<p>None listed.</p>';}
 function buildList(entries){
   if(entries.length===0)return'<ul><li>None identified</li></ul>';
@@ -637,7 +606,6 @@ function generateBriefing(type){
   const genDate=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const isBot=type==='bot';
   const docLabel=isBot?'BOT Briefing Document':'Event Briefing Document';
-
   const html=`
     <div class="action-bar">
       <span>${docLabel} — Generated ${genDate} &nbsp;|&nbsp; SAMPLE EVENT</span>
@@ -681,10 +649,8 @@ function generateBriefing(type){
         <span>Generated: ${genDate}</span>
       </div>
     </div>`;
-
   const output=document.getElementById('briefingOutput');
-  output.innerHTML=html;
-  output.style.display='block';
+  output.innerHTML=html;output.style.display='block';
   output.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function closeBriefing(){
@@ -702,14 +668,6 @@ function downloadDocx(){
   document.body.appendChild(a);a.click();
   document.body.removeChild(a);URL.revokeObjectURL(url);
 }
-
-/* ══════════════════════════════════════════
-   NEW EVENT FILE — MODAL + DOWNLOAD
-   The downloaded file is a blank version of
-   the live tool (GA2-Logistics-Tool.html),
-   NOT a copy of this demo. All sample data
-   is stripped; the demo banner is removed.
-   ══════════════════════════════════════════ */
 function openNewEventModal(){
   document.getElementById('newEventNameInput').value='';
   document.getElementById('newEventModal').classList.add('active');
@@ -725,99 +683,39 @@ document.getElementById('newEventNameInput').addEventListener('keydown',function
   if(e.key==='Enter')downloadNewEventFile();
   if(e.key==='Escape')closeNewEventModal();
 });
-
 function downloadNewEventFile(){
   const rawName=document.getElementById('newEventNameInput').value.trim();
   const eventLabel=rawName||'New Event';
   const safeFileName=eventLabel.replace(/[^a-z0-9\-_\s]/gi,'').trim().replace(/\s+/g,'-');
-  const fileName='GA2-Event-'+safeFileName+'.html';
-
-  // Parse the current document
+  const fileName='a2pulse-eventlogistics-'+safeFileName+'.html';
   const parser=new DOMParser();
   const newDoc=parser.parseFromString(document.documentElement.outerHTML,'text/html');
-
-  // ── Remove the demo banner entirely ──
   const demoBanner=newDoc.querySelector('.demo-banner');
   if(demoBanner)demoBanner.remove();
-
-  // ── Fix top-bar sticky position (was offset for demo banner) ──
-  const topBar=newDoc.querySelector('.top-bar');
-  if(topBar)topBar.style.top='0';
-
-  // ── Clear all input values ──
-  newDoc.querySelectorAll('input[type=text],input[type=number],input[type=url],input[type=date],input[type=time]').forEach(el=>{
-    el.value='';el.removeAttribute('value');
-  });
-
-  // ── Reset selects to first option ──
-  newDoc.querySelectorAll('select').forEach(el=>{
-    el.selectedIndex=0;
-    [...el.options].forEach(o=>o.removeAttribute('selected'));
-  });
-
-  // ── Clear textareas (including pre-filled sample data) ──
-  newDoc.querySelectorAll('textarea').forEach(el=>{
-    el.value='';el.textContent='';
-  });
-
-  // ── Uncheck all checkboxes ──
-  newDoc.querySelectorAll('input[type=checkbox]').forEach(el=>{
-    el.checked=false;el.removeAttribute('checked');
-  });
-
-  // ── Remove dynamically added person entries ──
-  ['prospectsContainer','donorsContainer','studentsContainer'].forEach(id=>{
-    const c=newDoc.getElementById(id);
-    if(c)c.innerHTML='';
-  });
-
-  // ── Hide briefing output ──
-  const bo=newDoc.getElementById('briefingOutput');
-  if(bo){bo.innerHTML='';bo.style.display='none';}
-
-  // ── Hide alert banner ──
-  const ab=newDoc.getElementById('alertBanner');
-  if(ab){ab.style.display='none';ab.textContent='';}
-
-  // ── Reset top bar event name display ──
-  const nd=newDoc.getElementById('eventNameDisplay');
-  if(nd)nd.textContent='No Event Loaded';
-
-  // ── Close the modal in the new doc ──
-  const modal=newDoc.getElementById('newEventModal');
-  if(modal)modal.classList.remove('active');
-
-  // ── Update page title ──
-  newDoc.title='GA2 Event Platform | '+eventLabel+' | A2 Systems Architecture';
-
-  // ── Remove the loadSamplePeople() call from the init block ──
-  // We do this by finding the inline script and stripping that call
+  newDoc.querySelectorAll('input[type=text],input[type=number],input[type=url],input[type=date],input[type=time]').forEach(el=>{el.value='';el.removeAttribute('value');});
+  newDoc.querySelectorAll('select').forEach(el=>{el.selectedIndex=0;[...el.options].forEach(o=>o.removeAttribute('selected'));});
+  newDoc.querySelectorAll('textarea').forEach(el=>{el.value='';el.textContent='';});
+  newDoc.querySelectorAll('input[type=checkbox]').forEach(el=>{el.checked=false;el.removeAttribute('checked');});
+  ['prospectsContainer','donorsContainer','studentsContainer'].forEach(id=>{const c=newDoc.getElementById(id);if(c)c.innerHTML='';});
+  const bo=newDoc.getElementById('briefingOutput');if(bo){bo.innerHTML='';bo.style.display='none';}
+  const ab=newDoc.getElementById('alertBanner');if(ab){ab.style.display='none';ab.textContent='';}
+  const nd=newDoc.getElementById('eventNameDisplay');if(nd)nd.textContent='No Event Loaded';
+  const modal=newDoc.getElementById('newEventModal');if(modal)modal.classList.remove('active');
+  newDoc.title='A2 Pulse: Event Logistics | '+eventLabel+' | A2 Systems Architecture';
   newDoc.querySelectorAll('script:not([src])').forEach(s=>{
     if(s.textContent.includes('loadSamplePeople')){
       s.textContent=s.textContent.replace(/loadSamplePeople\(\);?\s*/g,'');
     }
   });
-
   const output='<!DOCTYPE html>\n'+newDoc.documentElement.outerHTML;
   const blob=new Blob([output],{type:'text/html;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;
-  a.download=fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  a.href=url;a.download=fileName;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
   closeNewEventModal();
 }
-
-
-/* ══════════════════════════════════════════
-   SESSION SAVE / LOAD  (Option 2)
-   Exports all form data as a .json file.
-   Import it any time on any device/browser.
-   ══════════════════════════════════════════ */
-
 function collectSessionData(){
   const data={version:1,savedAt:new Date().toISOString(),fields:{},checklistData:{},people:{}};
   const fieldIds=["eventName","eventDate","eventTime","eventLocation","eventType","locationType",
@@ -847,11 +745,10 @@ function collectSessionData(){
   });
   return data;
 }
-
 function saveSession(){
   const data=collectSessionData();
-  const eventName=data.fields.eventName||"GA2-Session";
-  const safeName=eventName.replace(/[^a-z0-9\-_\s]/gi,"").trim().replace(/\s+/g,"-")||"GA2-Session";
+  const eventName=data.fields.eventName||"A2-Pulse-Event-Logistics";
+  const safeName=eventName.replace(/[^a-z0-9\-_\s]/gi,"").trim().replace(/\s+/g,"-")||"A2-Pulse-Event-Logistics";
   const fileName=safeName+"-session.json";
   const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
@@ -863,7 +760,6 @@ function saveSession(){
   const status=document.getElementById("sessionStatus");
   if(status){status.textContent="Session saved at "+now;status.className="session-status saved";}
 }
-
 function loadSession(event){
   const file=event.target.files[0];
   if(!file)return;
@@ -892,13 +788,11 @@ function loadSession(event){
       });
       const typeMap={prospectsContainer:"prospect",donorsContainer:"donor",studentsContainer:"student"};
       Object.entries(data.people||{}).forEach(([cId,entries])=>{
-        const container=document.getElementById(cId);
-        if(!container)return;
+        const container=document.getElementById(cId);if(!container)return;
         container.innerHTML="";
         entries.forEach(entry=>{
           addPerson(cId,typeMap[cId]);
-          const last=container.lastElementChild;
-          if(!last)return;
+          const last=container.lastElementChild;if(!last)return;
           const name=last.querySelector(".p-name");const notes=last.querySelector(".p-notes");const link=last.querySelector(".p-link");
           if(name)name.value=entry.name||"";
           if(notes)notes.value=entry.notes||"";
@@ -911,14 +805,12 @@ function loadSession(event){
       if(status){status.textContent="Session loaded — saved "+savedAt;status.className="session-status saved";}
       event.target.value="";
     }catch(err){
-      alert("Could not load session file. Please make sure you are using a valid GA2 session .json file.");
+      alert("Could not load session file. Please make sure you are using a valid A2 Pulse: Event Logistics session .json file.");
       event.target.value="";
     }
   };
   reader.readAsText(file);
 }
-
-/* ── INIT ── */
 buildTables();
 loadSamplePeople();
 checkDateAlert();
