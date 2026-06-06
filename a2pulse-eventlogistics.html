@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GA2 Event Platform | A2 Systems Architecture</title>
+<title>A2 Pulse: Event Logistics | A2 Systems Architecture</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -191,7 +191,7 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
     <div class="firm-badge">A2</div>
     <div>
       <div class="firm-name">A2 Systems Architecture</div>
-      <div class="tool-label">GA2 Event Platform</div>
+      <div class="tool-label">A2 Pulse: Event Logistics</div>
     </div>
   </div>
   <div class="top-bar-right">
@@ -376,7 +376,7 @@ textarea:focus{border-color:var(--plum);background:var(--lavender);}
 </div>
 
 <div class="site-footer">
-  <div class="fl"><strong>A2 Systems Architecture LLC</strong> &nbsp;|&nbsp; GA2 Event Platform &nbsp;|&nbsp; Confidential</div>
+  <div class="fl"><strong>A2 Systems Architecture LLC</strong> &nbsp;|&nbsp; A2 Pulse: Event Logistics &nbsp;|&nbsp; Confidential</div>
   <div class="fr">First will be best, then will be first.</div>
 </div>
 
@@ -589,11 +589,9 @@ function openNewEventModal(){
 function closeNewEventModal(){
   document.getElementById('newEventModal').classList.remove('active');
 }
-// Close modal on overlay click
 document.getElementById('newEventModal').addEventListener('click',function(e){
   if(e.target===this)closeNewEventModal();
 });
-// Allow Enter key to confirm
 document.getElementById('newEventNameInput').addEventListener('keydown',function(e){
   if(e.key==='Enter')downloadNewEventFile();
   if(e.key==='Escape')closeNewEventModal();
@@ -602,59 +600,40 @@ document.getElementById('newEventNameInput').addEventListener('keydown',function
 function downloadNewEventFile(){
   const rawName = document.getElementById('newEventNameInput').value.trim();
   const eventLabel = rawName || 'New Event';
-  // Build a safe filename: replace spaces and special chars
   const safeFileName = eventLabel.replace(/[^a-z0-9\-_\s]/gi,'').trim().replace(/\s+/g,'-');
-  const fileName = 'GA2-Event-' + safeFileName + '.html';
+  const fileName = 'a2pulse-eventlogistics-' + safeFileName + '.html';
 
-  // Grab the entire current page source and reset all data fields to blank
   const fullSource = document.documentElement.outerHTML;
-
-  // We'll build a clean blank version by post-processing the source:
-  // Replace the outerHTML approach with a known-clean blank template string
-  // to guarantee no current data bleeds into the new file.
-  // We do this by fetching the script block and CSS as-is, and resetting all input values.
-
-  // Build the blank file from the current document structure
   const parser = new DOMParser();
   const newDoc = parser.parseFromString(fullSource, 'text/html');
 
-  // Clear all text inputs, number inputs, url inputs, date inputs, time inputs
   newDoc.querySelectorAll('input[type=text],input[type=number],input[type=url],input[type=date],input[type=time]').forEach(el=>{
     el.value='';
     el.removeAttribute('value');
   });
-  // Reset selects to first option
   newDoc.querySelectorAll('select').forEach(el=>{
     el.selectedIndex=0;
     [...el.options].forEach(o=>o.removeAttribute('selected'));
   });
-  // Clear textareas
   newDoc.querySelectorAll('textarea').forEach(el=>{
     el.value='';
     el.textContent='';
   });
-  // Uncheck all checkboxes
   newDoc.querySelectorAll('input[type=checkbox]').forEach(el=>{
     el.checked=false;
     el.removeAttribute('checked');
   });
-  // Remove any dynamically added person entries
   ['prospectsContainer','donorsContainer','studentsContainer'].forEach(id=>{
     const c=newDoc.getElementById(id);
     if(c)c.innerHTML='';
   });
-  // Hide briefing output
   const bo=newDoc.getElementById('briefingOutput');
   if(bo){bo.innerHTML='';bo.style.display='none';}
-  // Hide alert banner
   const ab=newDoc.getElementById('alertBanner');
   if(ab){ab.style.display='none';ab.textContent='';}
-  // Reset top bar event name display
   const nd=newDoc.getElementById('eventNameDisplay');
   if(nd)nd.textContent='No Event Loaded';
-  // Update the page title to reflect the new event name
-  newDoc.title = 'GA2 Event Platform | ' + eventLabel + ' | A2 Systems Architecture';
-  // Close the modal in the new doc (remove active class)
+  newDoc.title = 'A2 Pulse: Event Logistics | ' + eventLabel + ' | A2 Systems Architecture';
   const modal=newDoc.getElementById('newEventModal');
   if(modal)modal.classList.remove('active');
 
@@ -673,13 +652,9 @@ function downloadNewEventFile(){
   closeNewEventModal();
 }
 
-
 /* ══════════════════════════════════════════
-   SESSION SAVE / LOAD  (Option 2)
-   Exports all form data as a .json file.
-   Import it any time on any device/browser.
+   SESSION SAVE / LOAD
    ══════════════════════════════════════════ */
-
 function collectSessionData(){
   const data={version:1,savedAt:new Date().toISOString(),fields:{},checklistData:{},people:{}};
   const fieldIds=["eventName","eventDate","eventTime","eventLocation","eventType","locationType",
@@ -712,8 +687,8 @@ function collectSessionData(){
 
 function saveSession(){
   const data=collectSessionData();
-  const eventName=data.fields.eventName||"GA2-Session";
-  const safeName=eventName.replace(/[^a-z0-9\-_\s]/gi,"").trim().replace(/\s+/g,"-")||"GA2-Session";
+  const eventName=data.fields.eventName||"A2-Pulse-Event-Logistics";
+  const safeName=eventName.replace(/[^a-z0-9\-_\s]/gi,"").trim().replace(/\s+/g,"-")||"A2-Pulse-Event-Logistics";
   const fileName=safeName+"-session.json";
   const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
@@ -773,7 +748,7 @@ function loadSession(event){
       if(status){status.textContent="Session loaded — saved "+savedAt;status.className="session-status saved";}
       event.target.value="";
     }catch(err){
-      alert("Could not load session file. Please make sure you are using a valid GA2 session .json file.");
+      alert("Could not load session file. Please make sure you are using a valid A2 Pulse: Event Logistics session .json file.");
       event.target.value="";
     }
   };
