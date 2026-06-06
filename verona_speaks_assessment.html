@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verona Speaks — Assessment Mode</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+:root {
+  --crimson: #8B1A1A;
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+  --parchment: #F5EDD8;
+  --parchment-dark: #E8D8B0;
+  --ink: #0E0808;
+  --ink-mid: #1A0E0E;
+  --blue-moon: #1A2650;
+  --silver: #B0A898;
+  --green: #3D9E6A;
+  --green-pale: #A8D8BA;
+  --amber: #C97A1A;
+  --seal-red: #7A1515;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--ink);
+  background-image:
+    radial-gradient(ellipse at 10% 15%, rgba(100,12,12,0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 85%, rgba(10,18,70,0.3) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.012'%3E%3Cpath d='M40 40m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0'/%3E%3C/g%3E%3C/svg%3E");
+  min-height: 100vh;
+  font-family: 'EB Garamond', serif;
+  color: var(--parchment);
+  overflow-x: hidden;
+}
+
+/* STARS */
+.stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
+.star { position:absolute; border-radius:50%; background:white; animation:twinkle 3s infinite alternate; }
+@keyframes twinkle { 0%{opacity:0.06;transform:scale(0.7)} 100%{opacity:0.8;transform:scale(1.2)} }
+
+.wrap { position:relative; z-index:1; max-width:820px; margin:0 auto; padding:20px 16px 80px; }
+
+/* ─── HEADER ─── */
+header { text-align:center; padding:50px 20px 36px; border-bottom:1px solid rgba(201,168,76,0.3); margin-bottom:36px; }
+.seal {
+  width:72px; height:72px; border-radius:50%;
+  border:2px solid rgba(201,168,76,0.5);
+  background:radial-gradient(circle, rgba(139,26,26,0.4), rgba(14,8,8,0.9));
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; margin:0 auto 16px; box-shadow:0 0 30px rgba(201,168,76,0.15);
+}
+.eyebrow { font-family:'Cinzel',serif; font-size:9px; letter-spacing:5px; color:var(--gold); text-transform:uppercase; margin-bottom:10px; opacity:.75; }
+h1 { font-family:'Cinzel Decorative',cursive; font-size:clamp(26px,5.5vw,48px); color:var(--gold); text-shadow:0 0 40px rgba(201,168,76,0.3), 2px 2px 0 var(--seal-red); line-height:1.2; margin-bottom:6px; }
+.subtitle { font-style:italic; color:var(--gold-light); font-size:16px; opacity:.8; margin-bottom:14px; }
+.mode-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:5px 18px; background:rgba(139,26,26,0.3);
+  border:1px solid rgba(201,168,76,0.5); border-radius:20px;
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--gold);
+}
+.mode-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ─── INTRO SCREEN ─── */
+#introScreen { animation:fadeUp .5s ease; }
+.intro-card {
+  background:linear-gradient(160deg, rgba(245,237,216,0.04), rgba(14,8,8,0.96));
+  border:1px solid rgba(201,168,76,0.28); border-radius:6px;
+  padding:32px 36px; margin-bottom:20px; text-align:center;
+}
+.intro-card h2 { font-family:'Cinzel',serif; font-size:18px; color:var(--gold); margin-bottom:16px; letter-spacing:2px; }
+.intro-card p { font-size:15px; line-height:1.8; color:var(--parchment-dark); margin-bottom:12px; }
+.rules-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:20px 0; text-align:left; }
+.rule-item { background:rgba(201,168,76,0.05); border:1px solid rgba(201,168,76,0.18); border-radius:4px; padding:14px 16px; }
+.rule-icon { font-size:20px; margin-bottom:6px; }
+.rule-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px; color:var(--gold); margin-bottom:4px; }
+.rule-text { font-size:13px; color:var(--silver); line-height:1.5; }
+
+.student-input-section { margin:20px 0; }
+.field-label { font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:var(--gold); opacity:.8; margin-bottom:8px; display:block; }
+.student-name-input {
+  width:100%; padding:12px 16px;
+  background:rgba(14,8,8,0.8); border:1px solid rgba(201,168,76,0.3); border-radius:3px;
+  color:var(--parchment); font-family:'EB Garamond',serif; font-size:16px;
+  outline:none; transition:border-color .25s;
+}
+.student-name-input:focus { border-color:var(--gold); }
+.student-name-input::placeholder { color:rgba(245,237,216,0.25); font-style:italic; }
+
+.begin-btn {
+  width:100%; padding:16px; margin-top:20px;
+  background:linear-gradient(135deg, var(--crimson), var(--seal-red));
+  border:1px solid rgba(201,168,76,0.4); border-radius:4px;
+  color:var(--parchment); font-family:'Cinzel',serif;
+  font-size:12px; letter-spacing:3px; text-transform:uppercase;
+  cursor:pointer; transition:all .3s;
+  box-shadow:0 4px 20px rgba(139,26,26,0.3);
+}
+.begin-btn:hover { box-shadow:0 6px 30px rgba(139,26,26,0.5); transform:translateY(-1px); }
+.begin-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+
+/* ─── SCENARIO REVEAL ─── */
+#scenarioReveal { display:none; animation:fadeUp .5s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+.scenario-header {
+  background:linear-gradient(135deg, rgba(139,26,26,0.2), rgba(14,8,8,0.95));
+  border:1px solid rgba(201,168,76,0.35); border-radius:5px;
+  padding:24px 28px; margin-bottom:16px;
+}
+.sc-meta { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+.sc-char { font-family:'Cinzel',serif; font-size:11px; letter-spacing:2px; color:var(--gold); opacity:.8; }
+.sc-dok {
+  padding:3px 12px; border-radius:2px; font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px;
+}
+.dok3 { background:rgba(139,26,26,0.5); border:1px solid var(--crimson); color:#FFBBBB; }
+.dok4 { background:rgba(26,38,80,0.5); border:1px solid #4060B0; color:#BBC8FF; }
+.sc-title { font-family:'Cinzel',serif; font-size:20px; color:var(--gold); margin-bottom:12px; }
+.sc-situation { font-size:15.5px; line-height:1.8; color:var(--parchment); font-style:italic; border-left:2px solid rgba(201,168,76,0.45); padding-left:14px; margin-bottom:12px; }
+.sc-task { font-size:14px; line-height:1.7; color:var(--parchment-dark); }
+.std-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.std-chip { padding:2px 8px; border:1px solid rgba(201,168,76,0.25); border-radius:2px; font-family:'Cinzel',serif; font-size:9px; color:var(--gold); opacity:.7; }
+
+/* ─── STATUS BAR ─── */
+.status-bar {
+  display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap;
+}
+.stat-pill {
+  display:flex; align-items:center; gap:6px;
+  background:rgba(14,8,8,0.7); border:1px solid rgba(201,168,76,0.2);
+  border-radius:20px; padding:5px 14px;
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--silver);
+}
+.stat-pill .val { color:var(--gold); font-size:11px; font-weight:600; }
+.stat-pill.thresh-met { border-color:var(--green); }
+.stat-pill.thresh-met .val { color:var(--green-pale); }
+
+.word-track { margin-bottom:14px; }
+.word-label { display:flex; justify-content:space-between; font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold); opacity:.7; margin-bottom:5px; }
+.word-bar { height:6px; background:rgba(201,168,76,0.1); border-radius:3px; overflow:hidden; }
+.word-fill { height:100%; border-radius:3px; transition:width .5s ease, background .5s ease; background:var(--crimson); }
+.word-fill.halfway { background:var(--amber); }
+.word-fill.complete { background:var(--green); }
+
+/* ─── CONVERSATION ─── */
+.convo-box {
+  background:rgba(14,8,8,0.75); border:1px solid rgba(201,168,76,0.2);
+  border-radius:5px; margin-bottom:14px; overflow-y:auto; max-height:480px;
+}
+.convo-top {
+  padding:11px 18px; border-bottom:1px solid rgba(201,168,76,0.12);
+  display:flex; align-items:center; gap:8px;
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:3px; color:var(--gold); opacity:.8;
+  position:sticky; top:0; background:rgba(14,8,8,0.97); z-index:2; text-transform:uppercase;
+}
+.live-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+.messages { padding:16px 18px; display:flex; flex-direction:column; gap:14px; }
+
+.msg-char { display:flex; gap:11px; align-items:flex-start; }
+.msg-char .av { width:34px; height:34px; border-radius:50%; border:1px solid rgba(201,168,76,0.4); background:rgba(139,26,26,0.3); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; margin-top:2px; }
+.msg-char .bbl { background:linear-gradient(135deg,rgba(139,26,26,0.18),rgba(20,10,10,0.85)); border:1px solid rgba(201,168,76,0.22); border-radius:0 8px 8px 8px; padding:11px 15px; font-size:14.5px; line-height:1.72; color:var(--parchment); max-width:86%; }
+.msg-char .spk { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:4px; opacity:.8; }
+
+.msg-student { display:flex; gap:11px; align-items:flex-start; flex-direction:row-reverse; }
+.msg-student .av { width:34px; height:34px; border-radius:50%; border:1px solid rgba(74,110,181,0.4); background:rgba(26,38,80,0.4); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; margin-top:2px; }
+.msg-student .bbl { background:linear-gradient(135deg,rgba(26,38,80,0.28),rgba(8,12,28,0.85)); border:1px solid rgba(74,110,181,0.28); border-radius:8px 0 8px 8px; padding:11px 15px; font-size:14.5px; line-height:1.72; color:var(--parchment); max-width:86%; }
+.msg-student .spk { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:#8899CC; text-transform:uppercase; margin-bottom:4px; opacity:.8; text-align:right; }
+
+.system-msg {
+  text-align:center; padding:10px 16px; margin:6px 0;
+  border:1px dashed rgba(201,168,76,0.3); border-radius:3px;
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold); opacity:.75;
+}
+
+.typing { display:flex; gap:4px; align-items:center; padding:4px 0; }
+.typing span { width:7px; height:7px; background:var(--gold); border-radius:50%; opacity:.4; animation:bounce 1.2s infinite; }
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px);opacity:.9} }
+
+/* ─── CONFIDENCE GATE ─── */
+.confidence-gate {
+  background:linear-gradient(135deg, rgba(61,158,106,0.12), rgba(14,8,8,0.95));
+  border:1px solid rgba(61,158,106,0.45); border-radius:5px;
+  padding:20px 24px; margin-bottom:14px; display:none;
+  animation:fadeUp .4s ease;
+}
+.confidence-gate.show { display:block; }
+.gate-title { font-family:'Cinzel',serif; font-size:12px; letter-spacing:3px; color:var(--green-pale); margin-bottom:10px; text-transform:uppercase; }
+.gate-msg { font-size:14.5px; line-height:1.7; color:var(--parchment-dark); margin-bottom:16px; }
+.gate-btns { display:flex; gap:10px; }
+.gate-btn {
+  flex:1; padding:12px; border:1px solid; background:transparent;
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px;
+  cursor:pointer; transition:all .25s; border-radius:3px; text-transform:uppercase;
+}
+.gate-yes { border-color:var(--green); color:var(--green-pale); }
+.gate-yes:hover { background:rgba(61,158,106,0.2); }
+.gate-no { border-color:rgba(201,168,76,0.4); color:var(--gold); }
+.gate-no:hover { background:rgba(201,168,76,0.1); }
+
+/* ─── INPUT ─── */
+.input-wrap { display:none; margin-bottom:12px; }
+.input-wrap.show { display:block; }
+.input-row { display:flex; gap:8px; align-items:flex-end; }
+.input-wrap textarea {
+  flex:1; min-height:85px; max-height:220px;
+  background:rgba(14,8,8,0.88); border:1px solid rgba(201,168,76,0.28); border-radius:3px;
+  padding:12px 14px; color:var(--parchment); font-family:'EB Garamond',serif;
+  font-size:15px; line-height:1.55; resize:vertical; outline:none; transition:border-color .25s;
+}
+.input-wrap textarea:focus { border-color:var(--gold); }
+.input-wrap textarea::placeholder { color:rgba(245,237,216,0.25); font-style:italic; }
+.send-btn {
+  padding:14px 18px; background:var(--crimson); border:none; border-radius:3px;
+  color:var(--parchment); font-family:'Cinzel',serif; font-size:10px;
+  letter-spacing:2px; cursor:pointer; transition:all .25s; text-transform:uppercase; align-self:flex-end;
+}
+.send-btn:hover:not(:disabled) { background:#A52020; box-shadow:0 0 16px rgba(139,26,26,.45); }
+.send-btn:disabled { opacity:.35; cursor:not-allowed; }
+
+/* ─── GRADE CARD ─── */
+#gradeCard { display:none; animation:fadeUp .6s ease; }
+.grade-wrap {
+  background:linear-gradient(160deg, rgba(245,237,216,0.06), rgba(14,8,8,0.97));
+  border:1px solid rgba(201,168,76,0.45); border-radius:6px; overflow:hidden;
+}
+.grade-banner {
+  background:linear-gradient(135deg, rgba(139,26,26,0.4), rgba(14,8,8,0.9));
+  border-bottom:1px solid rgba(201,168,76,0.3); padding:28px 32px; text-align:center;
+}
+.grade-label { font-family:'Cinzel',serif; font-size:10px; letter-spacing:4px; color:var(--gold); opacity:.75; margin-bottom:8px; text-transform:uppercase; }
+.grade-student { font-family:'Cinzel',serif; font-size:14px; color:var(--gold-light); margin-bottom:4px; }
+.grade-scenario { font-style:italic; color:var(--silver); font-size:13px; margin-bottom:20px; }
+
+.score-display { display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:16px; }
+.score-circle {
+  width:110px; height:110px; border-radius:50%;
+  border:3px solid var(--gold); display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  background:radial-gradient(circle, rgba(139,26,26,0.3), rgba(14,8,8,0.9));
+  box-shadow:0 0 30px rgba(201,168,76,0.2);
+}
+.score-num { font-family:'Cinzel',serif; font-size:38px; color:var(--gold); line-height:1; }
+.score-denom { font-family:'Cinzel',serif; font-size:12px; color:var(--gold); opacity:.6; }
+.score-letter { font-family:'Cinzel Decorative',cursive; font-size:28px; }
+
+.grade-body { padding:28px 32px; }
+.grade-section { margin-bottom:22px; }
+.grade-section-title { font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid rgba(201,168,76,0.15); }
+.grade-section p { font-size:14.5px; line-height:1.75; color:var(--parchment-dark); }
+.grade-section ul { padding-left:20px; }
+.grade-section li { font-size:14px; line-height:1.7; color:var(--parchment-dark); margin-bottom:6px; }
+
+.rubric-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+.rubric-item { background:rgba(201,168,76,0.04); border:1px solid rgba(201,168,76,0.15); border-radius:3px; padding:12px 14px; }
+.rubric-name { font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:var(--gold); opacity:.75; margin-bottom:4px; }
+.rubric-score { font-size:15px; color:var(--parchment); }
+.rubric-note { font-size:12px; color:var(--silver); margin-top:3px; font-style:italic; }
+
+.grade-footer { padding:16px 32px; border-top:1px solid rgba(201,168,76,0.15); display:flex; gap:10px; }
+.restart-btn {
+  flex:1; padding:12px; border:1px solid rgba(201,168,76,0.4);
+  background:transparent; color:var(--gold); font-family:'Cinzel',serif;
+  font-size:10px; letter-spacing:2px; cursor:pointer; transition:all .25s;
+  border-radius:3px; text-transform:uppercase;
+}
+.restart-btn:hover { background:rgba(201,168,76,0.1); }
+.print-btn {
+  flex:1; padding:12px; border:1px solid rgba(139,26,26,0.6);
+  background:rgba(139,26,26,0.15); color:#FF9999; font-family:'Cinzel',serif;
+  font-size:10px; letter-spacing:2px; cursor:pointer; transition:all .25s;
+  border-radius:3px; text-transform:uppercase;
+}
+.print-btn:hover { background:rgba(139,26,26,0.3); }
+
+@media print {
+  body { background:white !important; color:black !important; }
+  .stars, header .mode-badge, .grade-footer { display:none !important; }
+  #gradeCard { display:block !important; }
+  #scenarioReveal, #introScreen { display:none !important; }
+  .grade-wrap { border:1px solid #ccc !important; box-shadow:none !important; }
+  .score-circle { background:white !important; border-color:#333 !important; box-shadow:none !important; }
+  .score-num { color:#333 !important; }
+  .grade-banner { background:white !important; border-bottom:1px solid #ccc !important; }
+  * { color:inherit !important; }
+}
+
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--ink); }
+::-webkit-scrollbar-thumb { background:var(--crimson); border-radius:3px; }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="seal">⚖️</div>
+    <div class="eyebrow">Georgia ELA Standards · 9–10 Grade Band · Lexile 1050L–1260L</div>
+    <h1>Verona Speaks</h1>
+    <div class="subtitle">Assessment Mode — Romeo &amp; Juliet Dialogue Examination</div>
+    <div class="mode-badge">DOK 3 &amp; DOK 4 · Randomized · Graded Assessment</div>
+  </header>
+
+  <!-- ── INTRO ── -->
+  <div id="introScreen">
+    <div class="intro-card">
+      <h2>Examination Instructions</h2>
+      <p>You will be assigned a randomly selected character and scenario from <em>Romeo and Juliet</em>. You must engage in a structured Socratic dialogue — responding to questions, citing specific textual evidence, and demonstrating analytical mastery of the relevant Georgia ELA Standards.</p>
+
+      <div class="rules-grid">
+        <div class="rule-item">
+          <div class="rule-icon">📝</div>
+          <div class="rule-title">Minimum Response</div>
+          <div class="rule-text">You must write a minimum of 350 words across your dialogue responses before you may submit for a grade.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">📖</div>
+          <div class="rule-title">Textual Evidence</div>
+          <div class="rule-text">Every analytical claim must be supported by specific references to the play — cite acts, scenes, and lines where possible.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">🎭</div>
+          <div class="rule-title">Stay In Character</div>
+          <div class="rule-text">You are roleplaying as your assigned character. Your responses should reflect that character's perspective and situation in the play.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">⚖️</div>
+          <div class="rule-title">Grading</div>
+          <div class="rule-text">Your dialogue will be scored 0–100 based on textual evidence, analytical depth, character accuracy, and thematic understanding.</div>
+        </div>
+      </div>
+
+      <div class="student-input-section">
+        <label class="field-label">Enter Your Name Before Beginning</label>
+        <input type="text" class="student-name-input" id="studentName" placeholder="First and last name…" maxlength="60">
+      </div>
+
+      <button class="begin-btn" id="beginBtn" onclick="beginAssessment()" disabled>
+        Draw Your Scenario &amp; Begin Examination
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SCENARIO + DIALOGUE ── -->
+  <div id="scenarioReveal">
+
+    <div class="scenario-header">
+      <div class="sc-meta">
+        <span class="sc-char" id="scChar"></span>
+        <span class="sc-dok" id="scDok"></span>
+      </div>
+      <div class="sc-title" id="scTitle"></div>
+      <div class="sc-situation" id="scSit"></div>
+      <div class="sc-task" id="scTask"></div>
+      <div class="std-row" id="scStd"></div>
+    </div>
+
+    <div class="status-bar">
+      <div class="stat-pill" id="wordPill">
+        <span>Words Written</span>
+        <span class="val" id="wordCount">0</span>
+        <span>/ 350 minimum</span>
+      </div>
+      <div class="stat-pill" id="exchPill">
+        <span>Exchanges</span>
+        <span class="val" id="exchCount">0</span>
+      </div>
+      <div class="stat-pill" id="statusPill">
+        <span>Status</span>
+        <span class="val" id="statusVal">In Progress</span>
+      </div>
+    </div>
+
+    <div class="word-track">
+      <div class="word-label">
+        <span>Response Progress</span>
+        <span id="wordPct">0 / 350 words</span>
+      </div>
+      <div class="word-bar"><div class="word-fill" id="wordFill" style="width:0%"></div></div>
+    </div>
+
+    <div class="convo-box" id="convoBox">
+      <div class="convo-top"><div class="live-dot"></div>Live Examination Dialogue</div>
+      <div class="messages" id="messages"></div>
+    </div>
+
+    <div class="confidence-gate" id="confGate">
+      <div class="gate-title">✦ Threshold Reached — 350 Words</div>
+      <div class="gate-msg" id="gateMsg"></div>
+      <div class="gate-btns">
+        <button class="gate-btn gate-yes" onclick="endSession()">Yes — Submit &amp; Receive Grade</button>
+        <button class="gate-btn gate-no" onclick="continueWriting()">No — Continue Writing</button>
+      </div>
+    </div>
+
+    <div class="input-wrap show" id="inputWrap">
+      <div class="input-row">
+        <textarea id="userInput" placeholder="Write your response here. Cite specific acts, scenes, and lines from the play to support your argument. Press Enter to send, Shift+Enter for a new line." onkeydown="handleKey(event)" oninput="liveCount()"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send ↵</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── GRADE CARD ── -->
+  <div id="gradeCard">
+    <div class="grade-wrap">
+      <div class="grade-banner">
+        <div class="grade-label">Verona Speaks · Official Assessment Record</div>
+        <div class="grade-student" id="gradeStudentName"></div>
+        <div class="grade-scenario" id="gradeScenario"></div>
+        <div class="score-display">
+          <div class="score-circle">
+            <div class="score-num" id="scoreNum">—</div>
+            <div class="score-denom">/ 100</div>
+          </div>
+          <div class="score-letter" id="scoreLetter">—</div>
+        </div>
+        <div id="gradeStandards"></div>
+      </div>
+      <div class="grade-body">
+        <div class="grade-section">
+          <div class="grade-section-title">Rubric Breakdown</div>
+          <div class="rubric-grid" id="rubricGrid"></div>
+        </div>
+        <div class="grade-section">
+          <div class="grade-section-title">Strengths Demonstrated</div>
+          <p id="gradeStrengths"></p>
+        </div>
+        <div class="grade-section">
+          <div class="grade-section-title">Areas for Further Development</div>
+          <p id="gradeDevelop"></p>
+        </div>
+        <div class="grade-section">
+          <div class="grade-section-title">Evaluator's Summary</div>
+          <p id="gradeSummary"></p>
+        </div>
+        <div class="grade-section">
+          <div class="grade-section-title">Assessment Details</div>
+          <p id="gradeDetails" style="font-size:12.5px;color:var(--silver);font-style:italic;"></p>
+        </div>
+      </div>
+      <div class="grade-footer">
+        <button class="restart-btn" onclick="restartAssessment()">↺ New Assessment</button>
+        <button class="print-btn" onclick="window.print()">🖨 Print / Save Grade</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ══════════════════════════════════════════════════════
+//  SCENARIO LIBRARY — 16 SCENARIOS × 8 CHARACTERS
+// ══════════════════════════════════════════════════════
+
+const SCENARIOS = [
+  // PRINCE
+  {char:'The Prince', icon:'👑', dok:3, title:"The Prince's Council — Drafting Decrees",
+   standards:['RL1','RL3','W1','SL1'],
+   situation:"Three public brawls between the Capulets and Montagues have disrupted Verona's civil order within a single fortnight. As Prince Escalus, you are accountable to the city council. Your previous warnings have been ignored, and the council demands a stronger, enforceable response.",
+   task:"Compose a formal decree establishing clear consequences for future violence. Every argument you make must reference specific incidents from Acts 1 and 3 as the factual basis for your proposed punishments. Explain how each penalty is designed to deter future conflict without provoking further resistance.",
+   sys:`You are a sharp, skeptical senior council advisor in Shakespeare's Verona conducting a formal examination. The student plays Prince Escalus. You are ASSESSING, not teaching — probe relentlessly for textual evidence, character analysis (RL3), and argument (W1) at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. Demand the Prince justify WHY a new decree is necessary given prior warnings failed. Require textual evidence.
+2. Press for SPECIFIC citation from Act 1 Scene 1 — act, scene, and lines, not general references.
+3. Challenge the proposed punishment: "Would this deter a man who fights for honor, not money?" Force connection to character motivation.
+4. Complicate: "Lord Montague's lawyer argues servants, not lords, initiated every brawl. Does your decree address class distinctions?"
+5. Compare the Prince's speeches ending Act 1 and Act 5 — what changes and why?
+6. Final: "In one precise sentence, what does this decree reveal about whether law can solve a problem that is fundamentally cultural?"
+
+RULES: ONE question per turn. Never provide answers. If vague, redirect: "I require a specific act, scene, and relevant lines — not a generalization." After every 3 exchanges, briefly acknowledge one strength before pressing deeper. Track all student responses for grading later.`},
+
+  {char:'The Prince', icon:'👑', dok:4, title:"The Prince's Council — Systemic Reform",
+   standards:['RL2','RL3','W1','SL1'],
+   situation:"Punishments have been declared and ignored. The feud predates your authority. The council recognizes that enforcement alone cannot resolve a conflict rooted in generations of cultural hostility. You must address the conditions that sustain the feud — not merely its most recent consequences.",
+   task:"Draft a 'Verona Peace Accord' targeting structural causes of the conflict, drawing comparisons to documented historical rivalries, and arguing whether legal authority or cultural norms is the more powerful force sustaining the violence.",
+   sys:`You are a Renaissance political philosopher advising Prince Escalus's council. The student plays the Prince. ASSESS RL2, RL3, W1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "What is the ROOT cause of this feud — pride, economics, patriarchy? Identify it from the text before proposing any solution."
+2. Demand two scenes revealing STRUCTURAL (not personal) causes of the conflict.
+3. Require comparison to a real-world documented conflict — what do both share SYSTEMICALLY?
+4. Challenge: "Shakespeare withholds the feud's origin. What does that authorial choice gain dramatically?"
+5. "Has Prince Escalus been lion or fox — or neither? What does the text evidence?"
+6. "Your Accord must address one thing law cannot change on its own. Identify it precisely."
+7. Final: "If the feud is a cultural system, are characters victims or participants — or both? Use three specific characters."
+
+ONE question per turn. Never provide answers. Press for external concepts + textual evidence (DOK 4).`},
+
+  // FRIAR
+  {char:'Friar Lawrence', icon:'⚗️', dok:3, title:"The Friar's Strategy — Decision Tree",
+   standards:['RL1','RL5','RL3'],
+   situation:"You are Friar Lawrence, standing in the Capulet tomb as your plan's consequences unfold. Romeo lies dead. Juliet is stirring. The plan that began with a secret marriage in Act 2 has arrived at catastrophe in Act 5.",
+   task:"Reconstruct your plan step by step from Act 2 through Act 5. At each stage, identify a specific moment of foreshadowing that warned of failure, and honestly assess whether each failure resulted from bad luck or flawed reasoning. Cite specific lines.",
+   sys:`You are Brother Thomas, a Franciscan monk confronting Friar Lawrence in the tomb. ASSESS RL1, RL5, RL3 at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. "Justify this plan step by step. Begin at the marriage in Act 2. Why did you perform it?" Push for text-grounded reasoning.
+2. "'These violent delights have violent ends' — you said this at the moment you agreed to help. What does it mean for a character to articulate foreshadowing about himself at the very moment he acts?"
+3. "Walk through the sleeping potion scheme. At what exact moment does it become reliant on perfect timing?"
+4. "Was Friar John's failure bad luck — or was relying on a single messenger itself a flaw in your reasoning? Argue one position with textual evidence."
+5. "How does your identity as a friar — believing in Providence — contradict the degree of human manipulation you attempted?"
+6. Final: "Identify the single decision that, if changed, would most likely have prevented this. Why didn't you make that decision at the time?"
+
+ONE question per turn. Never provide answers. Redirect vague responses.`},
+
+  {char:'Friar Lawrence', icon:'⚗️', dok:4, title:"The Friar's Strategy — Butterfly Effect",
+   standards:['RL2','RL5','W1'],
+   situation:"Consider an alternate Act 5: Friar John delivers the letter. Romeo reads it before purchasing the poison. He returns to the tomb and finds Juliet not yet awake. They escape together. The immediate crisis is averted — but Verona remains unchanged.",
+   task:"Argue whether Shakespeare's thematic architecture requires tragedy — or whether the play's meaning survives in a version where the lovers live. Trace how each major theme shifts if this one variable changes.",
+   sys:`You are a scholar of Renaissance dramatic theory. ASSESS RL2, RL5, W1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "If the letter reaches Romeo, they survive. Does Shakespeare's Verona CHANGE — or does the social system that produced this tragedy remain entirely intact?"
+2. "Tragedy requires catharsis and hamartia. If they live, does the play still produce catharsis? Whose hamartia is the true engine — Romeo's, Juliet's, or Friar Lawrence's?"
+3. "Shakespeare embeds at least four foreshadowing moments before Act 3. Identify three specifically. If foreshadowing is structural, does it suggest fate is thematic — or just artistic?"
+4. "Trace precisely how Fate versus Free Will shifts if the letter is delivered."
+5. "Northrop Frye: comedies end in marriage, tragedies in death. If they survive and marry publicly, what genre does it become — and does genre change meaning?"
+6. Final: "Make the strongest version of both arguments — tragedy was caused by a preventable failure vs. tragedy was structurally inevitable — before choosing one."
+
+ONE question per turn. Assess DOK 4 synthesis vs. DOK 3 description.`},
+
+  // NURSE
+  {char:'The Nurse', icon:'💌', dok:3, title:"The Nurse's Messaging — Subtext & Language",
+   standards:['RL4','L5','SL1'],
+   situation:"Following the secret marriage, you serve as the lovers' sole channel of communication. You are in the public marketplace where the Prince's guards are watching. You must convey Juliet's message to Romeo without revealing your purpose to outside observers.",
+   task:"Demonstrate mastery of how Shakespeare uses puns, malapropisms, and double-entendres as tools of coded communication — and what this reveals about the Nurse's role in the play's social architecture.",
+   sys:`You are a scholar of Elizabethan linguistics interviewing the Nurse. ASSESS RL4, L5, SL1 at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. "You're known for riddles and digressions. Is that accidental or strategic? Give a specific example of how you use indirect language to protect the people you serve."
+2. "In Act 2 Scene 4, Romeo and the Nurse exchange puns. Who controls that exchange? What does the balance of wit reveal about her intelligence and social awareness?"
+3. "Could deliberately misusing a word be a strategy for avoiding saying what you mean directly? Argue this with a specific textual example."
+4. "You possess knowledge that could destroy both families. Why keep their secrets — loyalty, self-preservation, or something more complex?"
+5. "After Tybalt's death, you advise Juliet to marry Paris and forget Romeo. Is that betrayal — or the most honest counsel available? What does it reveal about the limits of your understanding of Juliet's situation?"
+6. Final: "What does your habitual use of indirect language reveal about the communicative constraints placed on lower-status characters in Verona's social hierarchy?"
+
+ONE question per turn. Never provide answers.`},
+
+  {char:'The Nurse', icon:'💌', dok:4, title:"The Nurse's Messaging — Medium & Fate",
+   standards:['RL5','RL7','W1'],
+   situation:"The tragedy pivots on a letter that never arrived. As the character most responsible for carrying messages throughout the play, you have a unique perspective on how the limitations of 16th-century communication shaped the plot's direction — and its outcome.",
+   task:"Analyze how communication speed functions as a structural element of the play, redesign the Act 5 climax for a digital world, and argue whether instant communication eliminates or merely redirects the theme of fate.",
+   sys:`You are a media theorist familiar with McLuhan's "the medium is the message." ASSESS RL5, RL7, W1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "McLuhan argued 'the medium is the message.' A letter as medium ASSUMES certain things that make it structurally fragile. What are they?"
+2. "Walk through every significant act of communication in the play. Which succeed and which fail? Is there a pattern?"
+3. "If Juliet had texted Romeo the moment she agreed to the sleeping potion plan, does the tragedy occur? Redesign the final act for a world with smartphones."
+4. "What if Romeo saw Juliet's 'death' announced on social media before receiving her direct message? Does digital speed create its own tragic miscommunication?"
+5. "Is fate in this play supernatural — or a metaphor for how systemic failures affect individual lives?"
+6. "Compare Zeffirelli 1968 and Luhrmann 1996 in how each director handles the Act 5 communication failure."
+7. Final: "Is the theme of fate timeless — surviving any communication technology — or historically specific to a world without reliable information systems?"
+
+ONE question per turn. Assess DOK 4 synthesis (media theory + theme).`},
+
+  // MERCUTIO
+  {char:'Mercutio', icon:'⚔️', dok:3, title:"Mercutio's Ghost — Evidence & Defense",
+   standards:['RL1','RL3','W1'],
+   situation:"Following the duel in Act 3, Scene 1, Prince Escalus has convened a legal inquiry. A neutral bystander's sworn deposition directly contradicts your account of events. The Prince will compare both accounts side by side.",
+   task:"Defend your account using specific textual evidence, address the contradictions, and argue whether your actions constituted self-defense or provocation.",
+   sys:`You are the Prince's chief legal examiner at the inquiry. ASSESS RL1, RL3, W1 at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. "The witness states you drew your sword BEFORE Tybalt did. Walk me through the exact sequence in Act 3 Scene 1 — cite specific lines, not impressions."
+2. "You called Tybalt a 'rat-catcher' and 'Good King of Cats, nothing but one of your nine lives.' Is that the language of a man trying to prevent a fight — or start one?"
+3. "Why were you so determined to engage Tybalt? Was it loyalty to Romeo, personal pride, or something else? Which specific lines reveal Mercutio's actual emotional state?"
+4. "Romeo physically intervened between you. Some witnesses say he created the opening for Tybalt's fatal blow. Does that diminish your legal responsibility — or complicate it?"
+5. "'A plague on both your houses' — three times. Is it anger, prophecy, or accusation — and at whom is it ultimately directed?"
+6. Final: "Make your clearest statement: was this self-defense, provocation, or something in between? And what does it reveal about whether law can govern honor culture?"
+
+ONE question per turn. Demand specific citations.`},
+
+  {char:'Mercutio', icon:'⚔️', dok:4, title:"Mercutio's Ghost — Honor, Law & Justice",
+   standards:['RL1','RL2','RL3','W1'],
+   situation:"The Prince's inquiry has revealed a deeper question: Verona's written laws and its unwritten code of honor operate as two parallel systems that frequently contradict each other. The question is not simply who struck whom — but which system of authority actually governed that street in Act 3.",
+   task:"Build a 'Code of Honor vs. Code of Law' argument using textual evidence and at least one real-world legal or sociological concept to argue whether Romeo's exile was legally or morally just.",
+   sys:`You are a legal philosopher advising the Prince's council. ASSESS RL1, RL2, RL3, W1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "In Act 3, every character — including the Prince's own kinsman — chose honor over law. Why? What does the text tell us about why law fails to govern actual behavior in Verona?"
+2. "Provide three specific examples where honor overrode legal authority — from different acts, different characters."
+3. "Distinguish 'black-letter law' from 'customary law.' In Verona, which functions as the de facto legal system? Build a structured argument."
+4. "The Prince does impose consequences — Tybalt threatened, Romeo exiled. Doesn't that show law HAS authority? Account for both when it works and when it fails."
+5. "Cooney argues honor violence is most prevalent where state authority is distrusted. Does that apply to Verona? What evidence supports or complicates it?"
+6. "Identify three characters who navigate the tension between honor and law. For each, explain what choice they make and what it costs them."
+7. Final: "Is Romeo's exile a just application of law — or a political compromise between two systems the Prince cannot fully control?"
+
+ONE question per turn. Require external concept + textual evidence.`},
+
+  // TYBALT
+  {char:'Tybalt', icon:'🗡️', dok:3, title:"The Feud Architect — Perspective & Class",
+   standards:['RL1','RL3','RL5'],
+   situation:"You are Tybalt, most committed defender of Capulet honor. But it was not lords who initiated the play's first brawl — it was servants. Sampson and Gregory provoked the Montague servants with a gesture so minor it required legal interpretation. Their relationship to the feud is fundamentally different from yours.",
+   task:"Analyze the opening confrontation of Act 1 from multiple class perspectives and explain what Shakespeare reveals by choosing to begin with servants rather than lords.",
+   sys:`You are a social historian studying class dynamics in Shakespeare's Verona. ASSESS RL1, RL3, RL5 at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. "Act 1 Scene 1 opens not with you, but with servants biting their thumbs. What does a servant GAIN from this feud that motivates him to risk his life in it?"
+2. "Sampson says 'I will cut off their heads.' Gregory responds with a bawdy pun. What does their specific language reveal about how servants understand honor differently from lords?"
+3. "Shakespeare CHOSE to open with servants rather than lords. What is the dramatic and thematic effect of that structural choice?"
+4. "Sampson says he serves the Capulets 'as well as the next man' — that is employment, not devotion. Does a servant fight for honor, job security, or something else?"
+5. "You fight for honor and family pride. A servant fights for — what exactly? Is there a meaningful moral distinction between your reasons and theirs?"
+6. Final: "What does Shakespeare reveal about the feud by showing it operates at every level of the social hierarchy — from servants to lords?"
+
+ONE question per turn. Push for close reading of specific dialogue.`},
+
+  {char:'Tybalt', icon:'🗡️', dok:4, title:"The Feud Architect — Sociological Analysis",
+   standards:['RL2','RL3','W1','SL1'],
+   situation:"Tybalt is dead, and yet the conditions that produced him remain entirely intact. No one has dismantled the honor system that required him to challenge Romeo at the feast. The feud did not die with Tybalt — it simply lost one visible enforcer.",
+   task:"Map the sociological forces driving the play's violence, apply external sociological concepts with precision, and argue whether Shakespeare presents these structures as inevitable or subjects them to deliberate critique.",
+   sys:`You are a sociologist specializing in structural violence and honor culture. ASSESS RL2, RL3, W1, SL1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "Distinguish individual violence — personal aggression — from structural violence — harm produced by systems. Which type better describes what killed you? Argue from the text."
+2. "Define honor culture precisely and identify three moments where a character acts from honor culture rather than rational self-interest."
+3. "How do patriarchal structures and honor culture reinforce each other in this play? Use at least two specific scenes."
+4. "Identify three characters who demonstrate awareness of the system's constraints and explain precisely why each cannot escape despite that awareness."
+5. "Bourdieu argued social systems reproduce because people internalize rules so deeply they mistake social constraints for personal values. Does that apply to Tybalt?"
+6. "Is Shakespeare depicting the social system as 'how things are' — or using two teenagers' deaths to argue the system is morally wrong?"
+7. Final: "If you could redesign one cultural norm — not a law — that would have most effectively prevented this tragedy, what would it be and why?"
+
+ONE question per turn. Require external sociological concepts + textual evidence.`},
+
+  // LORD CAPULET
+  {char:'Lord Capulet', icon:'🏰', dok:3, title:"Lord Capulet — Motivation & Economics",
+   standards:['RL1','RL3','W1'],
+   situation:"Prince Escalus has decreed that any noble house involved in further street violence will have its financial assets frozen. The Capulet household is under scrutiny. Juliet's marriage to Paris is no longer simply a matter of family honor — it is a matter of financial survival.",
+   task:"Analyze how economic pressure transforms Lord Capulet's stated motivations and reveal the tension between traditional values and pragmatic survival embedded in Act 3, Scene 4.",
+   sys:`You are a political economist advising the Capulet household. ASSESS RL1, RL3, W1 at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. "Before today Juliet's marriage was a matter of dynastic honor. Now it is also survival. How does that change your reasoning specifically and concretely in Act 3 Scene 4?"
+2. "In Act 3 Scene 4, you tell Paris Juliet 'will be rul'd in all respects by me.' Is that confidence — or desperation? What in your actual language reveals which?"
+3. "You gave Paris time to woo her. Now you've set a wedding for Thursday — three days away. What specifically changed between Act 1 and Act 3?"
+4. "Every significant marriage negotiation in this play occurs between men — Paris petitions you, not Juliet. What does that reveal about the function of marriage in Veronese society?"
+5. "When Juliet refuses, you say 'hang, beg, starve, die in the streets.' Is that the language of a father or an asset manager? What has happened to your conception of Juliet as a person?"
+6. Final: "Trace your character arc from Act 1 through Act 4. What drove your transformation from apparently reasonable father to someone who would disown his daughter?"
+
+ONE question per turn. Require multi-scene character development tracking.`},
+
+  {char:'Lord Capulet', icon:'🏰', dok:4, title:"Lord Capulet — Materialist Analysis",
+   standards:['RL2','RL3','W1','SL1'],
+   situation:"Shakespeare opens with 'Two households, both alike in dignity' — measuring social worth in status and reputation. Throughout the play, Juliet is discussed in ways that reduce her to a negotiable asset. The question is whether this is fundamentally a love story or a story about how economic structures treat human beings as property.",
+   task:"Construct a formal argument about whether the tragedy was caused by the characters' romantic choices or by the socioeconomic structures that constrained them — and take a clear position on Shakespeare's social critique.",
+   sys:`You are a literary critic specializing in Marxist and materialist readings of Renaissance drama. ASSESS RL2, RL3, W1, SL1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "A Marxist critic argues the real story is about property — children as assets, marriage as economic alliance, death as the consequence of treating children as instruments of social exchange. Where in the text does that argument have its strongest purchase?"
+2. "Identify at least three specific moments where a character is discussed in language that frames them as an object of exchange or a financial asset rather than a person with independent will."
+3. "Shakespeare gives us the private language of Romeo and Juliet's relationship — the shared sonnet, the Balcony scene. Doesn't that private world of autonomous feeling exist ALONGSIDE the economic one? How do both operate simultaneously?"
+4. "The Prologue calls them 'star-crossed' — implying fate. A materialist says social systems caused the tragedy. Which does the play's evidence better support? Build the strongest version of both arguments."
+5. "Does Juliet fit the feminist framework of women entirely defined by their roles within patriarchal systems? What agency does she actually exercise — and what are its structural limits?"
+6. "Is Shakespeare endorsing a materialist reading — or writing classical tragedy? What evidence points toward which reading he intends?"
+7. Final: "Write your thesis: Was the tragedy caused primarily by love, by social and economic structures, or by the collision between the two? Your thesis must be specific enough to be argued."
+
+ONE question per turn. Require external theoretical framework + precise textual evidence.`},
+
+  // PARIS
+  {char:'Paris', icon:'💍', dok:3, title:"Paris — The Foil's Testimony",
+   standards:['RL1','RL3','RL4'],
+   situation:"You are Count Paris at the entrance to the Capulet tomb in Act 5. You have come to mourn Juliet, whom you believed you loved and were lawfully betrothed to marry. Romeo approaches. You are bound by law, loyalty, and grief to stop him.",
+   task:"Examine what your conception of love reveals — both about your character and what Shakespeare is using you to argue structurally. Draw on at least two scenes featuring your dialogue and compare your relationship to Juliet with Romeo's.",
+   sys:`You are a Shakespeare scholar interviewing Count Paris before his confrontation with Romeo. ASSESS RL1, RL3, RL4 at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. "In every scene you appear, you negotiate your relationship to Juliet through her father, not through her. What does that consistent pattern tell us about what you actually understand love to be?"
+2. "Compare your first conversation with Lord Capulet in Act 1 Scene 2 with Romeo and Juliet's exchange at the feast. What is the specific difference in the LANGUAGE of love — what does each man say about Juliet?"
+3. "In Act 4 Scene 1, Juliet gives you nothing — no warmth, only careful evasion. Do you demonstrate any recognition of what she is actually communicating — or do you choose not to register it?"
+4. "Shakespeare gives Romeo the language of heaven and stars. He gives you the language of ownership — 'my lady,' 'my wife.' What is the connotative difference between those two vocabularies?"
+5. "Some scholars read you as a villain — privileged, oblivious, complicit. Others read you as a victim — a decent man destroyed by circumstances. Which does the text most convincingly support?"
+6. Final: "Are you here out of genuine love for Juliet as a person — or grief for what you feel you've been deprived of? And what does your death here argue about what love actually is?"
+
+ONE question per turn. Focus on RL4 language and connotation analysis.`},
+
+  {char:'Paris', icon:'💍', dok:4, title:"Paris — Structural Foil Analysis",
+   standards:['RL2','RL5','W1'],
+   situation:"Shakespeare constructed Paris as Romeo's structural counterpart: where Romeo is impulsive and transgressive, Paris is deliberate and socially sanctioned. He obtains consent. He mourns appropriately. He dies at the tomb. Shakespeare kills him anyway.",
+   task:"Argue why Shakespeare's structural and thematic intentions required Paris's death — and whether a version of the play in which Paris survives would still function as tragedy in the classical sense.",
+   sys:`You are a dramaturgical theorist who has staged Romeo and Juliet multiple times. ASSESS RL2, RL5, W1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "Every production kills you in Act 5. But you're not in the Prologue. You didn't choose to be here. Why do you die? What does your death accomplish that the play cannot achieve without it?"
+2. "You represent the ACCEPTABLE version of Veronese love — legitimate, approved, stable. If Shakespeare allows you to survive while Romeo dies, what message does the play send about which kind of love Verona ultimately rewards?"
+3. "Shakespeare prepares for your death structurally before it occurs. Identify at least two moments in Acts 3 and 4 where the play positions you in increasingly dangerous situations. What does that preparation reveal about authorial intention?"
+4. "Aristotle defined tragedy as requiring hamartia — a tragic flaw. What is your hamartia, Paris? If you have none, your death is not tragic in the classical sense. What is it instead?"
+5. "Imagine Paris survives, Romeo dies. Verona celebrates. Does that version produce catharsis — or does it validate precisely the social order Shakespeare has spent five acts critiquing?"
+6. "The Prince says 'All are punish'd.' You die without having committed any clear moral violation. What does your punishment argue about the play's conception of justice?"
+7. Final: "Make the strongest argument: Paris's death is structurally necessary because _______. Then make the strongest counterargument. Choose one and defend it with at least two textual references."
+
+ONE question per turn. Assess original dramatic argument construction.`},
+
+  // APOTHECARY
+  {char:'The Apothecary', icon:'🧪', dok:3, title:"The Apothecary's Lab — Moral Justification",
+   standards:['RL1','RL3','L4'],
+   situation:"You are the Apothecary of Mantua. The law prohibits selling lethal substances. When Romeo arrived at your shop in Act 5, Scene 1, he did not simply request poison — he constructed a careful argument designed to make your compliance feel necessary. You sold him the poison. Now you must account for that decision.",
+   task:"Analyze Romeo's rhetorical strategy, examine the theme of poverty versus law in the play, and defend or honestly acknowledge your moral responsibility for the consequences.",
+   sys:`You are the Prince's chief inquisitor, summoned to Mantua to investigate the Apothecary's role in the deaths. ASSESS RL1, RL3, L4 at DOK 3, Lexile 1050L–1260L.
+
+Sequence:
+1. "Walk me through exactly what Romeo said to you in Act 5 Scene 1. Cite specific lines. I want to understand precisely how a man convinces a law-aware shopkeeper to sell him a lethal substance."
+2. "Romeo appeals to your poverty — 'Let me have a dram of poison, such soon-speeding gear / As will disperse itself through all the veins.' He calls your poverty more binding than your law. Was that appeal accurate? Why does it succeed?"
+3. "Find one other moment in the play where a character's economic circumstances force them to act against legal or moral obligations. Connect your situation to theirs."
+4. "Romeo had already decided to die before he arrived. If you had refused, he would have found another means. Does that diminish your moral responsibility — or create complicity regardless?"
+5. "What is the precise distinction between being the proximate cause of harm and a more distant contributing cause? Where on that spectrum does the Apothecary fall? Ground your answer in the language of Act 5."
+6. Final: "Are you guilty? Of what precisely — legal violation, moral violation, or both? And what does your case reveal about how poverty functions as moral coercion in this play?"
+
+ONE question per turn. Demand specific citations from Act 5.`},
+
+  {char:'The Apothecary', icon:'🧪', dok:4, title:"The Apothecary's Lab — Cross-Curricular Ethics",
+   standards:['RL1','RL2','W1','SL1'],
+   situation:"The Apothecary breaks a law to address suffering — his own poverty and Romeo's grief — knowing the probable consequence will be death. Contemporary societies continue to debate the boundaries of permissible harm: when is it defensible to provide something that enables another person's death, even when that person makes an autonomous, informed choice?",
+   task:"Apply at least one formal ethical framework to your situation, draw substantive parallels to a modern debate — harm reduction or medical aid in dying — and conclude with a reasoned verdict on your guilt or innocence.",
+   sys:`You are the chair of a contemporary medical ethics board reviewing the Apothecary's case as historical precedent. ASSESS RL1, RL2, W1, SL1 at DOK 4, Lexile 1050L–1260L.
+
+Sequence:
+1. "Your case has direct relevance to Medical Aid in Dying debates. Walk us through your reasoning in Act 5 Scene 1. What did Romeo say? What did he appeal to? At what point did you decide to comply — and why that point specifically?"
+2. "A utilitarian evaluates choices based on consequences for overall well-being. Romeo was going to attempt self-destruction regardless. By selling the poison, did you reduce total suffering — or accelerate and ensure one person's death? Build the utilitarian argument."
+3. "A Kantian deontologist would argue your action was wrong regardless of consequences — you treated Romeo as a means to your economic survival rather than as an end in himself. How do you answer that? Which framework more honestly accounts for the full moral complexity?"
+4. "This board is debating harm reduction policies — supervised consumption sites where drug users can use substances under medical supervision to prevent fatal overdoses. In what ways is that debate structurally similar to your situation — and in what ways does it differ importantly?"
+5. "Aristotle's virtue ethics asks 'what kind of person does this action make you?' What virtue or vice does selling the poison express — and what does that tell us about whether you are the kind of moral agent who should make this category of decision?"
+6. Final: "Give your closing argument. Under the ethical framework you find most persuasive: guilty or not guilty — and of what specific moral violation or defensible act? Reference the play, define and apply one external ethical concept, and draw one substantive contemporary parallel."
+
+ONE question per turn. Require all three: play text + ethical concept + contemporary parallel.`}
+];
+
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let studentName = '';
+let scenario = null;
+let chatHistory = [];
+let totalStudentWords = 0;
+let exchangeCount = 0;
+let thresholdMet = false;
+let waitingForAI = false;
+let postThresholdSentenceCount = 0;
+let inPostThresholdMode = false;
+let sessionComplete = false;
+
+// ══════════════════════════════════════════════════════
+//  STARS
+// ══════════════════════════════════════════════════════
+function initStars(){
+  const c = document.getElementById('stars');
+  for(let i = 0; i < 70; i++){
+    const s = document.createElement('div'); s.className = 'star';
+    const sz = Math.random() * 2.4 + 0.4;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*5}s;animation-duration:${2+Math.random()*3}s;`;
+    c.appendChild(s);
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  INTRO
+// ══════════════════════════════════════════════════════
+document.getElementById('studentName').addEventListener('input', function(){
+  document.getElementById('beginBtn').disabled = this.value.trim().length < 2;
+});
+
+function beginAssessment(){
+  studentName = document.getElementById('studentName').value.trim();
+  if(!studentName) return;
+
+  // Pick random scenario
+  scenario = SCENARIOS[Math.floor(Math.random() * SCENARIOS.length)];
+
+  // Hide intro, show scenario
+  document.getElementById('introScreen').style.display = 'none';
+  const sr = document.getElementById('scenarioReveal');
+  sr.style.display = 'block';
+
+  // Populate scenario card
+  document.getElementById('scChar').textContent = `${scenario.icon} ${scenario.char}`;
+  const dok = document.getElementById('scDok');
+  dok.textContent = `DOK ${scenario.dok} — ${scenario.dok === 3 ? 'Strategic Thinking' : 'Extended Thinking'}`;
+  dok.className = `sc-dok ${scenario.dok === 3 ? 'dok3' : 'dok4'}`;
+  document.getElementById('scTitle').textContent = scenario.title;
+  document.getElementById('scSit').textContent = scenario.situation;
+  document.getElementById('scTask').textContent = scenario.task;
+  document.getElementById('scStd').innerHTML = scenario.standards.map(s => `<span class="std-chip">ELAGSE9-10${s}</span>`).join('');
+
+  // Start dialogue
+  chatHistory = [];
+  appendCharMsg(scenario.icon, scenario.char,
+    `${studentName}, you have been assigned this examination scenario.\n\n${scenario.situation}\n\nYour task is to engage in a structured Socratic dialogue demonstrating mastery of the relevant Georgia ELA Standards. You must write a minimum of 350 words across your responses before you may submit for a grade.\n\nCite specific acts, scenes, and lines from the play to support every analytical claim you make. Let us begin.`
+  );
+
+  getAIResponse([{role:'user', content:'Begin the examination dialogue. Open with your first Socratic question as described in your instructions. Stay in character and be direct.'}]);
+}
+
+// ══════════════════════════════════════════════════════
+//  WORD COUNT & TRACKING
+// ══════════════════════════════════════════════════════
+function countWords(text){
+  return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+}
+
+function liveCount(){
+  // Just live feedback in textarea — actual count happens on send
+}
+
+function updateWordDisplay(){
+  const pct = Math.min((totalStudentWords / 350) * 100, 100);
+  const fill = document.getElementById('wordFill');
+  fill.style.width = pct + '%';
+  fill.className = 'word-fill' + (pct >= 100 ? ' complete' : pct >= 50 ? ' halfway' : '');
+  document.getElementById('wordPct').textContent = `${totalStudentWords} / 350 words`;
+  document.getElementById('wordCount').textContent = totalStudentWords;
+
+  if(totalStudentWords >= 350){
+    document.getElementById('wordPill').classList.add('thresh-met');
+    document.getElementById('wordCount').textContent = totalStudentWords + ' ✓';
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  MESSAGING
+// ══════════════════════════════════════════════════════
+function handleKey(e){
+  if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+}
+
+async function sendMessage(){
+  if(waitingForAI || sessionComplete) return;
+  const ta = document.getElementById('userInput');
+  const txt = ta.value.trim();
+  if(!txt) return;
+  ta.value = '';
+
+  const wc = countWords(txt);
+  totalStudentWords += wc;
+  exchangeCount++;
+  document.getElementById('exchCount').textContent = exchangeCount;
+  updateWordDisplay();
+
+  appendStudentMsg(txt);
+  chatHistory.push({role:'user', content:txt});
+
+  // Count sentences in post-threshold mode
+  if(inPostThresholdMode){
+    const sentences = txt.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+    postThresholdSentenceCount += sentences;
+  }
+
+  await getAIResponse(chatHistory);
+}
+
+async function getAIResponse(messages){
+  waitingForAI = true;
+  document.getElementById('sendBtn').disabled = true;
+  const typId = showTyping();
+
+  try {
+    const sysExtra = totalStudentWords >= 350
+      ? '\n\nThe student has now met the 350-word threshold. After your response, if appropriate, briefly note they have reached the minimum and ask if they feel confident with their responses to submit for a grade. Phrase it naturally within your character voice. Do NOT ask this every single turn — only once after threshold is met, then continue the dialogue normally if they say No.'
+      : '';
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: scenario.sys + sysExtra + '\n\nThis is a GRADED ASSESSMENT. The student\'s responses are being recorded for evaluation. Keep each of your responses to 2-4 sentences maximum. Ask ONE question per turn. Never provide answers to the student.',
+        messages: messages
+      })
+    });
+
+    const data = await resp.json();
+    removeTyping(typId);
+    const aiText = data.content?.map(b => b.type === 'text' ? b.text : '').join('') || 'Connection interrupted. Please try again.';
+    appendCharMsg(scenario.icon, scenario.char, aiText);
+    chatHistory.push({role:'assistant', content:aiText});
+
+    // Check threshold
+    if(totalStudentWords >= 350 && !thresholdMet){
+      thresholdMet = true;
+      inPostThresholdMode = true;
+      showConfidenceGate();
+    }
+
+  } catch(err){
+    removeTyping(typId);
+    appendCharMsg('⚠️', 'System', 'The connection was interrupted. Please check your network and try again.');
+  }
+
+  waitingForAI = false;
+  document.getElementById('sendBtn').disabled = sessionComplete;
+  document.getElementById('userInput').focus();
+}
+
+function appendCharMsg(icon, name, text){
+  const m = document.getElementById('messages');
+  const d = document.createElement('div'); d.className = 'msg-char';
+  d.innerHTML = `<div class="av">${icon}</div><div class="bbl"><div class="spk">${name}</div>${esc(text)}</div>`;
+  m.appendChild(d); scroll();
+}
+
+function appendStudentMsg(text){
+  const m = document.getElementById('messages');
+  const d = document.createElement('div'); d.className = 'msg-student';
+  d.innerHTML = `<div class="av">🎓</div><div class="bbl"><div class="spk">${studentName}</div>${esc(text)}</div>`;
+  m.appendChild(d); scroll();
+}
+
+function showTyping(){
+  const m = document.getElementById('messages');
+  const id = 'typ-' + Date.now();
+  const d = document.createElement('div'); d.className = 'msg-char'; d.id = id;
+  d.innerHTML = `<div class="av">${scenario.icon}</div><div class="bbl"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  m.appendChild(d); scroll(); return id;
+}
+function removeTyping(id){ const el = document.getElementById(id); if(el) el.remove(); }
+function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function scroll(){ const b = document.getElementById('convoBox'); b.scrollTop = b.scrollHeight; }
+
+// ══════════════════════════════════════════════════════
+//  CONFIDENCE GATE
+// ══════════════════════════════════════════════════════
+function showConfidenceGate(){
+  const gate = document.getElementById('confGate');
+  document.getElementById('gateMsg').textContent =
+    `You have written ${totalStudentWords} words across your responses — the 350-word minimum has been reached. Do you feel confident in the quality and depth of your responses and wish to submit for a grade? Or would you like to continue developing your answers?`;
+  gate.classList.add('show');
+  document.getElementById('statusVal').textContent = '350 Words ✓';
+}
+
+function endSession(){
+  document.getElementById('confGate').classList.remove('show');
+  document.getElementById('inputWrap').classList.remove('show');
+  sessionComplete = true;
+  document.getElementById('sendBtn').disabled = true;
+  document.getElementById('statusVal').textContent = 'Submitted';
+
+  // Show system message
+  const m = document.getElementById('messages');
+  const d = document.createElement('div'); d.className = 'system-msg';
+  d.textContent = '⚖ EXAMINATION SUBMITTED — Generating Official Grade…';
+  m.appendChild(d); scroll();
+
+  generateGrade();
+}
+
+function continueWriting(){
+  document.getElementById('confGate').classList.remove('show');
+  inPostThresholdMode = true;
+  document.getElementById('userInput').focus();
+  // After each subsequent response, we re-check via the post-threshold sentence counter
+}
+
+// ══════════════════════════════════════════════════════
+//  GRADING
+// ══════════════════════════════════════════════════════
+async function generateGrade(){
+  const fullTranscript = chatHistory
+    .map(m => `[${m.role === 'user' ? studentName : scenario.char}]: ${m.content}`)
+    .join('\n\n');
+
+  const gradingPrompt = `You are an expert Georgia ELA 9-10 grade evaluator. Grade the following student examination dialogue.
+
+STUDENT: ${studentName}
+SCENARIO: ${scenario.title} (${scenario.char}, DOK ${scenario.dok})
+STANDARDS ASSESSED: ${scenario.standards.map(s => 'ELAGSE9-10' + s).join(', ')}
+TOTAL STUDENT WORDS: ${totalStudentWords}
+TOTAL EXCHANGES: ${exchangeCount}
+
+FULL DIALOGUE TRANSCRIPT:
+${fullTranscript}
+
+GRADING RUBRIC (total 100 points):
+1. Textual Evidence Quality (0-30): Does the student cite specific acts, scenes, and lines? Are citations relevant and accurately used? Strong = 25-30, Adequate = 15-24, Weak/vague = 0-14.
+2. Analytical Depth (0-25): Does the student move beyond plot summary to genuine literary analysis? Does the response address HOW and WHY, not just WHAT? Strong = 20-25, Adequate = 12-19, Weak = 0-11.
+3. Character Accuracy & Perspective (0-20): Does the student maintain consistent, accurate character voice? Do their arguments reflect what the text reveals about this character? Strong = 17-20, Adequate = 10-16, Weak = 0-9.
+4. Thematic Understanding (0-15): Does the student demonstrate understanding of the play's themes (fate, love, honor, social structure, etc.) relevant to this scenario? Strong = 12-15, Adequate = 7-11, Weak = 0-6.
+5. Response Quality & Engagement (0-10): Are responses substantive, thoughtful, and responsive to the questions asked — not evasive or superficial? Strong = 8-10, Adequate = 5-7, Weak = 0-4.
+
+${scenario.dok === 4 ? 'ADDITIONAL DOK 4 CONSIDERATION: For DOK 4, also evaluate whether the student made any cross-disciplinary connections or synthesized external concepts with textual evidence. Strong cross-disciplinary synthesis can earn bonus points within the Analytical Depth category.' : ''}
+
+Respond ONLY in this exact JSON format (no markdown, no explanation outside the JSON):
+{
+  "rubricScores": {
+    "textualEvidence": <0-30>,
+    "analyticalDepth": <0-25>,
+    "characterAccuracy": <0-20>,
+    "thematicUnderstanding": <0-15>,
+    "responseQuality": <0-10>
+  },
+  "totalScore": <0-100>,
+  "letterGrade": "<A/B/C/D/F with + or - as appropriate>",
+  "strengths": "<2-3 sentences identifying specific things the student did well, referencing their actual responses>",
+  "development": "<2-3 sentences identifying specific areas for improvement, with actionable guidance>",
+  "summary": "<3-4 sentences providing an overall evaluative summary of the student's performance in this examination, suitable for a grade report>"
+}`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{role:'user', content: gradingPrompt}]
+      })
+    });
+
+    const data = await resp.json();
+    let raw = data.content?.map(b => b.type === 'text' ? b.text : '').join('') || '';
+    raw = raw.replace(/```json|```/g, '').trim();
+    const grade = JSON.parse(raw);
+    displayGrade(grade);
+
+  } catch(err){
+    // Fallback display
+    displayGrade({
+      rubricScores: { textualEvidence:0, analyticalDepth:0, characterAccuracy:0, thematicUnderstanding:0, responseQuality:0 },
+      totalScore: 0,
+      letterGrade: '—',
+      strengths: 'Unable to connect to grading service. Please check your network connection and try again.',
+      development: 'Please resubmit when your connection is restored.',
+      summary: 'Grading could not be completed due to a connection error.'
+    });
+  }
+}
+
+function displayGrade(g){
+  document.getElementById('scenarioReveal').style.display = 'none';
+  const gc = document.getElementById('gradeCard');
+  gc.style.display = 'block';
+
+  document.getElementById('gradeStudentName').textContent = studentName;
+  document.getElementById('gradeScenario').textContent = `${scenario.icon} ${scenario.char} · ${scenario.title} · DOK ${scenario.dok}`;
+  document.getElementById('scoreNum').textContent = g.totalScore;
+  document.getElementById('scoreLetter').textContent = g.letterGrade;
+  document.getElementById('gradeStandards').innerHTML =
+    `<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px;">${scenario.standards.map(s=>`<span style="padding:2px 8px;border:1px solid rgba(201,168,76,0.4);border-radius:2px;font-family:Cinzel,serif;font-size:9px;color:var(--gold);opacity:.8;">ELAGSE9-10${s}</span>`).join('')}</div>`;
+
+  // Color score
+  const sn = document.getElementById('scoreNum');
+  if(g.totalScore >= 90) sn.style.color = '#7FFF7F';
+  else if(g.totalScore >= 80) sn.style.color = '#B8FF80';
+  else if(g.totalScore >= 70) sn.style.color = '#C9A84C';
+  else if(g.totalScore >= 60) sn.style.color = '#FFB84C';
+  else sn.style.color = '#FF8080';
+
+  // Rubric grid
+  const rs = g.rubricScores;
+  const rubricItems = [
+    {name:'Textual Evidence', key:'textualEvidence', max:30},
+    {name:'Analytical Depth', key:'analyticalDepth', max:25},
+    {name:'Character Accuracy', key:'characterAccuracy', max:20},
+    {name:'Thematic Understanding', key:'thematicUnderstanding', max:15},
+    {name:'Response Quality', key:'responseQuality', max:10},
+  ];
+  document.getElementById('rubricGrid').innerHTML = rubricItems.map(r => {
+    const score = rs[r.key] || 0;
+    const pct = Math.round((score / r.max) * 100);
+    return `<div class="rubric-item">
+      <div class="rubric-name">${r.name}</div>
+      <div class="rubric-score">${score} <span style="opacity:.5;font-size:12px;">/ ${r.max}</span></div>
+      <div class="rubric-note">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('gradeStrengths').textContent = g.strengths || '—';
+  document.getElementById('gradeDevelop').textContent = g.development || '—';
+  document.getElementById('gradeSummary').textContent = g.summary || '—';
+
+  const now = new Date();
+  document.getElementById('gradeDetails').textContent =
+    `Submitted: ${now.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'})} at ${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})} · Total Words: ${totalStudentWords} · Exchanges: ${exchangeCount} · Scenario: ${scenario.title} · Standard: ${scenario.standards.map(s=>'ELAGSE9-10'+s).join(', ')}`;
+
+  gc.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function restartAssessment(){
+  studentName = ''; scenario = null; chatHistory = [];
+  totalStudentWords = 0; exchangeCount = 0; thresholdMet = false;
+  waitingForAI = false; postThresholdSentenceCount = 0;
+  inPostThresholdMode = false; sessionComplete = false;
+
+  document.getElementById('gradeCard').style.display = 'none';
+  document.getElementById('scenarioReveal').style.display = 'none';
+  document.getElementById('introScreen').style.display = 'block';
+  document.getElementById('studentName').value = '';
+  document.getElementById('beginBtn').disabled = true;
+  document.getElementById('messages').innerHTML = '';
+  document.getElementById('confGate').classList.remove('show');
+  document.getElementById('inputWrap').classList.add('show');
+  document.getElementById('wordFill').style.width = '0%';
+  document.getElementById('wordPct').textContent = '0 / 350 words';
+  document.getElementById('wordCount').textContent = '0';
+  document.getElementById('exchCount').textContent = '0';
+  document.getElementById('statusVal').textContent = 'In Progress';
+  document.getElementById('wordPill').classList.remove('thresh-met');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════════════════
+initStars();
+</script>
+</body>
+</html>
