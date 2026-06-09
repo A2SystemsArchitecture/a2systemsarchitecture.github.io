@@ -404,6 +404,13 @@ function toggleEdit() {
     document.getElementById('pwModal').classList.add('open');
     setTimeout(() => document.getElementById('pwInp').focus(), 80);
   }
+  refreshTypeUnlockState();
+}
+
+function refreshTypeUnlockState() {
+  document.querySelectorAll('td[data-typecell]').forEach(td=>{
+    if(td._applyUnlock) td._applyUnlock();
+  });
 }
 function doPw() {
   if (document.getElementById('pwInp').value === PW) {
@@ -416,6 +423,7 @@ function doPw() {
     document.getElementById('pwErr').style.display = 'none';
     document.getElementById('pwModal').classList.remove('open');
     document.getElementById('saveInd').textContent = 'Changes save in session';
+    refreshTypeUnlockState();
   } else {
     document.getElementById('pwErr').style.display = 'block';
     document.getElementById('pwInp').value = '';
@@ -765,8 +773,8 @@ function multiTypeCell(data, idx) {
   const td=document.createElement('td');
   td.style.minWidth='155px';
   td.style.verticalAlign='middle';
+  td.dataset.typecell='1';
 
-  // Ensure type is always an array
   if(!Array.isArray(data[idx].type)) {
     data[idx].type = data[idx].type ? [data[idx].type] : [];
   }
@@ -778,9 +786,9 @@ function multiTypeCell(data, idx) {
 
     const types=data[idx].type;
 
-    // Always show chips
     if(types.length===0) {
       const empty=document.createElement('span');
+      empty.className='type-empty-label';
       empty.style.cssText='font-size:11px;color:#9CA3AF;font-style:italic;';
       empty.textContent='None';
       wrap.appendChild(empty);
@@ -788,85 +796,103 @@ function multiTypeCell(data, idx) {
       types.forEach((t,ti)=>{
         const chip=document.createElement('span');
         chip.className='pill '+(TY_CLS[t]||'type-general');
-        chip.style.cssText='display:inline-flex;align-items:center;gap:2px;padding:2px 6px;font-size:11px;';
+        chip.style.cssText='display:inline-flex;align-items:center;gap:2px;padding:2px 7px;font-size:11px;';
         const label=document.createElement('span');
         label.textContent=t;
         chip.appendChild(label);
-        // × only in edit mode
-        if(unlocked) {
-          const x=document.createElement('span');
-          x.textContent='×';
-          x.style.cssText='font-size:11px;cursor:pointer;opacity:0.55;margin-left:2px;line-height:1;font-weight:700;';
-          x.title='Remove '+t;
-          x.onclick=function(e){
-            e.stopPropagation();
-            data[idx].type.splice(ti,1);
-            render(); renderFBar(); updateStats(); markSaved();
-          };
-          chip.appendChild(x);
-        }
+
+        // × remove button — always in DOM, shown via CSS when unlocked
+        const x=document.createElement('span');
+        x.textContent='×';
+        x.className='type-remove-btn';
+        x.style.cssText='font-size:11px;cursor:pointer;opacity:0.6;margin-left:2px;line-height:1;font-weight:700;display:none;';
+        x.title='Remove '+t;
+        x.onclick=function(e){
+          e.stopPropagation();
+          data[idx].type.splice(ti,1);
+          render(); renderFBar(); updateStats(); markSaved();
+        };
+        chip.appendChild(x);
         wrap.appendChild(chip);
       });
     }
 
-    // Add-type controls — edit mode only
-    if(unlocked) {
-      // Preset dropdown (shows types not already selected + "Custom...")
-      const sel=document.createElement('select');
-      sel.style.cssText='border:1px dashed #aaa;border-radius:10px;background:#fafafa;font-size:10px;color:#555;padding:2px 5px;cursor:pointer;font-family:Arial,sans-serif;max-width:80px;margin-top:2px;';
-      const ph=document.createElement('option');
-      ph.value=''; ph.textContent='+ Add';
-      sel.appendChild(ph);
-      // Preset options not yet selected
-      TY_OPTS.filter(t=>!data[idx].type.includes(t)).forEach(t=>{
-        const op=document.createElement('option');
-        op.value=t; op.textContent=t; sel.appendChild(op);
-      });
-      // Custom option at bottom
-      const customOp=document.createElement('option');
-      customOp.value='__custom__'; customOp.textContent='Custom...';
-      sel.appendChild(customOp);
+    // Add-type section — always in DOM, shown via CSS when unlocked
+    const addWrap=document.createElement('div');
+    addWrap.className='type-add-wrap';
+    addWrap.style.cssText='display:none;align-items:center;gap:3px;margin-top:2px;width:100%;';
 
-      sel.onchange=function(){
-        const val=this.value;
-        if(!val) return;
-        if(val==='__custom__') {
-          // Show inline text input for custom type
-          sel.style.display='none';
-          const inp=document.createElement('input');
-          inp.type='text';
-          inp.placeholder='Type name...';
-          inp.style.cssText='border:1px solid var(--gold);border-radius:10px;font-size:11px;padding:2px 8px;width:90px;font-family:Arial,sans-serif;background:#fffbeb;outline:none;';
-          inp.onkeydown=function(e){
-            if(e.key==='Enter'){
-              const v=this.value.trim();
-              if(v && !data[idx].type.includes(v)) {
-                data[idx].type.push(v);
-                render(); renderFBar(); updateStats(); markSaved();
-              } else { render(); }
-            }
-            if(e.key==='Escape') render();
-          };
-          inp.onblur=function(){
-            const v=this.value.trim();
-            if(v && !data[idx].type.includes(v)) {
-              data[idx].type.push(v);
-              render(); renderFBar(); updateStats(); markSaved();
-            } else { render(); }
-          };
-          wrap.appendChild(inp);
-          setTimeout(()=>inp.focus(), 30);
-        } else {
-          data[idx].type.push(val);
-          render(); renderFBar(); updateStats(); markSaved();
-        }
-        this.value='';
-      };
-      wrap.appendChild(sel);
+    // Preset + Custom dropdown
+    const sel=document.createElement('select');
+    sel.style.cssText='border:1px dashed #aaa;border-radius:10px;background:#fafafa;font-size:11px;color:#555;padding:2px 6px;cursor:pointer;font-family:Arial,sans-serif;';
+    const ph=document.createElement('option');
+    ph.value=''; ph.textContent='+ Add type';
+    sel.appendChild(ph);
+    TY_OPTS.filter(t=>!data[idx].type.includes(t)).forEach(t=>{
+      const op=document.createElement('option');
+      op.value=t; op.textContent=t; sel.appendChild(op);
+    });
+    const customOp=document.createElement('option');
+    customOp.value='__custom__'; customOp.textContent='Custom...';
+    sel.appendChild(customOp);
+
+    // Custom text input — hidden until "Custom..." picked
+    const customInp=document.createElement('input');
+    customInp.type='text';
+    customInp.placeholder='Type name + Enter';
+    customInp.style.cssText='display:none;border:1px solid var(--gold);border-radius:10px;font-size:11px;padding:2px 8px;width:120px;font-family:Arial,sans-serif;background:#fffbeb;outline:none;margin-top:2px;';
+
+    function commitCustom() {
+      const v=customInp.value.trim();
+      if(v && !data[idx].type.includes(v)) {
+        data[idx].type.push(v);
+        render(); renderFBar(); updateStats(); markSaved();
+      } else {
+        customInp.style.display='none';
+        sel.style.display='';
+        sel.value='';
+      }
     }
 
+    customInp.onkeydown=function(e){
+      if(e.key==='Enter'){ e.preventDefault(); commitCustom(); }
+      if(e.key==='Escape'){ customInp.style.display='none'; sel.style.display=''; sel.value=''; }
+    };
+    customInp.onblur=commitCustom;
+
+    sel.onchange=function(){
+      const val=this.value;
+      if(!val) return;
+      if(val==='__custom__'){
+        sel.style.display='none';
+        customInp.style.display='block';
+        customInp.value='';
+        setTimeout(()=>customInp.focus(),20);
+      } else {
+        data[idx].type.push(val);
+        render(); renderFBar(); updateStats(); markSaved();
+      }
+      this.value='';
+    };
+
+    addWrap.appendChild(sel);
+    addWrap.appendChild(customInp);
+    wrap.appendChild(addWrap);
     td.appendChild(wrap);
+
+    // Apply current unlock state immediately
+    applyUnlockState();
   }
+
+  // Called whenever unlock state changes — shows/hides edit controls
+  function applyUnlockState() {
+    td.querySelectorAll('.type-remove-btn').forEach(el=>el.style.display=unlocked?'inline':'none');
+    const aw=td.querySelector('.type-add-wrap');
+    if(aw) aw.style.display=unlocked?'flex':'none';
+  }
+
+  // Store ref so toggleEdit can refresh all type cells
+  td._applyUnlock=applyUnlockState;
 
   render();
   return td;
