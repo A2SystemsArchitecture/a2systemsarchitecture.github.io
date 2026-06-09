@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events Command Center — Gulliver Schools Advancement</title>
+<style>
+  :root {
+    --plum: #2D1B4E;
+    --plum-mid: #3d2560;
+    --plum-light: #5a3a7e;
+    --gold: #CA8A04;
+    --gold-light: #f0a90b;
+    --cream: #FFFBEB;
+    --lavender: #FAF5FF;
+    --near-black: #1C1917;
+    --white: #ffffff;
+    --status-green: #15803D;
+    --status-green-bg: #DCFCE7;
+    --status-yellow: #92400E;
+    --status-yellow-bg: #FEF3C7;
+    --status-red: #991B1B;
+    --status-red-bg: #FEE2E2;
+    --status-gray: #374151;
+    --status-gray-bg: #F3F4F6;
+    --border: #E5E7EB;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #1a0f2e;
+    color: var(--near-black);
+    min-height: 100vh;
+  }
+
+  /* TOP NAV */
+  .top-bar {
+    background: var(--plum);
+    border-bottom: 3px solid var(--gold);
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--gold);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--plum);
+    letter-spacing: -0.5px;
+  }
+  .brand-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.3px;
+  }
+  .brand-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+  .top-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .org-tag {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    border: 1px solid var(--gold);
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+  .last-saved {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* TAB NAV */
+  .tab-nav {
+    background: var(--plum-mid);
+    display: flex;
+    gap: 0;
+    padding: 0 28px;
+    border-bottom: 1px solid rgba(202,138,4,0.2);
+  }
+  .tab-btn {
+    padding: 12px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: rgba(255,255,255,0.8); }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    padding: 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-header {
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .section-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    background: var(--plum);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.3px;
+  }
+  .card-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--plum);
+    background: var(--gold);
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--lavender);
+    color: var(--plum);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--gold);
+  }
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f9f7ff; }
+
+  /* STATUS PILLS */
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .pill-green { background: var(--status-green-bg); color: var(--status-green); }
+  .pill-yellow { background: var(--status-yellow-bg); color: var(--status-yellow); }
+  .pill-red { background: var(--status-red-bg); color: var(--status-red); }
+  .pill-gray { background: var(--status-gray-bg); color: var(--status-gray); }
+  .pill-plum { background: #EDE9FE; color: var(--plum); }
+
+  /* READINESS SYMBOLS */
+  .sym { font-size: 16px; display: block; text-align: center; }
+
+  /* INLINE EDIT FIELDS */
+  .editable {
+    background: transparent;
+    border: none;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: var(--near-black);
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+  }
+  .editable:focus {
+    outline: 2px solid var(--gold);
+    border-radius: 2px;
+    padding: 2px 4px;
+    background: #fffbeb;
+  }
+  select.editable {
+    cursor: pointer;
+    padding: 2px 4px;
+  }
+
+  /* DUE DATE URGENCY */
+  .due-overdue { color: var(--status-red); font-weight: 700; }
+  .due-soon { color: #92400E; font-weight: 700; }
+  .due-ok { color: var(--status-green); }
+
+  /* CHECKLIST PANEL */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .checklist-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .checklist-card-header {
+    background: var(--plum);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .checklist-phase {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .checklist-body { padding: 12px 16px; }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type="checkbox"] {
+    margin-top: 1px;
+    accent-color: var(--plum);
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .check-label {
+    font-size: 13px;
+    color: var(--near-black);
+    line-height: 1.4;
+    user-select: none;
+  }
+  .check-label.done {
+    text-decoration: line-through;
+    color: #9CA3AF;
+  }
+
+  /* VENDOR TABLE */
+  .vendor-status { text-align: center; }
+
+  /* ADD ROW BUTTON */
+  .add-row-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: var(--lavender);
+    border: 1px dashed var(--plum-light);
+    border-top: none;
+    color: var(--plum);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s;
+  }
+  .add-row-btn:hover { background: #ede9fe; }
+
+  /* SUMMARY STATS */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 16px 18px;
+  }
+  .stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--plum);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: #6B7280;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  /* GOLD RULE */
+  .gold-rule {
+    border: none;
+    border-top: 2px solid var(--gold);
+    margin: 22px 0;
+    opacity: 0.4;
+  }
+
+  /* READINESS TRACKER special layout */
+  .readiness-table th:first-child,
+  .readiness-table td:first-child {
+    min-width: 180px;
+    font-weight: 700;
+    color: var(--plum);
+    background: #f9f7ff;
+    border-right: 2px solid var(--border);
+  }
+  .readiness-table th:not(:first-child),
+  .readiness-table td:not(:first-child) {
+    text-align: center;
+    min-width: 90px;
+  }
+
+  /* PRINT HINT */
+  .print-hint {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    text-align: right;
+    margin-bottom: 14px;
+  }
+
+  /* SCROLLABLE TABLE WRAPPER */
+  .table-scroll { overflow-x: auto; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .tab-btn { padding: 10px 12px; font-size: 11px; }
+    .main { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="brand">
+    <div class="brand-mark">A2</div>
+    <div>
+      <div class="brand-name">A2 Pulse · Events Command Center</div>
+      <div class="brand-sub">Gulliver Schools Advancement</div>
+    </div>
+  </div>
+  <div class="top-right">
+    <div class="org-tag">Advancement</div>
+    <div class="last-saved" id="lastSaved">Unsaved</div>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('master')">Master Calendar</button>
+  <button class="tab-btn" onclick="switchTab('readiness')">Event Readiness</button>
+  <button class="tab-btn" onclick="switchTab('checklist')">Launch Checklist</button>
+  <button class="tab-btn" onclick="switchTab('deadlines')">Deadlines</button>
+  <button class="tab-btn" onclick="switchTab('vendors')">Vendors & Sponsors</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- ==============================
+       PANEL 1: MASTER CALENDAR
+       ============================== -->
+  <div class="panel active" id="panel-master">
+    <div class="section-header">
+      <div class="section-title">Annual Events Master Calendar</div>
+      <div class="section-desc">All active events. Click any cell to edit inline. Status updates automatically.</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number" id="stat-total">8</div>
+        <div class="stat-label">Total Events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="stat-active">5</div>
+        <div class="stat-label">Active / In Planning</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="stat-atRisk">3</div>
+        <div class="stat-label">At Risk</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="stat-completed">1</div>
+        <div class="stat-label">Completed</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">SY 2025–26 Event Roster</span>
+        <span class="card-badge">8 EVENTS</span>
+      </div>
+      <div class="table-scroll">
+        <table id="masterTable">
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Owner</th>
+              <th>Goal</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="masterBody">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addMasterRow()">+ Add Event</button>
+    </div>
+  </div>
+
+  <!-- ==============================
+       PANEL 2: EVENT READINESS
+       ============================== -->
+  <div class="panel" id="panel-readiness">
+    <div class="section-header">
+      <div class="section-title">Event Readiness Tracker</div>
+      <div class="section-desc">One row per dependency. Red = chase it today. Yellow = in progress. Green = done.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Dependency Status Matrix</span>
+        <span class="card-badge">LIVE STATUS</span>
+      </div>
+      <div class="table-scroll">
+        <table class="readiness-table" id="readinessTable">
+          <thead>
+            <tr id="readinessHead">
+              <!-- built by JS -->
+            </tr>
+          </thead>
+          <tbody id="readinessBody">
+            <!-- built by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="background:#1f1035;border-radius:8px;padding:14px 18px;margin-bottom:0;">
+      <div style="font-size:12px;color:rgba(255,255,255,0.7);display:flex;gap:24px;flex-wrap:wrap;">
+        <span>✅ Complete</span>
+        <span>🟡 In Progress</span>
+        <span>❌ Not Started</span>
+        <span>🔴 Blocked / At Risk</span>
+        <span style="color:rgba(255,255,255,0.35);">N/A Not Applicable</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================
+       PANEL 3: LAUNCH CHECKLIST
+       ============================== -->
+  <div class="panel" id="panel-checklist">
+    <div class="section-header">
+      <div class="section-title">Event Launch Checklist</div>
+      <div class="section-desc">Every event starts here. Work top to bottom. Checks persist in this session.</div>
+    </div>
+
+    <!-- Event selector -->
+    <div style="margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+      <label style="font-size:13px;color:rgba(255,255,255,0.7);font-weight:700;">Viewing checklist for:</label>
+      <select id="checklistEventSelect" style="background:var(--plum-mid);color:white;border:1px solid rgba(202,138,4,0.4);padding:7px 14px;border-radius:5px;font-size:13px;font-family:Arial,sans-serif;cursor:pointer;" onchange="renderChecklist()">
+        <!-- populated by JS -->
+      </select>
+    </div>
+
+    <div class="checklist-grid" id="checklistGrid">
+      <!-- built by JS -->
+    </div>
+  </div>
+
+  <!-- ==============================
+       PANEL 4: DEADLINES
+       ============================== -->
+  <div class="panel" id="panel-deadlines">
+    <div class="section-header">
+      <div class="section-title">Deadlines & Follow-Ups</div>
+      <div class="section-desc">Sorted by due date. What needs attention this week is at the top.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">All Open Deadlines — Sorted by Date</span>
+        <span class="card-badge" id="deadlineBadge">0 ITEMS</span>
+      </div>
+      <div class="table-scroll">
+        <table id="deadlineTable">
+          <thead>
+            <tr>
+              <th>Due Date</th>
+              <th>Task / Action</th>
+              <th>Event</th>
+              <th>Owner</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="deadlineBody">
+            <!-- built by JS -->
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addDeadlineRow()">+ Add Deadline</button>
+    </div>
+  </div>
+
+  <!-- ==============================
+       PANEL 5: VENDORS & SPONSORS
+       ============================== -->
+  <div class="panel" id="panel-vendors">
+    <div class="section-header">
+      <div class="section-title">Vendors & Sponsors</div>
+      <div class="section-desc">Track W-9, COI, contracts, invoices, and logo receipt. Nothing falls through.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <span class="card-title">Vendor Tracker</span>
+        <span class="card-badge">COMPLIANCE</span>
+      </div>
+      <div class="table-scroll">
+        <table id="vendorTable">
+          <thead>
+            <tr>
+              <th>Vendor / Company</th>
+              <th>Event</th>
+              <th>Service</th>
+              <th style="text-align:center">W-9</th>
+              <th style="text-align:center">COI</th>
+              <th style="text-align:center">Contract</th>
+              <th style="text-align:center">Invoice</th>
+              <th style="text-align:center">Paid</th>
+              <th>Contact</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="vendorBody">
+            <!-- built by JS -->
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addVendorRow()">+ Add Vendor</button>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Sponsor Tracker</span>
+        <span class="card-badge">SPONSORSHIP</span>
+      </div>
+      <div class="table-scroll">
+        <table id="sponsorTable">
+          <thead>
+            <tr>
+              <th>Sponsor / Donor</th>
+              <th>Event</th>
+              <th>Level</th>
+              <th>Amount</th>
+              <th style="text-align:center">Committed</th>
+              <th style="text-align:center">Paid</th>
+              <th style="text-align:center">Logo Received</th>
+              <th style="text-align:center">W-9</th>
+              <th>Contact</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="sponsorBody">
+            <!-- built by JS -->
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addSponsorRow()">+ Add Sponsor</button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ==========================================
+// DATA
+// ==========================================
+const EVENTS = [
+  { name: "Golf Classic", date: "Feb 9, 2026", location: "Deering Bay", type: "Fundraiser", status: "Planning", owner: "Giselle", goal: "$150,000", notes: "" },
+  { name: "Fishing Tournament", date: "Apr 25, 2026", location: "KBYC", type: "Fundraiser", status: "Sponsorship", owner: "Giselle", goal: "$75,000", notes: "" },
+  { name: "Giving Circles", date: "Nov 11, 2026", location: "TBD", type: "Donor Cultivation", status: "Not Started", owner: "Giselle", goal: "Stewardship", notes: "" },
+  { name: "Leadership Luncheon", date: "Mar 2026", location: "TBD", type: "Leadership", status: "Planning", owner: "Giselle", goal: "Engagement", notes: "" },
+  { name: "Alumni Reunion", date: "Oct 2026", location: "TBD", type: "Alumni", status: "Not Started", owner: "Giselle", goal: "Engagement", notes: "" },
+  { name: "Parent Appreciation", date: "May 2026", location: "TBD", type: "Parent", status: "Planning", owner: "Giselle", goal: "Stewardship", notes: "" },
+  { name: "Stewardship Dinner", date: "Dec 2026", location: "TBD", type: "Stewardship", status: "Not Started", owner: "Giselle", goal: "Retention", notes: "" },
+  { name: "Special Donor Gathering", date: "Jan 2026", location: "Gulliver Campus", type: "Donor", status: "Completed", owner: "Giselle", goal: "Major Gifts", notes: "Completed successfully" },
+];
+
+const DEPENDENCIES = [
+  "Date Confirmed",
+  "Location Contract Signed",
+  "Budget Approved",
+  "Calendar Invite Sent",
+  "RSVP Page / OneCause Live",
+  "Briefing Meeting Scheduled",
+  "Debrief Meeting Scheduled",
+  "Sponsor List Finalized",
+  "Sponsor Logos Received",
+  "Catering Confirmed",
+  "Catering Guarantee Submitted",
+  "Volunteer Plan Complete",
+  "Volunteer Assignments Sent",
+  "Run of Show Draft",
+  "Print Materials Ordered",
+  "Save the Date Sent",
+  "Event Folder Created",
+  "Communications Notified",
+  "Advancement Team Notified",
+  "Shirt / Swag Order Submitted",
+  "W-9 Received (Vendors)",
+  "Post-Event Thank-You Sent",
+  "Revenue Reconciliation Complete",
+  "Photos Archived",
+];
+
+// Readiness: ✅ 🟡 ❌ 🔴 N/A
+const READINESS_DATA = {
+  "Date Confirmed":               ["✅","✅","✅","🟡","❌","✅","❌","✅"],
+  "Location Contract Signed":     ["✅","✅","❌","❌","❌","❌","❌","✅"],
+  "Budget Approved":              ["✅","🟡","❌","❌","❌","❌","❌","✅"],
+  "Calendar Invite Sent":         ["✅","❌","❌","❌","❌","❌","❌","✅"],
+  "RSVP Page / OneCause Live":    ["✅","❌","❌","❌","❌","❌","❌","✅"],
+  "Briefing Meeting Scheduled":   ["🟡","❌","❌","❌","❌","❌","❌","✅"],
+  "Debrief Meeting Scheduled":    ["❌","❌","❌","❌","❌","❌","❌","✅"],
+  "Sponsor List Finalized":       ["🟡","🟡","❌","❌","❌","❌","❌","✅"],
+  "Sponsor Logos Received":       ["🔴","❌","❌","❌","❌","❌","❌","✅"],
+  "Catering Confirmed":           ["🟡","N/A","❌","❌","❌","❌","❌","✅"],
+  "Catering Guarantee Submitted": ["🔴","N/A","❌","❌","❌","❌","❌","✅"],
+  "Volunteer Plan Complete":      ["❌","❌","❌","❌","❌","❌","❌","✅"],
+  "Volunteer Assignments Sent":   ["❌","❌","❌","❌","❌","❌","❌","✅"],
+  "Run of Show Draft":            ["🟡","❌","❌","❌","❌","❌","❌","✅"],
+  "Print Materials Ordered":      ["❌","❌","❌","❌","❌","❌","❌","✅"],
+  "Save the Date Sent":           ["✅","🟡","❌","❌","❌","❌","❌","✅"],
+  "Event Folder Created":         ["✅","✅","❌","❌","❌","❌","❌","✅"],
+  "Communications Notified":      ["✅","🟡","❌","❌","❌","❌","❌","✅"],
+  "Advancement Team Notified":    ["✅","✅","❌","❌","❌","❌","❌","✅"],
+  "Shirt / Swag Order Submitted": ["🔴","N/A","N/A","N/A","N/A","N/A","N/A","✅"],
+  "W-9 Received (Vendors)":       ["🟡","❌","❌","❌","❌","❌","❌","✅"],
+  "Post-Event Thank-You Sent":    ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","✅"],
+  "Revenue Reconciliation Complete":["N/A","N/A","N/A","N/A","N/A","N/A","N/A","✅"],
+  "Photos Archived":              ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","✅"],
+};
+
+const CHECKLIST_PHASES = [
+  {
+    phase: "Event Creation — Day 1",
+    color: "#2D1B4E",
+    items: [
+      "Add to Master Calendar",
+      "Create Event Folder (Drive)",
+      "Create RSVP Link / OneCause Campaign",
+      "Create Budget Sheet",
+      "Schedule Briefing Meeting",
+      "Schedule Debrief Meeting",
+      "Notify Communications Team",
+      "Notify Advancement Team",
+      "Complete Veracross Form",
+      "Build Event Timeline",
+    ]
+  },
+  {
+    phase: "60 Days Out",
+    color: "#1d4ed8",
+    items: [
+      "Sponsorship outreach complete",
+      "Sponsor logos requested",
+      "Vendor contracts signed",
+      "Save-the-Date sent",
+      "Volunteer recruitment started",
+      "Registration page live and tested",
+    ]
+  },
+  {
+    phase: "30 Days Out",
+    color: "#92400E",
+    items: [
+      "Catering confirmed",
+      "Catering guarantee submitted",
+      "Registration reviewed and reconciled",
+      "Staffing / volunteers finalized",
+      "Run of show drafted",
+      "Shirt / swag order placed",
+      "Sponsor logos received and placed",
+      "Print materials ordered",
+      "All W-9s received",
+    ]
+  },
+  {
+    phase: "7 Days Out",
+    color: "#991B1B",
+    items: [
+      "Final attendee list locked",
+      "Final run of show approved",
+      "Speaker briefings sent",
+      "Weather plan confirmed",
+      "Print materials in hand",
+      "Volunteer assignments distributed",
+      "Day-of contact sheet shared with team",
+    ]
+  },
+  {
+    phase: "Post-Event",
+    color: "#15803D",
+    items: [
+      "Debrief held",
+      "Thank-you emails sent",
+      "Revenue reconciliation complete",
+      "Photos archived",
+      "Board report completed",
+      "Lessons learned documented",
+      "Vendor invoices paid",
+      "Donor stewardship follow-ups initiated",
+    ]
+  },
+];
+
+let checklistState = {};
+
+const DEADLINES = [
+  { due: "2026-01-05", task: "Sponsor logos due", event: "Golf Classic", owner: "Giselle", priority: "High", status: "Open", notes: "" },
+  { due: "2026-01-12", task: "Golf shirt order submission", event: "Golf Classic", owner: "Giselle", priority: "High", status: "Open", notes: "Vendor: Custom Ink" },
+  { due: "2026-01-20", task: "Final golfer list confirmed", event: "Golf Classic", owner: "Giselle", priority: "High", status: "Open", notes: "" },
+  { due: "2026-01-30", task: "Catering guarantee submitted", event: "Golf Classic", owner: "Giselle", priority: "Critical", status: "Open", notes: "Due to caterer by COB" },
+  { due: "2026-02-01", task: "Run of show final draft", event: "Golf Classic", owner: "Giselle", priority: "High", status: "In Progress", notes: "" },
+  { due: "2026-02-02", task: "Volunteer assignments sent", event: "Golf Classic", owner: "Giselle", priority: "Medium", status: "Open", notes: "" },
+  { due: "2026-03-01", task: "Sponsorship outreach complete", event: "Fishing Tournament", owner: "Giselle", priority: "High", status: "In Progress", notes: "" },
+  { due: "2026-03-15", task: "RSVP page built and live", event: "Fishing Tournament", owner: "Giselle", priority: "Medium", status: "Open", notes: "" },
+];
+
+const VENDORS = [
+  { name: "Le Basque Catering", event: "Golf Classic", service: "Catering", w9: "✅", coi: "✅", contract: "✅", invoice: "❌", paid: "❌", contact: "—", notes: "Guarantee due Jan 30" },
+  { name: "Kona Ice", event: "Golf Classic", service: "F&B Vendor", w9: "✅", coi: "N/A", contract: "N/A", invoice: "❌", paid: "❌", contact: "—", notes: "" },
+  { name: "Custom Ink", event: "Golf Classic", service: "Shirts / Apparel", w9: "❌", coi: "N/A", contract: "❌", invoice: "❌", paid: "❌", contact: "—", notes: "Order not submitted" },
+  { name: "KBYC Marina", event: "Fishing Tournament", service: "Venue / Docking", w9: "🟡", coi: "❌", contract: "🟡", invoice: "❌", paid: "❌", contact: "—", notes: "" },
+];
+
+const SPONSORS = [
+  { name: "Sponsor A", event: "Golf Classic", level: "Title", amount: "$25,000", committed: "✅", paid: "✅", logo: "🔴", w9: "✅", contact: "—", notes: "Logo not yet received" },
+  { name: "Sponsor B", event: "Golf Classic", level: "Gold", amount: "$10,000", committed: "✅", paid: "❌", logo: "❌", w9: "❌", contact: "—", notes: "" },
+  { name: "Sponsor C", event: "Fishing Tournament", level: "Presenting", amount: "$15,000", committed: "🟡", paid: "❌", logo: "❌", w9: "❌", contact: "—", notes: "Verbal commitment" },
+];
+
+// ==========================================
+// MASTER CALENDAR
+// ==========================================
+const STATUS_OPTIONS = ["Not Started","Planning","Sponsorship","Registration Open","In Progress","At Risk","Completed","Cancelled"];
+
+function statusPill(s) {
+  const map = {
+    "Completed":   "pill-green",
+    "Planning":    "pill-plum",
+    "Sponsorship": "pill-yellow",
+    "Registration Open": "pill-green",
+    "In Progress": "pill-yellow",
+    "At Risk":     "pill-red",
+    "Not Started": "pill-gray",
+    "Cancelled":   "pill-gray",
+  };
+  return `<span class="pill ${map[s]||'pill-gray'}">${s}</span>`;
+}
+
+function renderMaster() {
+  const tb = document.getElementById('masterBody');
+  tb.innerHTML = '';
+  EVENTS.forEach((e, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${e.name}" onchange="EVENTS[${i}].name=this.value;refreshAll()"></td>
+      <td><input class="editable" value="${e.date}" onchange="EVENTS[${i}].date=this.value"></td>
+      <td><input class="editable" value="${e.location}" onchange="EVENTS[${i}].location=this.value"></td>
+      <td><input class="editable" value="${e.type}" onchange="EVENTS[${i}].type=this.value"></td>
+      <td>
+        <select class="editable" onchange="EVENTS[${i}].status=this.value;renderMaster()">
+          ${STATUS_OPTIONS.map(o=>`<option${o===e.status?' selected':''}>${o}</option>`).join('')}
+        </select>
+      </td>
+      <td><input class="editable" value="${e.owner}" onchange="EVENTS[${i}].owner=this.value"></td>
+      <td><input class="editable" value="${e.goal}" onchange="EVENTS[${i}].goal=this.value"></td>
+      <td><input class="editable" value="${e.notes}" onchange="EVENTS[${i}].notes=this.value" placeholder="—"></td>
+    `;
+    tb.appendChild(tr);
+  });
+  updateStats();
+}
+
+function addMasterRow() {
+  EVENTS.push({ name: "New Event", date: "TBD", location: "TBD", type: "Fundraiser", status: "Not Started", owner: "Giselle", goal: "—", notes: "" });
+  renderMaster();
+  refreshChecklistSelect();
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = EVENTS.length;
+  document.getElementById('stat-active').textContent = EVENTS.filter(e=>["Planning","Sponsorship","Registration Open","In Progress"].includes(e.status)).length;
+  document.getElementById('stat-atRisk').textContent = EVENTS.filter(e=>e.status==="At Risk").length;
+  document.getElementById('stat-completed').textContent = EVENTS.filter(e=>e.status==="Completed").length;
+}
+
+// ==========================================
+// READINESS TRACKER
+// ==========================================
+function symCell(val) {
+  if (val === "N/A") return `<span style="color:#9CA3AF;font-size:12px;">N/A</span>`;
+  const map = { "✅":"sym","🟡":"sym","❌":"sym","🔴":"sym" };
+  return `<span class="sym">${val}</span>`;
+}
+
+function renderReadiness() {
+  const head = document.getElementById('readinessHead');
+  const body = document.getElementById('readinessBody');
+
+  // Header
+  head.innerHTML = '<th>Dependency</th>' + EVENTS.map(e=>`<th>${e.name.replace(' Tournament','').replace(' Classic','').replace(' Circles','')}</th>`).join('');
+
+  body.innerHTML = '';
+  DEPENDENCIES.forEach(dep => {
+    const vals = READINESS_DATA[dep] || [];
+    const tr = document.createElement('tr');
+    let cells = `<td>${dep}</td>`;
+    EVENTS.forEach((e, i) => {
+      const v = vals[i] || '❌';
+      cells += `<td onclick="cycleReadiness('${dep.replace(/'/g,"\\'")}',${i})" style="cursor:pointer;text-align:center;" title="Click to cycle status">${symCell(v)}</td>`;
+    });
+    tr.innerHTML = cells;
+    body.appendChild(tr);
+  });
+}
+
+const SYM_CYCLE = ["❌","🟡","✅","🔴","N/A"];
+function cycleReadiness(dep, idx) {
+  if (!READINESS_DATA[dep]) READINESS_DATA[dep] = EVENTS.map(()=>"❌");
+  const cur = READINESS_DATA[dep][idx] || "❌";
+  const next = SYM_CYCLE[(SYM_CYCLE.indexOf(cur)+1) % SYM_CYCLE.length];
+  READINESS_DATA[dep][idx] = next;
+  renderReadiness();
+  markSaved();
+}
+
+// ==========================================
+// LAUNCH CHECKLIST
+// ==========================================
+function refreshChecklistSelect() {
+  const sel = document.getElementById('checklistEventSelect');
+  const cur = sel.value;
+  sel.innerHTML = EVENTS.map(e=>`<option value="${e.name}">${e.name}</option>`).join('');
+  if (EVENTS.find(e=>e.name===cur)) sel.value = cur;
+}
+
+function renderChecklist() {
+  const eventName = document.getElementById('checklistEventSelect').value;
+  const grid = document.getElementById('checklistGrid');
+  grid.innerHTML = '';
+
+  CHECKLIST_PHASES.forEach(phase => {
+    const card = document.createElement('div');
+    card.className = 'checklist-card';
+    card.innerHTML = `
+      <div class="checklist-card-header" style="background:${phase.color}">
+        <span class="checklist-phase">${phase.phase}</span>
+      </div>
+      <div class="checklist-body">
+        ${phase.items.map(item => {
+          const key = `${eventName}__${phase.phase}__${item}`;
+          const done = checklistState[key] || false;
+          return `<label class="check-item">
+            <input type="checkbox" ${done?'checked':''} onchange="toggleCheck('${key.replace(/'/g,"\\'")}',this)">
+            <span class="check-label ${done?'done':''}">${item}</span>
+          </label>`;
+        }).join('')}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function toggleCheck(key, el) {
+  checklistState[key] = el.checked;
+  // update label styling without full re-render
+  const label = el.nextElementSibling;
+  if (el.checked) label.classList.add('done');
+  else label.classList.remove('done');
+  markSaved();
+}
+
+// ==========================================
+// DEADLINES
+// ==========================================
+const PRIORITY_OPTIONS = ["Critical","High","Medium","Low"];
+const DL_STATUS_OPTIONS = ["Open","In Progress","Done","Blocked"];
+
+function duePill(dateStr) {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const d = new Date(dateStr);
+  const diff = Math.ceil((d - today) / (1000*60*60*24));
+  if (diff < 0) return `<span class="pill pill-red">Overdue ${Math.abs(diff)}d</span>`;
+  if (diff <= 7) return `<span class="pill pill-yellow">Due in ${diff}d</span>`;
+  return `<span class="pill pill-green">Due in ${diff}d</span>`;
+}
+
+function renderDeadlines() {
+  const sorted = [...DEADLINES].sort((a,b)=>a.due.localeCompare(b.due));
+  const tb = document.getElementById('deadlineBody');
+  tb.innerHTML = '';
+  sorted.forEach((row, i) => {
+    const origIdx = DEADLINES.indexOf(row);
+    const tr = document.createElement('tr');
+    if (row.status === "Done") tr.style.opacity = "0.45";
+    tr.innerHTML = `
+      <td>
+        <input type="date" class="editable" value="${row.due}" onchange="DEADLINES[${origIdx}].due=this.value;renderDeadlines()">
+        <div style="margin-top:4px">${duePill(row.due)}</div>
+      </td>
+      <td><input class="editable" value="${row.task}" onchange="DEADLINES[${origIdx}].task=this.value"></td>
+      <td>
+        <select class="editable" onchange="DEADLINES[${origIdx}].event=this.value">
+          ${EVENTS.map(e=>`<option${e.name===row.event?' selected':''}>${e.name}</option>`).join('')}
+        </select>
+      </td>
+      <td><input class="editable" value="${row.owner}" onchange="DEADLINES[${origIdx}].owner=this.value"></td>
+      <td>
+        <select class="editable" onchange="DEADLINES[${origIdx}].priority=this.value;renderDeadlines()">
+          ${PRIORITY_OPTIONS.map(o=>`<option${o===row.priority?' selected':''}>${o}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select class="editable" onchange="DEADLINES[${origIdx}].status=this.value;renderDeadlines()">
+          ${DL_STATUS_OPTIONS.map(o=>`<option${o===row.status?' selected':''}>${o}</option>`).join('')}
+        </select>
+      </td>
+      <td><input class="editable" value="${row.notes}" onchange="DEADLINES[${origIdx}].notes=this.value" placeholder="—"></td>
+    `;
+    tb.appendChild(tr);
+  });
+  document.getElementById('deadlineBadge').textContent = DEADLINES.filter(d=>d.status!=="Done").length + " OPEN";
+}
+
+function addDeadlineRow() {
+  const today = new Date().toISOString().split('T')[0];
+  DEADLINES.push({ due: today, task: "New Task", event: EVENTS[0]?.name||"", owner: "Giselle", priority: "Medium", status: "Open", notes: "" });
+  renderDeadlines();
+}
+
+// ==========================================
+// VENDORS
+// ==========================================
+const DOC_OPTIONS = ["✅","❌","🟡","N/A"];
+
+function docSelect(table, rowIdx, field, val) {
+  return `<select class="editable" style="text-align:center;font-size:15px;" onchange="${table}[${rowIdx}].${field}=this.value;render${table.charAt(0).toUpperCase()+table.slice(1)}()">
+    ${DOC_OPTIONS.map(o=>`<option${o===val?' selected':''}>${o}</option>`).join('')}
+  </select>`;
+}
+
+function renderVendors() {
+  const tb = document.getElementById('vendorBody');
+  tb.innerHTML = '';
+  VENDORS.forEach((v, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${v.name}" onchange="VENDORS[${i}].name=this.value"></td>
+      <td><select class="editable" onchange="VENDORS[${i}].event=this.value">${EVENTS.map(e=>`<option${e.name===v.event?' selected':''}>${e.name}</option>`).join('')}</select></td>
+      <td><input class="editable" value="${v.service}" onchange="VENDORS[${i}].service=this.value"></td>
+      <td class="vendor-status">${docSelect('VENDORS',i,'w9',v.w9)}</td>
+      <td class="vendor-status">${docSelect('VENDORS',i,'coi',v.coi)}</td>
+      <td class="vendor-status">${docSelect('VENDORS',i,'contract',v.contract)}</td>
+      <td class="vendor-status">${docSelect('VENDORS',i,'invoice',v.invoice)}</td>
+      <td class="vendor-status">${docSelect('VENDORS',i,'paid',v.paid)}</td>
+      <td><input class="editable" value="${v.contact}" onchange="VENDORS[${i}].contact=this.value" placeholder="Name / email"></td>
+      <td><input class="editable" value="${v.notes}" onchange="VENDORS[${i}].notes=this.value" placeholder="—"></td>
+    `;
+    tb.appendChild(tr);
+  });
+}
+
+function addVendorRow() {
+  VENDORS.push({ name: "New Vendor", event: EVENTS[0]?.name||"", service: "—", w9:"❌", coi:"❌", contract:"❌", invoice:"❌", paid:"❌", contact:"—", notes:"" });
+  renderVendors();
+}
+
+function renderSponsors() {
+  const tb = document.getElementById('sponsorBody');
+  tb.innerHTML = '';
+  SPONSORS.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="editable" value="${s.name}" onchange="SPONSORS[${i}].name=this.value"></td>
+      <td><select class="editable" onchange="SPONSORS[${i}].event=this.value">${EVENTS.map(e=>`<option${e.name===s.event?' selected':''}>${e.name}</option>`).join('')}</select></td>
+      <td><input class="editable" value="${s.level}" onchange="SPONSORS[${i}].level=this.value"></td>
+      <td><input class="editable" value="${s.amount}" onchange="SPONSORS[${i}].amount=this.value"></td>
+      <td class="vendor-status">${docSelect('SPONSORS',i,'committed',s.committed)}</td>
+      <td class="vendor-status">${docSelect('SPONSORS',i,'paid',s.paid)}</td>
+      <td class="vendor-status">${docSelect('SPONSORS',i,'logo',s.logo)}</td>
+      <td class="vendor-status">${docSelect('SPONSORS',i,'w9',s.w9)}</td>
+      <td><input class="editable" value="${s.contact}" onchange="SPONSORS[${i}].contact=this.value" placeholder="Name / email"></td>
+      <td><input class="editable" value="${s.notes}" onchange="SPONSORS[${i}].notes=this.value" placeholder="—"></td>
+    `;
+    tb.appendChild(tr);
+  });
+}
+
+function addSponsorRow() {
+  SPONSORS.push({ name: "New Sponsor", event: EVENTS[0]?.name||"", level:"—", amount:"$0", committed:"❌", paid:"❌", logo:"❌", w9:"❌", contact:"—", notes:"" });
+  renderSponsors();
+}
+
+// ==========================================
+// TAB SWITCHING
+// ==========================================
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ==========================================
+// SAVE INDICATOR
+// ==========================================
+function markSaved() {
+  const now = new Date();
+  document.getElementById('lastSaved').textContent = `Saved ${now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+}
+
+function refreshAll() {
+  renderMaster();
+  renderReadiness();
+  refreshChecklistSelect();
+  renderChecklist();
+  renderDeadlines();
+  renderVendors();
+  renderSponsors();
+}
+
+// ==========================================
+// INIT
+// ==========================================
+renderMaster();
+renderReadiness();
+refreshChecklistSelect();
+renderChecklist();
+renderDeadlines();
+renderVendors();
+renderSponsors();
+
+// Mark edits
+document.addEventListener('change', markSaved);
+document.addEventListener('input', markSaved);
+</script>
+</body>
+</html>
