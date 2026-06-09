@@ -5,147 +5,234 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Events Command Center — Gulliver Schools Advancement</title>
 <style>
-  :root {
-    --plum: #2D1B4E;
-    --plum-mid: #3d2560;
-    --plum-light: #5a3a7e;
-    --gold: #CA8A04;
-    --cream: #FFFBEB;
-    --lavender: #FAF5FF;
-    --near-black: #1C1917;
-    --white: #ffffff;
-    --green: #15803D; --green-bg: #DCFCE7;
-    --yellow: #92400E; --yellow-bg: #FEF3C7;
-    --red: #991B1B; --red-bg: #FEE2E2;
-    --gray: #374151; --gray-bg: #F3F4F6;
-    --border: #E5E7EB;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: #1a0f2e; color: var(--near-black); min-height: 100vh; }
+:root {
+  --plum:#2D1B4E; --plum-mid:#3d2560; --plum-light:#5a3a7e;
+  --gold:#CA8A04; --cream:#FFFBEB; --lavender:#FAF5FF;
+  --near-black:#1C1917; --white:#ffffff;
+  --green:#15803D; --green-bg:#DCFCE7;
+  --yellow:#92400E; --yellow-bg:#FEF3C7;
+  --red:#991B1B; --red-bg:#FEE2E2;
+  --gray:#374151; --gray-bg:#F3F4F6;
+  --border:#E5E7EB;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;background:#1a0f2e;color:var(--near-black);min-height:100vh;}
 
-  /* TOP BAR */
-  .top-bar {
-    background: var(--plum); border-bottom: 3px solid var(--gold);
-    padding: 0 28px; display: flex; align-items: center; justify-content: space-between;
-    height: 58px; position: sticky; top: 0; z-index: 100;
-  }
-  .brand { display: flex; align-items: center; gap: 14px; }
-  .brand-mark {
-    width: 36px; height: 36px; background: var(--gold); border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; color: var(--plum); letter-spacing: -0.5px;
-  }
-  .brand-name { font-size: 15px; font-weight: 700; color: var(--white); }
-  .brand-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; }
-  .top-right { display: flex; align-items: center; gap: 10px; }
-  .org-tag { font-size: 11px; color: var(--gold); font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; border: 1px solid var(--gold); padding: 3px 10px; border-radius: 3px; }
-  .last-saved { font-size: 11px; color: rgba(255,255,255,0.4); }
+/* TOP BAR */
+.top-bar{background:var(--plum);border-bottom:3px solid var(--gold);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{width:34px;height:34px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--plum);}
+.brand-name{font-size:14px;font-weight:700;color:var(--white);}
+.brand-sub{font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px;}
+.top-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.org-tag{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--gold);padding:3px 8px;border-radius:3px;}
+.mode-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:0.5px;}
+.mode-view{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);}
+.mode-edit{background:var(--gold);color:var(--plum);}
+.edit-btn{font-size:11px;font-weight:700;padding:5px 12px;border-radius:4px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;transition:all .15s;}
+.edit-btn:hover{background:var(--gold);color:var(--plum);}
+.save-indicator{font-size:11px;color:rgba(255,255,255,0.35);}
 
-  /* TABS */
-  .tab-nav { background: var(--plum-mid); display: flex; padding: 0 28px; border-bottom: 1px solid rgba(202,138,4,0.2); overflow-x: auto; }
-  .tab-btn { padding: 12px 18px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
-  .tab-btn:hover { color: rgba(255,255,255,0.8); }
-  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+/* PASSWORD MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--plum);border:2px solid var(--gold);border-radius:10px;padding:32px;width:340px;text-align:center;}
+.modal h2{color:var(--white);font-size:16px;margin-bottom:8px;}
+.modal p{color:rgba(255,255,255,0.5);font-size:12px;margin-bottom:20px;}
+.modal input{width:100%;padding:10px 14px;border-radius:5px;border:1px solid var(--gold);background:#1a0f2e;color:var(--white);font-size:14px;font-family:Arial,sans-serif;text-align:center;letter-spacing:4px;margin-bottom:14px;}
+.modal input:focus{outline:none;border-color:var(--gold);}
+.modal-btns{display:flex;gap:10px;}
+.modal-btns button{flex:1;padding:9px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer;border:none;}
+.btn-confirm{background:var(--gold);color:var(--plum);}
+.btn-cancel{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);}
+.modal-error{color:#f87171;font-size:12px;margin-bottom:10px;display:none;}
 
-  /* MAIN */
-  .main { padding: 28px; max-width: 1500px; margin: 0 auto; }
-  .panel { display: none; }
-  .panel.active { display: block; }
+/* TOOLBAR (excel-style) */
+.toolbar{background:#2a1a45;border-bottom:1px solid rgba(202,138,4,0.15);padding:6px 20px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.toolbar-group{display:flex;align-items:center;gap:4px;border-right:1px solid rgba(255,255,255,0.1);padding-right:8px;margin-right:2px;}
+.toolbar-group:last-child{border-right:none;}
+.tb-btn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);padding:4px 9px;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;transition:all .1s;}
+.tb-btn:hover{background:rgba(202,138,4,0.25);border-color:var(--gold);color:var(--gold);}
+.tb-btn.active{background:rgba(202,138,4,0.3);border-color:var(--gold);color:var(--gold);}
+.tb-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.tb-label{font-size:10px;color:rgba(255,255,255,0.3);font-weight:700;letter-spacing:0.5px;padding:0 4px;}
+.search-box{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:var(--white);padding:4px 10px;border-radius:3px;font-size:12px;font-family:Arial,sans-serif;width:180px;}
+.search-box::placeholder{color:rgba(255,255,255,0.3);}
+.search-box:focus{outline:none;border-color:var(--gold);}
 
-  .section-title { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-  .section-desc { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 22px; }
+/* TABS */
+.tab-nav{background:var(--plum-mid);display:flex;padding:0 20px;border-bottom:1px solid rgba(202,138,4,0.2);overflow-x:auto;}
+.tab-btn{padding:11px 16px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap;transition:color .15s,border-color .15s;}
+.tab-btn:hover{color:rgba(255,255,255,0.8);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
 
-  /* CARDS */
-  .card { background: var(--white); border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-  .card-header { background: var(--plum); padding: 11px 18px; display: flex; align-items: center; justify-content: space-between; }
-  .card-title { font-size: 13px; font-weight: 700; color: var(--white); }
-  .card-badge { font-size: 10px; font-weight: 700; color: var(--plum); background: var(--gold); padding: 2px 8px; border-radius: 10px; letter-spacing: 0.5px; }
+/* MAIN */
+.main{padding:22px;max-width:1600px;margin:0 auto;}
+.panel{display:none;}
+.panel.active{display:block;}
+.section-title{font-size:20px;font-weight:700;color:var(--white);margin-bottom:3px;}
+.section-desc{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:18px;}
 
-  /* TABLES */
-  .table-scroll { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { background: var(--lavender); color: var(--plum); font-weight: 700; font-size: 11px; letter-spacing: 0.7px; text-transform: uppercase; padding: 9px 12px; text-align: left; border-bottom: 2px solid var(--gold); white-space: nowrap; }
-  td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #f9f7ff; }
+/* CARDS */
+.card{background:var(--white);border-radius:8px;border:1px solid var(--border);overflow:hidden;margin-bottom:18px;}
+.card-header{background:var(--plum);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-size:12px;font-weight:700;color:var(--white);}
+.card-badge{font-size:10px;font-weight:700;color:var(--plum);background:var(--gold);padding:2px 8px;border-radius:10px;}
 
-  /* PILLS */
-  .pill { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-  .pill-green { background: var(--green-bg); color: var(--green); }
-  .pill-yellow { background: var(--yellow-bg); color: var(--yellow); }
-  .pill-red { background: var(--red-bg); color: var(--red); }
-  .pill-gray { background: var(--gray-bg); color: var(--gray); }
-  .pill-plum { background: #EDE9FE; color: var(--plum); }
-  .pill-blue { background: #DBEAFE; color: #1e40af; }
-  .pill-teal { background: #CCFBF1; color: #0f766e; }
+/* TABLE CONTAINER — fixed header + horizontal scroll */
+.tbl-wrap{overflow:auto;max-height:60vh;position:relative;}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:auto;}
 
-  /* TYPE BADGES */
-  .type-dev { background: #EDE9FE; color: #5b21b6; }
-  .type-pa { background: #FCE7F3; color: #9d174d; }
-  .type-alumni { background: #DBEAFE; color: #1e3a8a; }
-  .type-fund { background: var(--yellow-bg); color: var(--yellow); }
-  .type-general { background: var(--gray-bg); color: var(--gray); }
-  .type-admin { background: #F3F4F6; color: #6B7280; }
+/* FROZEN HEADER */
+thead th{
+  background:var(--lavender);color:var(--plum);font-weight:700;font-size:10px;
+  letter-spacing:0.6px;text-transform:uppercase;padding:8px 10px;
+  border-bottom:2px solid var(--gold);white-space:nowrap;
+  position:sticky;top:0;z-index:10;
+  cursor:pointer;user-select:none;
+}
+thead th:hover{background:#ede9fe;}
+thead th .sort-icon{margin-left:4px;opacity:0.4;font-style:normal;}
+thead th.sort-asc .sort-icon::after{content:'▲';opacity:1;}
+thead th.sort-desc .sort-icon::after{content:'▼';opacity:1;}
+thead th:not(.sort-asc):not(.sort-desc) .sort-icon::after{content:'⇅';}
 
-  /* EDITABLE */
-  .editable { background: transparent; border: none; font-family: Arial, sans-serif; font-size: 13px; color: var(--near-black); width: 100%; padding: 0; cursor: pointer; }
-  .editable:focus { outline: 2px solid var(--gold); border-radius: 2px; padding: 2px 4px; background: #fffbeb; }
-  select.editable { cursor: pointer; padding: 2px 2px; }
+/* COLUMN RESIZE */
+.col-resizer{width:4px;background:transparent;cursor:col-resize;display:inline-block;height:16px;vertical-align:middle;margin-left:2px;border-right:2px solid rgba(202,138,4,0.3);transition:border-color .1s;}
+.col-resizer:hover,.col-resizer.resizing{border-color:var(--gold);}
 
-  /* ADD ROW */
-  .add-row-btn { display: block; width: 100%; padding: 9px; background: var(--lavender); border: 1px dashed var(--plum-light); border-top: none; color: var(--plum); font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; }
-  .add-row-btn:hover { background: #ede9fe; }
+td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:#f9f7ff;}
+tbody tr.row-selected td{background:#ede9fe !important;}
 
-  /* STATS */
-  .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
-  .stat-card { background: var(--white); border-radius: 8px; border: 1px solid var(--border); border-top: 3px solid var(--gold); padding: 14px 16px; }
-  .stat-number { font-size: 26px; font-weight: 700; color: var(--plum); line-height: 1; margin-bottom: 4px; }
-  .stat-label { font-size: 10px; color: #6B7280; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+/* FROZEN FIRST COL on readiness table */
+.readiness-table th:first-child,
+.readiness-table td:first-child{
+  position:sticky;left:0;z-index:5;background:#f9f7ff;
+  border-right:2px solid var(--border);min-width:200px;font-weight:700;color:var(--plum);
+}
+.readiness-table thead th:first-child{z-index:15;background:var(--lavender);}
+.readiness-table td:not(:first-child){text-align:center;min-width:110px;cursor:pointer;}
+.readiness-table th:not(:first-child){text-align:center;min-width:110px;}
 
-  /* READINESS */
-  .readiness-table th:first-child, .readiness-table td:first-child { min-width: 200px; font-weight: 700; color: var(--plum); background: #f9f7ff; border-right: 2px solid var(--border); position: sticky; left: 0; z-index: 1; }
-  .readiness-table td:not(:first-child) { text-align: center; min-width: 110px; cursor: pointer; }
-  .readiness-table th:not(:first-child) { text-align: center; min-width: 110px; font-size: 10px; }
-  .sym { font-size: 15px; }
+/* CELLS — view vs edit mode */
+.cell-view{display:block;white-space:pre-wrap;word-break:break-word;min-height:18px;}
+.cell-edit{display:none;width:100%;min-height:28px;padding:3px 6px;border:1.5px solid var(--gold);border-radius:3px;font-family:Arial,sans-serif;font-size:13px;color:var(--near-black);background:#fffbeb;resize:none;overflow:hidden;}
+.cell-edit:focus{outline:none;box-shadow:0 0 0 2px rgba(202,138,4,0.3);}
+body.edit-mode .cell-view{display:none;}
+body.edit-mode .cell-edit{display:block;}
 
-  /* CHECKLIST */
-  .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }
-  .checklist-card { background: var(--white); border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
-  .checklist-card-header { padding: 9px 14px; }
-  .checklist-phase { font-size: 11px; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 1px; }
-  .checklist-body { padding: 10px 14px; }
-  .check-item { display: flex; align-items: flex-start; gap: 9px; padding: 5px 0; border-bottom: 1px solid #f3f4f6; cursor: pointer; }
-  .check-item:last-child { border-bottom: none; }
-  .check-item input[type="checkbox"] { margin-top: 1px; accent-color: var(--plum); width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
-  .check-label { font-size: 13px; color: var(--near-black); line-height: 1.4; user-select: none; }
-  .check-label.done { text-decoration: line-through; color: #9CA3AF; }
+/* LINK CELLS */
+.cell-link{color:#1d4ed8;text-decoration:underline;cursor:pointer;word-break:break-all;}
+.cell-link:hover{color:#1e40af;}
 
-  /* DEADLINES */
-  .due-overdue { color: var(--red); font-weight: 700; font-size: 11px; }
-  .due-soon { color: #92400E; font-weight: 700; font-size: 11px; }
-  .due-ok { color: var(--green); font-size: 11px; }
+/* SELECT CELLS */
+.cell-select{width:100%;border:none;background:transparent;font-family:Arial,sans-serif;font-size:13px;color:var(--near-black);cursor:pointer;padding:0;}
+body:not(.edit-mode) .cell-select{pointer-events:none;appearance:none;-webkit-appearance:none;}
+body:not(.edit-mode) .cell-select{background:transparent;}
 
-  /* MONTH SECTION ROWS */
-  .month-header td { background: var(--plum); color: var(--white); font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 7px 12px; border: none; }
+/* PILLS */
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap;}
+.pill-green{background:var(--green-bg);color:var(--green);}
+.pill-yellow{background:var(--yellow-bg);color:var(--yellow);}
+.pill-red{background:var(--red-bg);color:var(--red);}
+.pill-gray{background:var(--gray-bg);color:var(--gray);}
+.pill-plum{background:#EDE9FE;color:var(--plum);}
+.type-dev{background:#EDE9FE;color:#5b21b6;}
+.type-pa{background:#FCE7F3;color:#9d174d;}
+.type-alumni{background:#DBEAFE;color:#1e3a8a;}
+.type-fund{background:var(--yellow-bg);color:var(--yellow);}
+.type-general{background:var(--gray-bg);color:var(--gray);}
 
-  /* FILTER BAR */
-  .filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
-  .filter-btn { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.15s; }
-  .filter-btn:hover, .filter-btn.active { background: var(--gold); color: var(--plum); border-color: var(--gold); }
+/* ADD ROW */
+.add-row-btn{display:none;width:100%;padding:8px;background:var(--lavender);border:1px dashed var(--plum-light);border-top:none;color:var(--plum);font-size:12px;font-weight:700;cursor:pointer;text-align:center;}
+.add-row-btn:hover{background:#ede9fe;}
+body.edit-mode .add-row-btn{display:block;}
 
-  /* LEGEND */
-  .legend { background: #1f1035; border-radius: 8px; padding: 12px 16px; display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 0; }
-  .legend span { font-size: 12px; color: rgba(255,255,255,0.65); }
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px;}
+.stat-card{background:var(--white);border-radius:7px;border:1px solid var(--border);border-top:3px solid var(--gold);padding:12px 14px;}
+.stat-number{font-size:24px;font-weight:700;color:var(--plum);line-height:1;margin-bottom:3px;}
+.stat-label{font-size:10px;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;}
 
-  @media (max-width: 768px) {
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .tab-btn { padding: 10px 12px; font-size: 11px; }
-    .main { padding: 14px; }
-  }
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
+.filter-btn{padding:5px 12px;border-radius:16px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);cursor:pointer;transition:all .15s;}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);color:var(--plum);border-color:var(--gold);}
+
+/* MONTH HEADERS */
+.month-header td{background:var(--plum);color:var(--white);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:6px 10px;border:none;}
+
+/* CHECKLIST */
+.checklist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;}
+.checklist-card{background:var(--white);border-radius:8px;border:1px solid var(--border);overflow:hidden;}
+.checklist-card-header{padding:8px 14px;}
+.checklist-phase{font-size:10px;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:1px;}
+.checklist-body{padding:10px 14px;}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #f3f4f6;}
+.check-item:last-child{border-bottom:none;}
+.check-item input[type=checkbox]{margin-top:2px;accent-color:var(--plum);width:13px;height:13px;flex-shrink:0;cursor:pointer;}
+.check-label{font-size:12px;color:var(--near-black);line-height:1.4;user-select:none;}
+.check-label.done{text-decoration:line-through;color:#9CA3AF;}
+
+/* DUE PILLS */
+.due-overdue{color:var(--red);font-weight:700;font-size:10px;}
+.due-soon{color:#92400E;font-weight:700;font-size:10px;}
+.due-ok{color:var(--green);font-size:10px;}
+
+/* SEARCH HIGHLIGHT */
+.hl{background:#fef08a;border-radius:2px;}
+
+/* LEGEND */
+.legend{background:#1f1035;border-radius:7px;padding:10px 14px;display:flex;gap:18px;flex-wrap:wrap;}
+.legend span{font-size:11px;color:rgba(255,255,255,0.6);}
+
+/* LINK INPUT MODAL */
+.link-modal{display:none;position:fixed;z-index:500;background:var(--plum);border:2px solid var(--gold);border-radius:8px;padding:16px;width:320px;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
+.link-modal.open{display:block;}
+.link-modal label{font-size:11px;color:rgba(255,255,255,0.6);font-weight:700;display:block;margin-bottom:4px;}
+.link-modal input{width:100%;padding:7px 10px;border-radius:4px;border:1px solid rgba(202,138,4,0.5);background:#1a0f2e;color:var(--white);font-size:12px;font-family:Arial,sans-serif;margin-bottom:10px;}
+.link-modal input:focus{outline:none;border-color:var(--gold);}
+.link-modal-btns{display:flex;gap:8px;margin-top:4px;}
+.link-modal-btns button{flex:1;padding:7px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;border:none;}
+
+@media(max-width:768px){
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .toolbar{display:none;}
+  .main{padding:12px;}
+}
 </style>
 </head>
 <body>
 
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="pwModal">
+  <div class="modal">
+    <h2>Edit Mode</h2>
+    <p>Enter your password to enable editing</p>
+    <div class="modal-error" id="pwError">Incorrect password. Try again.</div>
+    <input type="password" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')confirmPw()">
+    <div class="modal-btns">
+      <button class="btn-confirm" onclick="confirmPw()">Unlock</button>
+      <button class="btn-cancel" onclick="closePwModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- LINK INSERT MODAL -->
+<div class="link-modal" id="linkModal">
+  <label>DISPLAY TEXT</label>
+  <input type="text" id="linkText" placeholder="e.g. Registration Link">
+  <label>URL</label>
+  <input type="url" id="linkUrl" placeholder="https://...">
+  <div class="link-modal-btns">
+    <button style="background:var(--gold);color:var(--plum);" onclick="insertLink()">Insert</button>
+    <button style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);" onclick="closeLinkModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- TOP BAR -->
 <div class="top-bar">
   <div class="brand">
     <div class="brand-mark">A2</div>
@@ -156,10 +243,43 @@
   </div>
   <div class="top-right">
     <div class="org-tag">Advancement</div>
-    <div class="last-saved" id="lastSaved">All changes saved in session</div>
+    <span class="mode-badge mode-view" id="modeBadge">VIEW ONLY</span>
+    <button class="edit-btn" id="editToggleBtn" onclick="toggleEditMode()">Unlock Edit</button>
+    <span class="save-indicator" id="saveIndicator"></span>
   </div>
 </div>
 
+<!-- EXCEL TOOLBAR -->
+<div class="toolbar" id="mainToolbar">
+  <div class="toolbar-group">
+    <span class="tb-label">FIND</span>
+    <input class="search-box" id="globalSearch" placeholder="Search all data..." oninput="globalSearchFn(this.value)">
+  </div>
+  <div class="toolbar-group">
+    <span class="tb-label">SORT</span>
+    <button class="tb-btn" onclick="sortCurrentTable('asc')" title="Sort A-Z">A→Z</button>
+    <button class="tb-btn" onclick="sortCurrentTable('desc')" title="Sort Z-A">Z→A</button>
+    <button class="tb-btn" onclick="clearSort()" title="Clear sort">✕ Sort</button>
+  </div>
+  <div class="toolbar-group">
+    <span class="tb-label">FILTER</span>
+    <button class="tb-btn" id="autoFilterBtn" onclick="toggleAutoFilter()" title="Toggle column filters">⊞ AutoFilter</button>
+    <button class="tb-btn" onclick="clearFilters()" title="Clear all filters">✕ Filter</button>
+  </div>
+  <div class="toolbar-group">
+    <span class="tb-label">VIEW</span>
+    <button class="tb-btn" id="wrapBtn" onclick="toggleWrap()" title="Toggle text wrap">⇌ Wrap Text</button>
+    <button class="tb-btn" onclick="fitColumns()" title="Auto-fit column widths">⟺ Fit Cols</button>
+  </div>
+  <div class="toolbar-group" id="editTools" style="opacity:0.3;pointer-events:none;">
+    <span class="tb-label">EDIT</span>
+    <button class="tb-btn" onclick="insertRowAbove()" title="Insert row above selected">↑ Row</button>
+    <button class="tb-btn" onclick="deleteSelectedRow()" title="Delete selected row">🗑 Row</button>
+    <button class="tb-btn" onclick="openLinkModal()" title="Insert hyperlink">🔗 Link</button>
+  </div>
+</div>
+
+<!-- TABS -->
 <div class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('master',this)">Master Calendar</button>
   <button class="tab-btn" onclick="switchTab('readiness',this)">Event Readiness</button>
@@ -170,622 +290,959 @@
 
 <div class="main">
 
-  <!-- ==============================  MASTER CALENDAR  ============================== -->
-  <div class="panel active" id="panel-master">
-    <div class="section-title">Annual Events Master Calendar</div>
-    <div class="section-desc">SY 2026-27 complete event roster imported from Gulliver calendar. Click any cell to edit. Filter by category.</div>
-
-    <div class="stats-row" id="statsRow"></div>
-
-    <div class="filter-bar" id="filterBar">
-      <span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:700;">FILTER:</span>
+<!-- ===== MASTER CALENDAR ===== -->
+<div class="panel active" id="panel-master">
+  <div class="section-title">Annual Events Master Calendar</div>
+  <div class="section-desc">Complete SY 2026-27 roster. Click column headers to sort. Use toolbar to filter and search.</div>
+  <div class="stats-row" id="statsRow"></div>
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">SY 2026-27 Event Roster</span>
+      <span class="card-badge" id="masterBadge">37 EVENTS</span>
     </div>
+    <div class="tbl-wrap" id="masterWrap">
+      <table id="masterTable">
+        <thead><tr id="masterHead"></tr></thead>
+        <tbody id="masterBody"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addMasterRow()">+ Add Event</button>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">SY 2026-27 Event Roster</span>
-        <span class="card-badge" id="masterBadge">0 EVENTS</span>
-      </div>
-      <div class="table-scroll">
-        <table id="masterTable">
-          <thead>
-            <tr>
-              <th>Event</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Location</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Owner</th>
-              <th>Reg. Required</th>
-              <th>Catering</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody id="masterBody"></tbody>
-        </table>
-      </div>
-      <button class="add-row-btn" onclick="addMasterRow()">+ Add Event</button>
+<!-- ===== READINESS ===== -->
+<div class="panel" id="panel-readiness">
+  <div class="section-title">Event Readiness Tracker</div>
+  <div class="section-desc">Click any cell to cycle status. Frozen first column. Toggle events with buttons below.</div>
+  <div class="filter-bar" id="readinessFilter"></div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Dependency Status Matrix</span>
+      <span class="card-badge">CLICK TO CYCLE</span>
+    </div>
+    <div class="tbl-wrap">
+      <table class="readiness-table" id="readinessTable">
+        <thead><tr id="readinessHead"></tr></thead>
+        <tbody id="readinessBody"></tbody>
+      </table>
     </div>
   </div>
-
-  <!-- ==============================  READINESS  ============================== -->
-  <div class="panel" id="panel-readiness">
-    <div class="section-title">Event Readiness Tracker</div>
-    <div class="section-desc">Click any cell to cycle status. Red = chase today. Columns show your priority events only.</div>
-
-    <div class="filter-bar" id="readinessFilter">
-      <span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:700;">SHOW:</span>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Dependency Status Matrix</span>
-        <span class="card-badge">CLICK CELL TO CYCLE</span>
-      </div>
-      <div class="table-scroll">
-        <table class="readiness-table">
-          <thead><tr id="readinessHead"></tr></thead>
-          <tbody id="readinessBody"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="legend">
-      <span>✅ Complete</span>
-      <span>🟡 In Progress</span>
-      <span>❌ Not Started</span>
-      <span>🔴 Blocked / At Risk</span>
-      <span style="color:rgba(255,255,255,0.3)">N/A - Not Applicable</span>
-    </div>
+  <div class="legend">
+    <span>✅ Complete</span><span>🟡 In Progress</span>
+    <span>❌ Not Started</span><span>🔴 Blocked / At Risk</span>
+    <span style="color:rgba(255,255,255,0.3)">N/A</span>
   </div>
+</div>
 
-  <!-- ==============================  CHECKLIST  ============================== -->
-  <div class="panel" id="panel-checklist">
-    <div class="section-title">Event Launch Checklist</div>
-    <div class="section-desc">Work top to bottom for every event. Checks persist this session.</div>
-    <div style="margin-bottom:18px;display:flex;align-items:center;gap:12px;">
-      <label style="font-size:13px;color:rgba(255,255,255,0.7);font-weight:700;">Event:</label>
-      <select id="checklistEventSelect" style="background:var(--plum-mid);color:white;border:1px solid rgba(202,138,4,0.4);padding:7px 14px;border-radius:5px;font-size:13px;font-family:Arial,sans-serif;cursor:pointer;" onchange="renderChecklist()"></select>
-    </div>
-    <div class="checklist-grid" id="checklistGrid"></div>
+<!-- ===== CHECKLIST ===== -->
+<div class="panel" id="panel-checklist">
+  <div class="section-title">Event Launch Checklist</div>
+  <div class="section-desc">Work top to bottom for every event.</div>
+  <div style="margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+    <label style="font-size:12px;color:rgba(255,255,255,0.65);font-weight:700;">Event:</label>
+    <select id="checklistEventSelect" style="background:var(--plum-mid);color:white;border:1px solid rgba(202,138,4,0.4);padding:6px 12px;border-radius:5px;font-size:13px;font-family:Arial,sans-serif;" onchange="renderChecklist()"></select>
   </div>
+  <div class="checklist-grid" id="checklistGrid"></div>
+</div>
 
-  <!-- ==============================  DEADLINES  ============================== -->
-  <div class="panel" id="panel-deadlines">
-    <div class="section-title">Deadlines & Follow-Ups</div>
-    <div class="section-desc">Sorted by due date. What needs attention today is at the top.</div>
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">All Open Deadlines</span>
-        <span class="card-badge" id="deadlineBadge">0 OPEN</span>
-      </div>
-      <div class="table-scroll">
-        <table id="deadlineTable">
-          <thead>
-            <tr>
-              <th>Due Date</th>
-              <th>Task / Action</th>
-              <th>Event</th>
-              <th>Owner</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody id="deadlineBody"></tbody>
-        </table>
-      </div>
-      <button class="add-row-btn" onclick="addDeadlineRow()">+ Add Deadline</button>
+<!-- ===== DEADLINES ===== -->
+<div class="panel" id="panel-deadlines">
+  <div class="section-title">Deadlines & Follow-Ups</div>
+  <div class="section-desc">Sorted by due date. Click headers to re-sort.</div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">All Open Deadlines</span>
+      <span class="card-badge" id="deadlineBadge">0 OPEN</span>
     </div>
+    <div class="tbl-wrap" id="deadlineWrap">
+      <table id="deadlineTable">
+        <thead><tr id="deadlineHead"></tr></thead>
+        <tbody id="deadlineBody"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addDeadlineRow()">+ Add Deadline</button>
   </div>
+</div>
 
-  <!-- ==============================  VENDORS  ============================== -->
-  <div class="panel" id="panel-vendors">
-    <div class="section-title">Vendors & Sponsors</div>
-    <div class="section-desc">Track W-9, COI, contracts, invoices, and logo receipt for every engagement.</div>
-
-    <div class="card" style="margin-bottom:20px;">
-      <div class="card-header">
-        <span class="card-title">Vendor Tracker</span>
-        <span class="card-badge">COMPLIANCE</span>
-      </div>
-      <div class="table-scroll">
-        <table id="vendorTable">
-          <thead>
-            <tr>
-              <th>Vendor</th><th>Event</th><th>Service</th>
-              <th style="text-align:center">W-9</th><th style="text-align:center">COI</th>
-              <th style="text-align:center">Contract</th><th style="text-align:center">Invoice</th>
-              <th style="text-align:center">Paid</th><th>Contact</th><th>Notes</th>
-            </tr>
-          </thead>
-          <tbody id="vendorBody"></tbody>
-        </table>
-      </div>
-      <button class="add-row-btn" onclick="addVendorRow()">+ Add Vendor</button>
+<!-- ===== VENDORS ===== -->
+<div class="panel" id="panel-vendors">
+  <div class="section-title">Vendors & Sponsors</div>
+  <div class="section-desc">Track compliance documents for every engagement.</div>
+  <div class="card" style="margin-bottom:18px;">
+    <div class="card-header">
+      <span class="card-title">Vendor Tracker</span>
+      <span class="card-badge">COMPLIANCE</span>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Sponsor Tracker</span>
-        <span class="card-badge">SPONSORSHIP</span>
-      </div>
-      <div class="table-scroll">
-        <table id="sponsorTable">
-          <thead>
-            <tr>
-              <th>Sponsor</th><th>Event</th><th>Level</th><th>Amount</th>
-              <th style="text-align:center">Committed</th><th style="text-align:center">Paid</th>
-              <th style="text-align:center">Logo</th><th style="text-align:center">W-9</th>
-              <th>Contact</th><th>Notes</th>
-            </tr>
-          </thead>
-          <tbody id="sponsorBody"></tbody>
-        </table>
-      </div>
-      <button class="add-row-btn" onclick="addSponsorRow()">+ Add Sponsor</button>
+    <div class="tbl-wrap" id="vendorWrap">
+      <table id="vendorTable">
+        <thead><tr id="vendorHead"></tr></thead>
+        <tbody id="vendorBody"></tbody>
+      </table>
     </div>
+    <button class="add-row-btn" onclick="addVendorRow()">+ Add Vendor</button>
   </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Sponsor Tracker</span>
+      <span class="card-badge">SPONSORSHIP</span>
+    </div>
+    <div class="tbl-wrap" id="sponsorWrap">
+      <table id="sponsorTable">
+        <thead><tr id="sponsorHead"></tr></thead>
+        <tbody id="sponsorBody"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addSponsorRow()">+ Add Sponsor</button>
+  </div>
+</div>
 
 </div><!-- /main -->
 
 <script>
-// ==========================================
-// MASTER EVENT DATA — imported from 2026-27_Events.xlsx
-// ==========================================
-const EVENTS = [
-  // AUGUST
-  { name:"Orientation", date:"Aug 17, 2026", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Hangout for New Families / Uniform Swap", date:"Aug 18, 2026", time:"TBD", location:"TBD", type:"Parent", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Primary & Lower Meet & Greet / Playdate", date:"Aug 19, 2026", time:"TBD", location:"TBD", type:"Parent", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Back to School Night - Primary", date:"Aug 26, 2026", time:"TBD", location:"Primary Campus", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Back to School Night - 5th and 6th", date:"Aug 27, 2026", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  // SEPTEMBER
-  { name:"Development New Parent Breakfast #1", date:"Sept 1, 2026", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"TBC" },
-  { name:"Back to School Night - Lower School", date:"Sept 2, 2026", time:"TBD", location:"Lower School Campus", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Back to School Night - 7th and 8th", date:"Sept 3, 2026", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Development Breakfast #2", date:"Sept 4, 2026", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"TBC" },
-  { name:"Back to School Night - 9th and 12th", date:"Sept 8, 2026", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Development Breakfast - Primary/Lower", date:"Sept 8, 2026", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"TBC" },
-  { name:"Development Breakfast - Middle", date:"Sept 9, 2026", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"TBC" },
-  { name:"1st All-School PA Meeting", date:"Sept 10, 2026", time:"TBD", location:"TBD", type:"Parent Association", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Legacy Family Brunch", date:"Sept 26, 2026", time:"11:00 a.m. - 1:00 p.m.", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"" },
-  // OCTOBER
-  { name:"Alumni Wine Club", date:"Oct 1, 2026", time:"TBD", location:"TBD", type:"Alumni", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Open House", date:"Oct 6, 2026", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Centennial Speaker Series #1", date:"Oct 7, 2026", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Open House (2nd)", date:"Oct 8, 2026", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"PA Social", date:"Oct 10, 2026", time:"TBD", location:"TBD", type:"Parent Association", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Athletic Hall of Fame & Distinguished Alumni Awards", date:"Oct 15, 2026", time:"TBD", location:"TBD", type:"Alumni", status:"Planning", owner:"Giselle", regReq:true, catering:false, notes:"" },
-  { name:"Homecoming BBQ & Tailgate", date:"Oct 16, 2026", time:"3:30 p.m. - 7:00 p.m.", location:"Upper School - Sean Taylor '01 Memorial Field", type:"Alumni", status:"Planning", owner:"Giselle", regReq:true, catering:true, notes:"Includes class reunions: 2021, 2016, 2006, 1996, 1991, 1986" },
-  // NOVEMBER
-  { name:"Fall Alumni Networking", date:"Nov 10, 2026", time:"TBD", location:"TBD", type:"Alumni", status:"Not Started", owner:"Giselle", regReq:true, catering:false, notes:"TBC" },
-  { name:"Giving Circles Reception", date:"Nov 11, 2026", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Gulliver Marketplace", date:"Nov 14, 2026", time:"10:00 a.m. - 5:00 p.m.", location:"Upper School Campus", type:"General", status:"Planning", owner:"Giselle", regReq:true, catering:false, notes:"" },
-  { name:"IB Pinning Ceremony", date:"Nov 17, 2026", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Give Miami Day", date:"Nov 19, 2026", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  // JANUARY 2027
-  { name:"Centennial Speaker Series #2", date:"Jan 13, 2027", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Collegiate Club Launch", date:"Jan 20, 2027", time:"TBD", location:"TBD", type:"Alumni", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"TBC" },
-  { name:"1926 Society & Leadership Dinner", date:"Jan 27, 2027", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"" },
-  // FEBRUARY 2027
-  { name:"Golf Classic", date:"Feb 8, 2027", time:"TBD", location:"TBD", type:"Fundraiser", status:"Planning", owner:"Giselle", regReq:false, catering:true, notes:"" },
-  // MARCH 2027
-  { name:"Gala", date:"Mar 13, 2027", time:"TBD", location:"TBD", type:"Fundraiser", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"" },
-  // APRIL 2027
-  { name:"Centennial Speaker Series #3", date:"Apr 7, 2027", time:"TBD", location:"TBD", type:"Development", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Volunteer Appreciation Breakfast", date:"Apr 23, 2027", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:true, notes:"" },
-  // MAY 2027
-  { name:"Fishing Tournament", date:"May 1, 2027", time:"12:00 p.m. - 5:00 p.m.", location:"Key Biscayne Yacht Club, 180 Harbor Dr, Key Biscayne FL 33149", type:"Fundraiser", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"TBC" },
-  { name:"Senior Sunset / Pinning", date:"May 6, 2027", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Newly Enrolled Parent Reception", date:"May 11, 2027", time:"5:45 p.m. - 8:00 p.m.", location:"Marian C. Krutulis PK-8 Campus - Sam and Emina Nazarian Gymnasium", type:"Parent", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-  { name:"Final All-School PA Meeting", date:"May 11, 2027", time:"6:00 p.m. - 8:00 p.m.", location:"Marian C. Krutulis PK-8 Campus - Sam and Emina Nazarian Gymnasium", type:"Parent Association", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" },
-];
+// ============================================================
+// PASSWORD
+// ============================================================
+const EDIT_PASSWORD = "gulliver2027";
+let editMode = false;
 
-const PRIORITY_EVENTS = ["Golf Classic","Gala","Fishing Tournament","Giving Circles Reception","Homecoming BBQ & Tailgate","1926 Society & Leadership Dinner","Legacy Family Brunch","Athletic Hall of Fame & Distinguished Alumni Awards"];
-
-const TYPE_COLORS = {
-  "Development": "type-dev",
-  "Parent Association": "type-pa",
-  "Alumni": "type-alumni",
-  "Fundraiser": "type-fund",
-  "Parent": "type-pa",
-  "General": "type-general",
-  "Admin": "type-admin",
-};
-
-const STATUS_OPTIONS = ["Not Started","Planning","Sponsorship","Registration Open","In Progress","At Risk","Completed","Cancelled"];
-const TYPE_OPTIONS = ["Development","Parent Association","Alumni","Fundraiser","Parent","General"];
-
-// ==========================================
-// READINESS DATA — priority events only
-// ==========================================
-let READINESS_DATA = {};
-const DEPENDENCIES = [
-  "Date Confirmed","Location Contract Signed","Budget Approved",
-  "Calendar Invite Sent","RSVP Page / OneCause Live",
-  "Briefing Meeting Scheduled","Debrief Meeting Scheduled",
-  "Sponsor List Finalized","Sponsor Logos Received",
-  "Save the Date Sent","Catering Confirmed","Catering Guarantee Submitted",
-  "Volunteer Plan Complete","Volunteer Assignments Sent",
-  "Run of Show Drafted","Print Materials Ordered",
-  "Shirt / Swag Order Submitted","W-9 Received (Vendors)",
-  "Event Folder Created","Communications Notified",
-  "Post-Event Thank-You Sent","Revenue Reconciliation Complete",
-];
-// Pre-seed Golf Classic
-READINESS_DATA["Golf Classic"] = {
-  "Date Confirmed":"✅","Location Contract Signed":"🟡","Budget Approved":"✅",
-  "Calendar Invite Sent":"✅","RSVP Page / OneCause Live":"🟡",
-  "Briefing Meeting Scheduled":"🟡","Debrief Meeting Scheduled":"❌",
-  "Sponsor List Finalized":"🟡","Sponsor Logos Received":"🔴",
-  "Save the Date Sent":"✅","Catering Confirmed":"🟡","Catering Guarantee Submitted":"🔴",
-  "Volunteer Plan Complete":"❌","Volunteer Assignments Sent":"❌",
-  "Run of Show Drafted":"🟡","Print Materials Ordered":"❌",
-  "Shirt / Swag Order Submitted":"🔴","W-9 Received (Vendors)":"🟡",
-  "Event Folder Created":"✅","Communications Notified":"✅",
-  "Post-Event Thank-You Sent":"N/A","Revenue Reconciliation Complete":"N/A",
-};
-
-let readinessFilter = [...PRIORITY_EVENTS];
-
-// ==========================================
-// CHECKLIST
-// ==========================================
-const CHECKLIST_PHASES = [
-  { phase:"Event Creation - Day 1", color:"#2D1B4E", items:["Add to Master Calendar","Create Event Folder (Drive)","Create RSVP Link / OneCause Campaign","Create Budget Sheet","Schedule Briefing Meeting","Schedule Debrief Meeting","Notify Communications Team","Notify Advancement Team","Complete Veracross Form","Build Event Timeline"] },
-  { phase:"60 Days Out", color:"#1d4ed8", items:["Sponsorship outreach complete","Sponsor logos requested","Vendor contracts signed","Save-the-Date sent","Volunteer recruitment started","Registration page live and tested"] },
-  { phase:"30 Days Out", color:"#92400E", items:["Catering confirmed","Catering guarantee submitted","Registration reconciled","Staffing and volunteers finalized","Run of show drafted","Shirt / swag order placed","Sponsor logos received and placed","Print materials ordered","All W-9s received"] },
-  { phase:"7 Days Out", color:"#991B1B", items:["Final attendee list locked","Final run of show approved","Speaker briefings sent","Weather plan confirmed","Print materials in hand","Volunteer assignments distributed","Day-of contact sheet shared"] },
-  { phase:"Post-Event", color:"#15803D", items:["Debrief held","Thank-you emails sent","Revenue reconciliation complete","Photos archived","Board report completed","Lessons learned documented","Vendor invoices paid","Donor stewardship follow-ups initiated"] },
-];
-let checklistState = {};
-
-// ==========================================
-// DEADLINES
-// ==========================================
-let DEADLINES = [
-  { due:"2027-01-15", task:"Sponsor logos due", event:"Golf Classic", owner:"Giselle", priority:"High", status:"Open", notes:"" },
-  { due:"2027-01-20", task:"Golf shirt order submission", event:"Golf Classic", owner:"Giselle", priority:"High", status:"Open", notes:"" },
-  { due:"2027-01-25", task:"Final golfer list confirmed", event:"Golf Classic", owner:"Giselle", priority:"High", status:"Open", notes:"" },
-  { due:"2027-01-28", task:"Catering guarantee submitted", event:"Golf Classic", owner:"Giselle", priority:"Critical", status:"Open", notes:"Due to caterer by COB" },
-  { due:"2027-02-01", task:"Run of show final draft", event:"Golf Classic", owner:"Giselle", priority:"High", status:"In Progress", notes:"" },
-  { due:"2027-02-03", task:"Volunteer assignments sent", event:"Golf Classic", owner:"Giselle", priority:"Medium", status:"Open", notes:"" },
-  { due:"2026-10-01", task:"Homecoming - RSVP page live", event:"Homecoming BBQ & Tailgate", owner:"Giselle", priority:"High", status:"Open", notes:"" },
-  { due:"2026-10-09", task:"Homecoming - catering confirmed", event:"Homecoming BBQ & Tailgate", owner:"Giselle", priority:"High", status:"Open", notes:"" },
-  { due:"2026-11-05", task:"Gulliver Marketplace - vendor list finalized", event:"Gulliver Marketplace", owner:"Giselle", priority:"Medium", status:"Open", notes:"" },
-  { due:"2026-11-12", task:"Give Miami Day - campaign page reviewed", event:"Give Miami Day", owner:"Giselle", priority:"High", status:"Open", notes:"" },
-];
-
-// ==========================================
-// VENDORS / SPONSORS
-// ==========================================
-let VENDORS = [
-  { name:"Key Biscayne Yacht Club", event:"Fishing Tournament", service:"Venue", w9:"❌", coi:"❌", contract:"❌", invoice:"❌", paid:"❌", contact:"", notes:"" },
-  { name:"TBD Caterer", event:"Golf Classic", service:"Catering", w9:"❌", coi:"❌", contract:"❌", invoice:"❌", paid:"❌", contact:"", notes:"Guarantee deadline - see deadlines tab" },
-];
-let SPONSORS = [
-  { name:"TBD Title Sponsor", event:"Golf Classic", level:"Title", amount:"$0", committed:"❌", paid:"❌", logo:"❌", w9:"❌", contact:"", notes:"" },
-  { name:"TBD Presenting Sponsor", event:"Gala", level:"Presenting", amount:"$0", committed:"❌", paid:"❌", logo:"❌", w9:"❌", contact:"", notes:"" },
-];
-
-const DOC_OPTIONS = ["✅","❌","🟡","🔴","N/A"];
-const SYM_CYCLE = ["❌","🟡","✅","🔴","N/A"];
-
-// ==========================================
-// MASTER CALENDAR RENDER
-// ==========================================
-let masterFilter = "All";
-
-function typePill(t) {
-  const cls = TYPE_COLORS[t] || "type-general";
-  return `<span class="pill ${cls}">${t}</span>`;
+function toggleEditMode() {
+  if (editMode) {
+    editMode = false;
+    document.body.classList.remove('edit-mode');
+    document.getElementById('modeBadge').textContent = 'VIEW ONLY';
+    document.getElementById('modeBadge').className = 'mode-badge mode-view';
+    document.getElementById('editToggleBtn').textContent = 'Unlock Edit';
+    document.getElementById('editTools').style.opacity = '0.3';
+    document.getElementById('editTools').style.pointerEvents = 'none';
+    document.getElementById('saveIndicator').textContent = '';
+  } else {
+    document.getElementById('pwModal').classList.add('open');
+    setTimeout(()=>document.getElementById('pwInput').focus(), 100);
+  }
 }
-function statusPill(s) {
-  const map = { "Completed":"pill-green","Planning":"pill-plum","Sponsorship":"pill-yellow","Registration Open":"pill-green","In Progress":"pill-yellow","At Risk":"pill-red","Not Started":"pill-gray","Cancelled":"pill-gray" };
-  return `<span class="pill ${map[s]||'pill-gray'}">${s}</span>`;
+function confirmPw() {
+  const val = document.getElementById('pwInput').value;
+  if (val === EDIT_PASSWORD) {
+    editMode = true;
+    document.body.classList.add('edit-mode');
+    document.getElementById('modeBadge').textContent = 'EDIT MODE';
+    document.getElementById('modeBadge').className = 'mode-badge mode-edit';
+    document.getElementById('editToggleBtn').textContent = 'Lock Editing';
+    document.getElementById('editTools').style.opacity = '1';
+    document.getElementById('editTools').style.pointerEvents = 'auto';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwError').style.display = 'none';
+    document.getElementById('pwModal').classList.remove('open');
+    document.getElementById('saveIndicator').textContent = 'Changes saved in session';
+  } else {
+    document.getElementById('pwError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+function closePwModal() {
+  document.getElementById('pwModal').classList.remove('open');
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').style.display = 'none';
+}
+
+// ============================================================
+// DATA
+// ============================================================
+const EVENTS = [
+  {name:"Orientation",date:"Aug 17, 2026",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Hangout for New Families / Uniform Swap",date:"Aug 18, 2026",time:"TBD",location:"TBD",type:"Parent",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Primary & Lower Meet & Greet / Playdate",date:"Aug 19, 2026",time:"TBD",location:"TBD",type:"Parent",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Back to School Night - Primary",date:"Aug 26, 2026",time:"TBD",location:"Primary Campus",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Back to School Night - 5th and 6th",date:"Aug 27, 2026",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Development New Parent Breakfast #1",date:"Sept 1, 2026",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"TBC",link:""},
+  {name:"Back to School Night - Lower School",date:"Sept 2, 2026",time:"TBD",location:"Lower School Campus",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Back to School Night - 7th and 8th",date:"Sept 3, 2026",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Development Breakfast #2",date:"Sept 4, 2026",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"TBC",link:""},
+  {name:"Back to School Night - 9th and 12th",date:"Sept 8, 2026",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Development Breakfast - Primary/Lower",date:"Sept 8, 2026",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"TBC",link:""},
+  {name:"Development Breakfast - Middle",date:"Sept 9, 2026",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"TBC",link:""},
+  {name:"1st All-School PA Meeting",date:"Sept 10, 2026",time:"TBD",location:"TBD",type:"Parent Association",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Legacy Family Brunch",date:"Sept 26, 2026",time:"11:00 a.m. - 1:00 p.m.",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"",link:""},
+  {name:"Alumni Wine Club",date:"Oct 1, 2026",time:"TBD",location:"TBD",type:"Alumni",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Open House",date:"Oct 6, 2026",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Centennial Speaker Series #1",date:"Oct 7, 2026",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Open House (2nd)",date:"Oct 8, 2026",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"PA Social",date:"Oct 10, 2026",time:"TBD",location:"TBD",type:"Parent Association",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Athletic Hall of Fame & Distinguished Alumni Awards",date:"Oct 15, 2026",time:"TBD",location:"TBD",type:"Alumni",status:"Planning",owner:"Giselle",regReq:"Yes",catering:"No",notes:"",link:""},
+  {name:"Homecoming BBQ & Tailgate",date:"Oct 16, 2026",time:"3:30 p.m. - 7:00 p.m.",location:"Upper School - Sean Taylor '01 Memorial Field",type:"Alumni",status:"Planning",owner:"Giselle",regReq:"Yes",catering:"Yes",notes:"Includes class reunions: 2021, 2016, 2006, 1996, 1991, 1986",link:""},
+  {name:"Fall Alumni Networking",date:"Nov 10, 2026",time:"TBD",location:"TBD",type:"Alumni",status:"Not Started",owner:"Giselle",regReq:"Yes",catering:"No",notes:"TBC",link:""},
+  {name:"Giving Circles Reception",date:"Nov 11, 2026",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Gulliver Marketplace",date:"Nov 14, 2026",time:"10:00 a.m. - 5:00 p.m.",location:"Upper School Campus",type:"General",status:"Planning",owner:"Giselle",regReq:"Yes",catering:"No",notes:"",link:""},
+  {name:"IB Pinning Ceremony",date:"Nov 17, 2026",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Give Miami Day",date:"Nov 19, 2026",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Centennial Speaker Series #2",date:"Jan 13, 2027",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Collegiate Club Launch",date:"Jan 20, 2027",time:"TBD",location:"TBD",type:"Alumni",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"TBC",link:""},
+  {name:"1926 Society & Leadership Dinner",date:"Jan 27, 2027",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"",link:""},
+  {name:"Golf Classic",date:"Feb 8, 2027",time:"TBD",location:"TBD",type:"Fundraiser",status:"Planning",owner:"Giselle",regReq:"No",catering:"Yes",notes:"",link:""},
+  {name:"Gala",date:"Mar 13, 2027",time:"TBD",location:"TBD",type:"Fundraiser",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"",link:""},
+  {name:"Centennial Speaker Series #3",date:"Apr 7, 2027",time:"TBD",location:"TBD",type:"Development",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Volunteer Appreciation Breakfast",date:"Apr 23, 2027",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"Yes",notes:"",link:""},
+  {name:"Fishing Tournament",date:"May 1, 2027",time:"12:00 p.m. - 5:00 p.m.",location:"Key Biscayne Yacht Club, 180 Harbor Dr, Key Biscayne FL 33149",type:"Fundraiser",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"TBC",link:""},
+  {name:"Senior Sunset / Pinning",date:"May 6, 2027",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Newly Enrolled Parent Reception",date:"May 11, 2027",time:"5:45 p.m. - 8:00 p.m.",location:"Marian C. Krutulis PK-8 Campus",type:"Parent",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+  {name:"Final All-School PA Meeting",date:"May 11, 2027",time:"6:00 p.m. - 8:00 p.m.",location:"Marian C. Krutulis PK-8 Campus",type:"Parent Association",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""},
+];
+
+const STATUS_OPTIONS=["Not Started","Planning","Sponsorship","Registration Open","In Progress","At Risk","Completed","Cancelled"];
+const TYPE_OPTIONS=["Development","Parent Association","Alumni","Fundraiser","Parent","General"];
+const TYPE_COLORS={"Development":"type-dev","Parent Association":"type-pa","Alumni":"type-alumni","Fundraiser":"type-fund","Parent":"type-pa","General":"type-general"};
+const STATUS_PILLS={"Completed":"pill-green","Planning":"pill-plum","Sponsorship":"pill-yellow","Registration Open":"pill-green","In Progress":"pill-yellow","At Risk":"pill-red","Not Started":"pill-gray","Cancelled":"pill-gray"};
+
+// READINESS
+let READINESS_DATA={};
+const DEPENDENCIES=["Date Confirmed","Location Contract Signed","Budget Approved","Calendar Invite Sent","RSVP Page / OneCause Live","Briefing Meeting Scheduled","Debrief Meeting Scheduled","Sponsor List Finalized","Sponsor Logos Received","Save the Date Sent","Catering Confirmed","Catering Guarantee Submitted","Volunteer Plan Complete","Volunteer Assignments Sent","Run of Show Drafted","Print Materials Ordered","Shirt / Swag Order Submitted","W-9 Received (Vendors)","Event Folder Created","Communications Notified","Post-Event Thank-You Sent","Revenue Reconciliation Complete"];
+const SYM_CYCLE=["❌","🟡","✅","🔴","N/A"];
+READINESS_DATA["Golf Classic"]={"Date Confirmed":"✅","Location Contract Signed":"🟡","Budget Approved":"✅","Calendar Invite Sent":"✅","RSVP Page / OneCause Live":"🟡","Briefing Meeting Scheduled":"🟡","Debrief Meeting Scheduled":"❌","Sponsor List Finalized":"🟡","Sponsor Logos Received":"🔴","Save the Date Sent":"✅","Catering Confirmed":"🟡","Catering Guarantee Submitted":"🔴","Volunteer Plan Complete":"❌","Volunteer Assignments Sent":"❌","Run of Show Drafted":"🟡","Print Materials Ordered":"❌","Shirt / Swag Order Submitted":"🔴","W-9 Received (Vendors)":"🟡","Event Folder Created":"✅","Communications Notified":"✅","Post-Event Thank-You Sent":"N/A","Revenue Reconciliation Complete":"N/A"};
+let readinessFilter=["Golf Classic","Homecoming BBQ & Tailgate","Giving Circles Reception","1926 Society & Leadership Dinner","Gala","Fishing Tournament"];
+
+// CHECKLIST
+const CHECKLIST_PHASES=[
+  {phase:"Event Creation - Day 1",color:"#2D1B4E",items:["Add to Master Calendar","Create Event Folder (Drive)","Create RSVP Link / OneCause Campaign","Create Budget Sheet","Schedule Briefing Meeting","Schedule Debrief Meeting","Notify Communications Team","Notify Advancement Team","Complete Veracross Form","Build Event Timeline"]},
+  {phase:"60 Days Out",color:"#1d4ed8",items:["Sponsorship outreach complete","Sponsor logos requested","Vendor contracts signed","Save-the-Date sent","Volunteer recruitment started","Registration page live and tested"]},
+  {phase:"30 Days Out",color:"#92400E",items:["Catering confirmed","Catering guarantee submitted","Registration reconciled","Staffing and volunteers finalized","Run of show drafted","Shirt / swag order placed","Sponsor logos received and placed","Print materials ordered","All W-9s received"]},
+  {phase:"7 Days Out",color:"#991B1B",items:["Final attendee list locked","Final run of show approved","Speaker briefings sent","Weather plan confirmed","Print materials in hand","Volunteer assignments distributed","Day-of contact sheet shared"]},
+  {phase:"Post-Event",color:"#15803D",items:["Debrief held","Thank-you emails sent","Revenue reconciliation complete","Photos archived","Board report completed","Lessons learned documented","Vendor invoices paid","Donor stewardship follow-ups initiated"]},
+];
+let checklistState={};
+
+// DEADLINES
+let DEADLINES=[
+  {due:"2027-01-15",task:"Sponsor logos due",event:"Golf Classic",owner:"Giselle",priority:"High",status:"Open",notes:""},
+  {due:"2027-01-20",task:"Golf shirt order submission",event:"Golf Classic",owner:"Giselle",priority:"High",status:"Open",notes:""},
+  {due:"2027-01-25",task:"Final golfer list confirmed",event:"Golf Classic",owner:"Giselle",priority:"High",status:"Open",notes:""},
+  {due:"2027-01-28",task:"Catering guarantee submitted",event:"Golf Classic",owner:"Giselle",priority:"Critical",status:"Open",notes:"Due to caterer by COB"},
+  {due:"2027-02-01",task:"Run of show final draft",event:"Golf Classic",owner:"Giselle",priority:"High",status:"In Progress",notes:""},
+  {due:"2027-02-03",task:"Volunteer assignments sent",event:"Golf Classic",owner:"Giselle",priority:"Medium",status:"Open",notes:""},
+  {due:"2026-10-01",task:"RSVP page live",event:"Homecoming BBQ & Tailgate",owner:"Giselle",priority:"High",status:"Open",notes:""},
+  {due:"2026-10-09",task:"Catering confirmed",event:"Homecoming BBQ & Tailgate",owner:"Giselle",priority:"High",status:"Open",notes:""},
+  {due:"2026-11-05",task:"Vendor list finalized",event:"Gulliver Marketplace",owner:"Giselle",priority:"Medium",status:"Open",notes:""},
+  {due:"2026-11-12",task:"Campaign page reviewed",event:"Give Miami Day",owner:"Giselle",priority:"High",status:"Open",notes:""},
+];
+
+let VENDORS=[
+  {name:"Key Biscayne Yacht Club",event:"Fishing Tournament",service:"Venue",w9:"❌",coi:"❌",contract:"❌",invoice:"❌",paid:"❌",contact:"",notes:""},
+  {name:"TBD Caterer",event:"Golf Classic",service:"Catering",w9:"❌",coi:"❌",contract:"❌",invoice:"❌",paid:"❌",contact:"",notes:"Guarantee deadline - see Deadlines tab"},
+];
+let SPONSORS=[
+  {name:"TBD Title Sponsor",event:"Golf Classic",level:"Title",amount:"$0",committed:"❌",paid:"❌",logo:"❌",w9:"❌",contact:"",notes:""},
+  {name:"TBD Presenting Sponsor",event:"Gala",level:"Presenting",amount:"$0",committed:"❌",paid:"❌",logo:"❌",w9:"❌",contact:"",notes:""},
+];
+const DOC_OPTIONS=["✅","❌","🟡","🔴","N/A"];
+const PRIORITY_OPTIONS=["Critical","High","Medium","Low"];
+const DL_STATUS_OPTIONS=["Open","In Progress","Done","Blocked"];
+
+// ============================================================
+// TABLE ENGINE
+// ============================================================
+let currentTable=null, currentData=null, currentCols=null;
+let sortCol=-1, sortDir='asc';
+let autoFilterOn=false;
+let wrapOn=false;
+let selectedRow=null;
+let activeCellForLink=null;
+let masterFilter="All";
+let searchTerm="";
+
+// Build a sortable, filterable, resizable table
+function buildTable(tbodyId, theadId, wrapId, data, cols, renderRowFn) {
+  const head = document.getElementById(theadId);
+  head.innerHTML = '';
+  cols.forEach((col,ci) => {
+    const th = document.createElement('th');
+    th.dataset.col = ci;
+    th.style.minWidth = (col.width||120)+'px';
+    th.innerHTML = `${col.label}<i class="sort-icon"></i><span class="col-resizer" onmousedown="startResize(event,${ci},'${theadId}')"> </span>`;
+    th.addEventListener('click', (e)=>{
+      if(e.target.classList.contains('col-resizer')) return;
+      handleHeaderClick(ci, theadId, tbodyId, data, cols, renderRowFn);
+    });
+    head.appendChild(th);
+  });
+  renderTableBody(tbodyId, data, cols, renderRowFn);
+}
+
+function renderTableBody(tbodyId, data, cols, renderRowFn) {
+  const tb = document.getElementById(tbodyId);
+  tb.innerHTML='';
+  let filtered = data.filter(row => {
+    if(!searchTerm) return true;
+    return cols.some(c => String(row[c.key]||'').toLowerCase().includes(searchTerm));
+  });
+  // column autofilter
+  if(autoFilterOn) {
+    const filters = getActiveFilters(tbodyId);
+    Object.entries(filters).forEach(([key,val])=>{ if(val) filtered=filtered.filter(r=>String(r[key]||'').toLowerCase().includes(val.toLowerCase())); });
+  }
+  if(sortCol>=0 && cols[sortCol]) {
+    const key = cols[sortCol].key;
+    filtered = [...filtered].sort((a,b)=>{
+      const av=String(a[key]||''), bv=String(b[key]||'');
+      return sortDir==='asc'?av.localeCompare(bv):bv.localeCompare(av);
+    });
+  }
+  filtered.forEach((row,i)=>{
+    const origIdx = data.indexOf(row);
+    const tr = renderRowFn(row, origIdx, i);
+    tr.addEventListener('click',()=>selectRow(tr));
+    tr.dataset.origIdx = origIdx;
+    tb.appendChild(tr);
+  });
+}
+
+function handleHeaderClick(ci, theadId, tbodyId, data, cols, renderRowFn) {
+  const ths = document.getElementById(theadId).querySelectorAll('th');
+  if(sortCol===ci) { sortDir = sortDir==='asc'?'desc':'asc'; }
+  else { sortCol=ci; sortDir='asc'; }
+  ths.forEach((th,i)=>{ th.classList.remove('sort-asc','sort-desc'); if(i===ci) th.classList.add(sortDir==='asc'?'sort-asc':'sort-desc'); });
+  renderTableBody(tbodyId, data, cols, renderRowFn);
+}
+
+function selectRow(tr) {
+  if(selectedRow) selectedRow.classList.remove('row-selected');
+  selectedRow = tr;
+  tr.classList.add('row-selected');
+}
+
+// ============================================================
+// COLUMN RESIZE
+// ============================================================
+let resizing=null;
+function startResize(e,ci,theadId) {
+  e.stopPropagation(); e.preventDefault();
+  const th = document.getElementById(theadId).querySelectorAll('th')[ci];
+  const startX=e.clientX, startW=th.offsetWidth;
+  resizing={th,startX,startW,ci};
+  document.getElementById(e.target.closest('.col-resizer').parentElement.closest('table').id || 'masterTable');
+  document.addEventListener('mousemove',doResize);
+  document.addEventListener('mouseup',stopResize);
+  e.target.classList.add('resizing');
+}
+function doResize(e) {
+  if(!resizing) return;
+  const newW = Math.max(60, resizing.startW + e.clientX - resizing.startX);
+  resizing.th.style.minWidth = newW+'px';
+  resizing.th.style.width = newW+'px';
+}
+function stopResize() {
+  if(resizing) { document.querySelectorAll('.col-resizer').forEach(r=>r.classList.remove('resizing')); resizing=null; }
+  document.removeEventListener('mousemove',doResize);
+  document.removeEventListener('mouseup',stopResize);
+}
+
+// ============================================================
+// AUTOFILTER
+// ============================================================
+let activeFilters={};
+function toggleAutoFilter() {
+  autoFilterOn=!autoFilterOn;
+  document.getElementById('autoFilterBtn').classList.toggle('active',autoFilterOn);
+  renderAll();
+}
+function getActiveFilters(tbodyId) { return activeFilters[tbodyId]||{}; }
+function setActiveFilter(tbodyId,key,val) {
+  if(!activeFilters[tbodyId]) activeFilters[tbodyId]={};
+  activeFilters[tbodyId][key]=val;
+}
+function clearFilters() {
+  activeFilters={};
+  document.querySelectorAll('.af-input').forEach(el=>el.value='');
+  renderAll();
+}
+function clearSort() { sortCol=-1; sortDir='asc'; document.querySelectorAll('thead th').forEach(th=>th.classList.remove('sort-asc','sort-desc')); renderAll(); }
+
+// Build filter row
+function buildFilterRow(cols, tbodyId, renderRowFn, data) {
+  const tr = document.createElement('tr');
+  tr.style.background='#fffbeb';
+  cols.forEach(col=>{
+    const td=document.createElement('td');
+    td.style.padding='4px 6px';
+    const inp=document.createElement('input');
+    inp.className='af-input';
+    inp.placeholder='Filter...';
+    inp.style.cssText='width:100%;border:1px solid #ddd;border-radius:3px;padding:3px 6px;font-size:11px;font-family:Arial,sans-serif;';
+    inp.value=(activeFilters[tbodyId]&&activeFilters[tbodyId][col.key])||'';
+    inp.oninput=function(){setActiveFilter(tbodyId,col.key,this.value);renderTableBody(tbodyId,data,cols,renderRowFn);};
+    td.appendChild(inp); tr.appendChild(td);
+  });
+  return tr;
+}
+
+// ============================================================
+// CELL HELPERS
+// ============================================================
+function makeCell(row, origIdx, key, dataArr, rerender, opts={}) {
+  const td = document.createElement('td');
+  if(opts.width) td.style.minWidth=opts.width;
+
+  const val = row[key]||'';
+
+  if(opts.type==='select') {
+    const sel=document.createElement('select');
+    sel.className='cell-select';
+    opts.options.forEach(o=>{ const op=document.createElement('option'); op.value=o; op.textContent=o; if(o===val)op.selected=true; sel.appendChild(op); });
+    sel.onchange=function(){ if(!editMode) return; dataArr[origIdx][key]=this.value; if(rerender) rerender(); markSaved(); };
+    // View span
+    const vspan=document.createElement('span');
+    vspan.className='cell-view';
+    if(opts.pill) {
+      const cls=opts.pill(val);
+      vspan.innerHTML=`<span class="pill ${cls}">${val}</span>`;
+    } else { vspan.textContent=val; }
+    td.appendChild(vspan);
+    td.appendChild(sel);
+    return td;
+  }
+
+  if(opts.type==='link') {
+    const vspan=document.createElement('span');
+    vspan.className='cell-view';
+    if(val) { vspan.innerHTML=`<a class="cell-link" href="${val}" target="_blank">${row[opts.textKey]||val}</a>`; }
+    else { vspan.textContent=row[opts.textKey]||''; }
+    td.appendChild(vspan);
+    // Edit button for link
+    const espan=document.createElement('span');
+    espan.className='cell-edit';
+    espan.style.display='none';
+    const einp=document.createElement('input');
+    einp.style.cssText='width:100%;border:1px solid var(--gold);border-radius:3px;padding:3px 6px;font-size:12px;font-family:Arial,sans-serif;background:#fffbeb;';
+    einp.value=val;
+    einp.placeholder='https://...';
+    einp.onchange=function(){ dataArr[origIdx][key]=this.value; if(rerender) rerender(); markSaved(); };
+    espan.appendChild(einp);
+    td.appendChild(espan);
+    return td;
+  }
+
+  // Textarea cell
+  const vspan=document.createElement('span');
+  vspan.className='cell-view';
+  vspan.textContent=val;
+  if(opts.bold) vspan.style.fontWeight='600';
+
+  const ta=document.createElement('textarea');
+  ta.className='cell-edit';
+  ta.rows=1;
+  ta.value=val;
+  ta.style.width='100%';
+  if(opts.minWidth) ta.style.minWidth=opts.minWidth;
+
+  // Auto-resize
+  function autoSize() { ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; }
+  ta.addEventListener('input',()=>{ dataArr[origIdx][key]=ta.value; vspan.textContent=ta.value; autoSize(); markSaved(); });
+
+  // Ctrl+Enter = newline
+  ta.addEventListener('keydown',(e)=>{
+    if(e.key==='Enter' && !e.ctrlKey && !e.metaKey) { e.preventDefault(); ta.blur(); }
+    if((e.ctrlKey||e.metaKey) && e.key==='Enter') { /* allow newline */ }
+  });
+
+  ta.addEventListener('focus',autoSize);
+  ta.addEventListener('mousedown',(e)=>{ if(!editMode) e.preventDefault(); });
+
+  td.appendChild(vspan);
+  td.appendChild(ta);
+  return td;
+}
+
+function makeDocCell(arr, idx, field, val) {
+  const td=document.createElement('td');
+  td.style.textAlign='center';
+  td.style.minWidth='52px';
+  const vspan=document.createElement('span');
+  vspan.className='cell-view';
+  vspan.style.fontSize='16px';
+  vspan.textContent=val==='N/A'?'—':val;
+  const sel=document.createElement('select');
+  sel.className='cell-select';
+  sel.style.cssText='text-align:center;font-size:14px;width:56px;';
+  DOC_OPTIONS.forEach(o=>{ const op=document.createElement('option'); op.value=o; op.textContent=o; if(o===val)op.selected=true; sel.appendChild(op); });
+  sel.onchange=function(){ if(!editMode) return; arr[idx][field]=this.value; vspan.textContent=this.value==='N/A'?'—':this.value; markSaved(); };
+  td.appendChild(vspan); td.appendChild(sel);
+  return td;
+}
+
+// ============================================================
+// MASTER CALENDAR
+// ============================================================
+const MASTER_COLS=[
+  {label:"Event",key:"name",width:220},
+  {label:"Date",key:"date",width:110},
+  {label:"Time",key:"time",width:120},
+  {label:"Location",key:"location",width:180},
+  {label:"Type",key:"type",width:130},
+  {label:"Status",key:"status",width:130},
+  {label:"Owner",key:"owner",width:90},
+  {label:"Reg. Req",key:"regReq",width:80},
+  {label:"Catering",key:"catering",width:80},
+  {label:"Link",key:"link",width:140},
+  {label:"Notes",key:"notes",width:160},
+];
+
+function renderMasterRow(row, origIdx) {
+  const tr=document.createElement('tr');
+  tr.appendChild(makeCell(row,origIdx,'name',EVENTS,renderMaster,{bold:true,minWidth:'180px'}));
+  tr.appendChild(makeCell(row,origIdx,'date',EVENTS,null,{width:'110px'}));
+  tr.appendChild(makeCell(row,origIdx,'time',EVENTS,null,{width:'120px'}));
+  tr.appendChild(makeCell(row,origIdx,'location',EVENTS,null,{width:'170px'}));
+
+  // Type cell
+  const typeTd=document.createElement('td');
+  const typeVspan=document.createElement('span');
+  typeVspan.className='cell-view';
+  typeVspan.innerHTML=`<span class="pill ${TYPE_COLORS[row.type]||'type-general'}">${row.type}</span>`;
+  const typeSel=document.createElement('select');
+  typeSel.className='cell-select';
+  TYPE_OPTIONS.forEach(o=>{ const op=document.createElement('option'); op.value=o; op.textContent=o; if(o===row.type)op.selected=true; typeSel.appendChild(op); });
+  typeSel.onchange=function(){ if(!editMode)return; EVENTS[origIdx].type=this.value; typeVspan.innerHTML=`<span class="pill ${TYPE_COLORS[this.value]||'type-general'}">${this.value}</span>`; updateStats(); markSaved(); };
+  typeTd.appendChild(typeVspan); typeTd.appendChild(typeSel);
+  tr.appendChild(typeTd);
+
+  // Status cell
+  const statusTd=document.createElement('td');
+  const statusVspan=document.createElement('span');
+  statusVspan.className='cell-view';
+  statusVspan.innerHTML=`<span class="pill ${STATUS_PILLS[row.status]||'pill-gray'}">${row.status}</span>`;
+  const statusSel=document.createElement('select');
+  statusSel.className='cell-select';
+  STATUS_OPTIONS.forEach(o=>{ const op=document.createElement('option'); op.value=o; op.textContent=o; if(o===row.status)op.selected=true; statusSel.appendChild(op); });
+  statusSel.onchange=function(){ if(!editMode)return; EVENTS[origIdx].status=this.value; statusVspan.innerHTML=`<span class="pill ${STATUS_PILLS[this.value]||'pill-gray'}">${this.value}</span>`; updateStats(); markSaved(); };
+  statusTd.appendChild(statusVspan); statusTd.appendChild(statusSel);
+  tr.appendChild(statusTd);
+
+  tr.appendChild(makeCell(row,origIdx,'owner',EVENTS,null,{width:'80px'}));
+  tr.appendChild(makeCell(row,origIdx,'regReq',EVENTS,null,{width:'70px'}));
+  tr.appendChild(makeCell(row,origIdx,'catering',EVENTS,null,{width:'70px'}));
+
+  // Link cell
+  const linkTd=document.createElement('td');
+  linkTd.style.minWidth='130px';
+  const linkVspan=document.createElement('span');
+  linkVspan.className='cell-view';
+  if(row.link) linkVspan.innerHTML=`<a class="cell-link" href="${row.link}" target="_blank">${row.name}</a>`;
+  else linkVspan.style.color='#ccc';
+  const linkEditDiv=document.createElement('div');
+  linkEditDiv.className='cell-edit';
+  linkEditDiv.style.display='none';
+  const linkInp=document.createElement('input');
+  linkInp.style.cssText='width:100%;border:1px solid var(--gold);border-radius:3px;padding:3px 6px;font-size:12px;font-family:Arial,sans-serif;background:#fffbeb;';
+  linkInp.value=row.link||'';
+  linkInp.placeholder='https://...';
+  linkInp.onchange=function(){ EVENTS[origIdx].link=this.value; linkVspan.innerHTML=this.value?`<a class="cell-link" href="${this.value}" target="_blank">${EVENTS[origIdx].name}</a>`:''; markSaved(); };
+  linkEditDiv.appendChild(linkInp);
+  linkTd.appendChild(linkVspan); linkTd.appendChild(linkEditDiv);
+  tr.appendChild(linkTd);
+
+  tr.appendChild(makeCell(row,origIdx,'notes',EVENTS,null,{width:'150px'}));
+  return tr;
 }
 
 function renderMaster() {
-  const tb = document.getElementById('masterBody');
-  tb.innerHTML = '';
-
-  const filtered = masterFilter === "All" ? EVENTS : EVENTS.filter(e => e.type === masterFilter);
-
-  // Group by month
-  let lastMonth = '';
-  filtered.forEach((e, realIdx) => {
-    const month = e.date.replace(/\d+,\s*/,'').replace(/\d+$/,'').trim().split(' ').slice(0,2).join(' ');
-    const monthLabel = getMonth(e.date);
-    if (monthLabel !== lastMonth) {
-      lastMonth = monthLabel;
-      const mtr = document.createElement('tr');
-      mtr.className = 'month-header';
-      mtr.innerHTML = `<td colspan="10">${monthLabel}</td>`;
-      tb.appendChild(mtr);
-    }
-    const idx = EVENTS.indexOf(e);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><input class="editable" value="${e.name}" onchange="EVENTS[${idx}].name=this.value;refreshAll()" style="font-weight:600;min-width:200px"></td>
-      <td style="white-space:nowrap">${e.date}</td>
-      <td style="color:#6B7280;font-size:12px;white-space:nowrap">${e.time||'TBD'}</td>
-      <td><input class="editable" value="${e.location}" onchange="EVENTS[${idx}].location=this.value" style="min-width:140px;color:#6B7280"></td>
-      <td>${typePill(e.type)}</td>
-      <td>
-        <select class="editable" onchange="EVENTS[${idx}].status=this.value;renderMaster()">
-          ${STATUS_OPTIONS.map(o=>`<option${o===e.status?' selected':''}>${o}</option>`).join('')}
-        </select>
-      </td>
-      <td><input class="editable" value="${e.owner}" onchange="EVENTS[${idx}].owner=this.value" style="width:80px"></td>
-      <td style="text-align:center">${e.regReq ? '<span style="color:#15803D;font-weight:700">Yes</span>' : '<span style="color:#9CA3AF">No</span>'}</td>
-      <td style="text-align:center">${e.catering ? '<span style="color:#92400E;font-weight:700">Yes</span>' : '<span style="color:#9CA3AF">No</span>'}</td>
-      <td><input class="editable" value="${e.notes}" onchange="EVENTS[${idx}].notes=this.value" placeholder="—" style="min-width:120px;color:#6B7280"></td>
-    `;
-    tb.appendChild(tr);
-  });
-
+  const filtered = masterFilter==="All" ? EVENTS : EVENTS.filter(e=>e.type===masterFilter);
+  buildTable('masterBody','masterHead','masterWrap',filtered,MASTER_COLS,renderMasterRow);
+  if(autoFilterOn) {
+    const tb=document.getElementById('masterBody');
+    tb.insertBefore(buildFilterRow(MASTER_COLS,'masterBody',renderMasterRow,filtered), tb.firstChild);
+  }
+  document.getElementById('masterBadge').textContent=filtered.length+' EVENTS';
   updateStats();
-  document.getElementById('masterBadge').textContent = filtered.length + ' EVENTS';
-}
-
-function getMonth(dateStr) {
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
-  for (let m of months) if (dateStr.startsWith(m) || dateStr.includes(m)) return m + (dateStr.includes('2027') ? ' 2027' : ' 2026');
-  return dateStr.split(' ')[0];
+  renderFilterBar();
 }
 
 function updateStats() {
-  const stats = [
-    { label:"Total Events", val: EVENTS.length },
-    { label:"Active / Planning", val: EVENTS.filter(e=>["Planning","Sponsorship","Registration Open","In Progress"].includes(e.status)).length },
-    { label:"Not Started", val: EVENTS.filter(e=>e.status==="Not Started").length },
-    { label:"At Risk", val: EVENTS.filter(e=>e.status==="At Risk").length },
-    { label:"Completed", val: EVENTS.filter(e=>e.status==="Completed").length },
+  const s=[
+    {label:"Total Events",val:EVENTS.length},
+    {label:"Active / Planning",val:EVENTS.filter(e=>["Planning","Sponsorship","Registration Open","In Progress"].includes(e.status)).length},
+    {label:"Not Started",val:EVENTS.filter(e=>e.status==="Not Started").length},
+    {label:"At Risk",val:EVENTS.filter(e=>e.status==="At Risk").length},
+    {label:"Completed",val:EVENTS.filter(e=>e.status==="Completed").length},
   ];
-  document.getElementById('statsRow').innerHTML = stats.map(s=>`<div class="stat-card"><div class="stat-number">${s.val}</div><div class="stat-label">${s.label}</div></div>`).join('');
+  document.getElementById('statsRow').innerHTML=s.map(x=>`<div class="stat-card"><div class="stat-number">${x.val}</div><div class="stat-label">${x.label}</div></div>`).join('');
 }
 
 function renderFilterBar() {
-  const types = ["All", ...new Set(EVENTS.map(e=>e.type))];
-  document.getElementById('filterBar').innerHTML =
-    '<span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:700;">FILTER:</span>' +
-    types.map(t=>`<button class="filter-btn${t===masterFilter?' active':''}" onclick="masterFilter='${t}';renderMaster();document.querySelectorAll('#filterBar .filter-btn').forEach(b=>{b.classList.remove('active')});this.classList.add('active')">${t}</button>`).join('');
+  const types=["All",...new Set(EVENTS.map(e=>e.type))];
+  document.getElementById('filterBar').innerHTML=
+    '<span style="font-size:11px;color:rgba(255,255,255,0.45);font-weight:700;margin-right:2px;">FILTER:</span>'+
+    types.map(t=>`<button class="filter-btn${t===masterFilter?' active':''}" onclick="masterFilter='${t}';renderMaster()">${t}</button>`).join('');
 }
 
 function addMasterRow() {
-  EVENTS.push({ name:"New Event", date:"TBD", time:"TBD", location:"TBD", type:"General", status:"Not Started", owner:"Giselle", regReq:false, catering:false, notes:"" });
-  renderMaster();
-  refreshChecklistSelect();
+  if(!editMode) return;
+  EVENTS.push({name:"New Event",date:"TBD",time:"TBD",location:"TBD",type:"General",status:"Not Started",owner:"Giselle",regReq:"No",catering:"No",notes:"",link:""});
+  renderMaster(); refreshChecklistSelect();
 }
 
-// ==========================================
+// ============================================================
 // READINESS
-// ==========================================
+// ============================================================
 function symDisplay(v) {
-  return v === 'N/A' ? '<span style="color:#9CA3AF;font-size:11px">N/A</span>' : v;
+  return v==='N/A'?'<span style="color:#9CA3AF;font-size:11px">N/A</span>':v;
 }
 
 function renderReadiness() {
-  const showEvents = EVENTS.filter(e => readinessFilter.includes(e.name));
+  const showEvents=EVENTS.filter(e=>readinessFilter.includes(e.name));
+  const head=document.getElementById('readinessHead');
+  head.innerHTML='<th>Dependency</th>'+showEvents.map(e=>`<th>${e.name}</th>`).join('');
 
-  // Header
-  const head = document.getElementById('readinessHead');
-  head.innerHTML = '<th>Dependency</th>' + showEvents.map(e=>`<th>${e.name}</th>`).join('');
-
-  // Body
-  const body = document.getElementById('readinessBody');
-  body.innerHTML = '';
-  DEPENDENCIES.forEach(dep => {
-    const tr = document.createElement('tr');
-    let cells = `<td>${dep}</td>`;
-    showEvents.forEach(e => {
-      if (!READINESS_DATA[e.name]) READINESS_DATA[e.name] = {};
-      const v = READINESS_DATA[e.name][dep] || "❌";
-      cells += `<td onclick="cycleReadiness('${e.name.replace(/'/g,"\\'")}','${dep.replace(/'/g,"\\'")}',this)" title="Click to cycle"><span class="sym">${symDisplay(v)}</span></td>`;
+  const body=document.getElementById('readinessBody');
+  body.innerHTML='';
+  DEPENDENCIES.forEach(dep=>{
+    const tr=document.createElement('tr');
+    let cells=`<td>${dep}</td>`;
+    showEvents.forEach(e=>{
+      if(!READINESS_DATA[e.name]) READINESS_DATA[e.name]={};
+      const v=READINESS_DATA[e.name][dep]||"❌";
+      cells+=`<td class="r-cell" title="Click to cycle: ❌ > 🟡 > ✅ > 🔴 > N/A"><span class="sym">${symDisplay(v)}</span></td>`;
     });
-    tr.innerHTML = cells;
+    tr.innerHTML=cells;
+    // attach click handlers after setting innerHTML
+    const cells2=tr.querySelectorAll('.r-cell');
+    cells2.forEach((td,ci)=>{
+      td.addEventListener('click',()=>{
+        if(!editMode) return;
+        const ev=showEvents[ci];
+        if(!READINESS_DATA[ev.name]) READINESS_DATA[ev.name]={};
+        const cur=READINESS_DATA[ev.name][dep]||"❌";
+        const next=SYM_CYCLE[(SYM_CYCLE.indexOf(cur)+1)%SYM_CYCLE.length];
+        READINESS_DATA[ev.name][dep]=next;
+        td.querySelector('.sym').innerHTML=symDisplay(next);
+        markSaved();
+      });
+    });
     body.appendChild(tr);
   });
 
-  // Filter buttons
-  const bar = document.getElementById('readinessFilter');
-  bar.innerHTML = '<span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:700;">SHOW:</span>' +
-    EVENTS.filter(e=>e.type==="Fundraiser"||e.type==="Development"||["Planning","Sponsorship","In Progress","At Risk"].includes(e.status))
-    .map(e=>`<button class="filter-btn${readinessFilter.includes(e.name)?' active':''}" onclick="toggleReadinessEvent('${e.name.replace(/'/g,"\\'")}')">${e.name}</button>`).join('');
+  const bar=document.getElementById('readinessFilter');
+  const evList=EVENTS.filter(e=>e.type==="Fundraiser"||e.type==="Development"||["Planning","Sponsorship","In Progress","At Risk"].includes(e.status));
+  bar.innerHTML='<span style="font-size:11px;color:rgba(255,255,255,0.45);font-weight:700;margin-right:2px;">SHOW:</span>'+
+    evList.map(e=>`<button class="filter-btn${readinessFilter.includes(e.name)?' active':''}" onclick="toggleRE('${e.name.replace(/'/g,"&#39;")}')">${e.name}</button>`).join('');
 }
-
-function toggleReadinessEvent(name) {
-  if (readinessFilter.includes(name)) { readinessFilter = readinessFilter.filter(x=>x!==name); }
-  else { readinessFilter.push(name); }
+function toggleRE(name) {
+  readinessFilter.includes(name)?readinessFilter=readinessFilter.filter(x=>x!==name):readinessFilter.push(name);
   renderReadiness();
 }
 
-function cycleReadiness(eventName, dep, td) {
-  if (!READINESS_DATA[eventName]) READINESS_DATA[eventName] = {};
-  const cur = READINESS_DATA[eventName][dep] || "❌";
-  const next = SYM_CYCLE[(SYM_CYCLE.indexOf(cur)+1) % SYM_CYCLE.length];
-  READINESS_DATA[eventName][dep] = next;
-  td.innerHTML = `<span class="sym">${symDisplay(next)}</span>`;
-  markSaved();
-}
-
-// ==========================================
+// ============================================================
 // CHECKLIST
-// ==========================================
+// ============================================================
 function refreshChecklistSelect() {
-  const sel = document.getElementById('checklistEventSelect');
-  const cur = sel.value;
-  sel.innerHTML = EVENTS.map(e=>`<option value="${e.name}">${e.name}</option>`).join('');
-  // Default to Golf Classic
-  const golf = EVENTS.find(e=>e.name==="Golf Classic");
-  if (golf) sel.value = "Golf Classic";
-  else if (EVENTS.find(e=>e.name===cur)) sel.value = cur;
+  const sel=document.getElementById('checklistEventSelect');
+  const cur=sel.value;
+  sel.innerHTML=EVENTS.map(e=>`<option value="${e.name}">${e.name}</option>`).join('');
+  if(EVENTS.find(e=>e.name==="Golf Classic")) sel.value="Golf Classic";
+  else if(EVENTS.find(e=>e.name===cur)) sel.value=cur;
 }
-
 function renderChecklist() {
-  const eventName = document.getElementById('checklistEventSelect').value;
-  const grid = document.getElementById('checklistGrid');
-  grid.innerHTML = '';
-  CHECKLIST_PHASES.forEach(phase => {
-    const card = document.createElement('div');
-    card.className = 'checklist-card';
-    card.innerHTML = `
-      <div class="checklist-card-header" style="background:${phase.color}">
-        <span class="checklist-phase">${phase.phase}</span>
-      </div>
-      <div class="checklist-body">
-        ${phase.items.map(item => {
-          const key = `${eventName}||${phase.phase}||${item}`;
-          const done = checklistState[key] || false;
-          return `<label class="check-item">
-            <input type="checkbox" ${done?'checked':''} onchange="checklistState['${key.replace(/'/g,"\\'")}$$']=this.checked;this.nextElementSibling.classList.toggle('done',this.checked);markSaved()">
-            <span class="check-label ${done?'done':''}">${item}</span>
-          </label>`;
-        }).join('')}
-      </div>`;
+  const eventName=document.getElementById('checklistEventSelect').value;
+  const grid=document.getElementById('checklistGrid');
+  grid.innerHTML='';
+  CHECKLIST_PHASES.forEach(phase=>{
+    const card=document.createElement('div');
+    card.className='checklist-card';
+    card.innerHTML=`<div class="checklist-card-header" style="background:${phase.color}"><span class="checklist-phase">${phase.phase}</span></div><div class="checklist-body">${
+      phase.items.map(item=>{
+        const key=`${eventName}||${phase.phase}||${item}`;
+        const done=checklistState[key]||false;
+        return `<label class="check-item"><input type="checkbox" ${done?'checked':''} onchange="checklistState[decodeURIComponent('${encodeURIComponent(key)}')]=this.checked;this.nextElementSibling.classList.toggle('done',this.checked);markSaved()"><span class="check-label ${done?'done':''}">${item}</span></label>`;
+      }).join('')
+    }</div>`;
     grid.appendChild(card);
   });
 }
 
-// ==========================================
+// ============================================================
 // DEADLINES
-// ==========================================
-const PRIORITY_OPTIONS = ["Critical","High","Medium","Low"];
-const DL_STATUS_OPTIONS = ["Open","In Progress","Done","Blocked"];
+// ============================================================
+const DEADLINE_COLS=[
+  {label:"Due Date",key:"due",width:150},
+  {label:"Task / Action",key:"task",width:200},
+  {label:"Event",key:"event",width:180},
+  {label:"Owner",key:"owner",width:90},
+  {label:"Priority",key:"priority",width:90},
+  {label:"Status",key:"status",width:110},
+  {label:"Notes",key:"notes",width:160},
+];
 
 function duePill(dateStr) {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(dateStr);
-  const diff = Math.ceil((d - today) / (1000*60*60*24));
-  if (diff < 0) return `<div class="due-overdue">Overdue ${Math.abs(diff)}d</div>`;
-  if (diff <= 7) return `<div class="due-soon">Due in ${diff}d</div>`;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const d=new Date(dateStr);
+  const diff=Math.ceil((d-today)/(1000*60*60*24));
+  if(diff<0) return `<div class="due-overdue">Overdue ${Math.abs(diff)}d</div>`;
+  if(diff<=7) return `<div class="due-soon">Due in ${diff}d</div>`;
   return `<div class="due-ok">Due in ${diff}d</div>`;
 }
 
+function renderDeadlineRow(row, origIdx) {
+  const tr=document.createElement('tr');
+  if(row.status==="Done") tr.style.opacity='0.4';
+
+  // Date cell
+  const dateTd=document.createElement('td');
+  dateTd.style.minWidth='140px';
+  const dateVspan=document.createElement('span');
+  dateVspan.className='cell-view';
+  dateVspan.innerHTML=row.due+'<br>'+duePill(row.due);
+  const dateInp=document.createElement('input');
+  dateInp.type='date';
+  dateInp.className='cell-edit';
+  dateInp.value=row.due;
+  dateInp.style.display='none';
+  dateInp.onchange=function(){ DEADLINES[origIdx].due=this.value; renderDeadlines(); markSaved(); };
+  dateTd.appendChild(dateVspan); dateTd.appendChild(dateInp);
+  tr.appendChild(dateTd);
+
+  tr.appendChild(makeCell(row,origIdx,'task',DEADLINES,null,{bold:true,minWidth:'180px'}));
+
+  // Event select
+  const evTd=document.createElement('td');
+  evTd.style.minWidth='170px';
+  const evVspan=document.createElement('span');
+  evVspan.className='cell-view';
+  evVspan.textContent=row.event;
+  const evSel=document.createElement('select');
+  evSel.className='cell-select';
+  EVENTS.forEach(e=>{ const op=document.createElement('option'); op.value=e.name; op.textContent=e.name; if(e.name===row.event)op.selected=true; evSel.appendChild(op); });
+  evSel.onchange=function(){ if(!editMode)return; DEADLINES[origIdx].event=this.value; evVspan.textContent=this.value; markSaved(); };
+  evTd.appendChild(evVspan); evTd.appendChild(evSel);
+  tr.appendChild(evTd);
+
+  tr.appendChild(makeCell(row,origIdx,'owner',DEADLINES,null,{width:'80px'}));
+
+  // Priority
+  const priTd=document.createElement('td');
+  const priMap={Critical:'pill-red',High:'pill-yellow',Medium:'pill-plum',Low:'pill-gray'};
+  const priVspan=document.createElement('span');
+  priVspan.className='cell-view';
+  priVspan.innerHTML=`<span class="pill ${priMap[row.priority]||'pill-gray'}">${row.priority}</span>`;
+  const priSel=document.createElement('select');
+  priSel.className='cell-select';
+  PRIORITY_OPTIONS.forEach(o=>{ const op=document.createElement('option'); op.value=o; op.textContent=o; if(o===row.priority)op.selected=true; priSel.appendChild(op); });
+  priSel.onchange=function(){ if(!editMode)return; DEADLINES[origIdx].priority=this.value; priVspan.innerHTML=`<span class="pill ${priMap[this.value]||'pill-gray'}">${this.value}</span>`; markSaved(); };
+  priTd.appendChild(priVspan); priTd.appendChild(priSel);
+  tr.appendChild(priTd);
+
+  // Status
+  const stTd=document.createElement('td');
+  const stVspan=document.createElement('span');
+  stVspan.className='cell-view';
+  stVspan.textContent=row.status;
+  const stSel=document.createElement('select');
+  stSel.className='cell-select';
+  DL_STATUS_OPTIONS.forEach(o=>{ const op=document.createElement('option'); op.value=o; op.textContent=o; if(o===row.status)op.selected=true; stSel.appendChild(op); });
+  stSel.onchange=function(){ if(!editMode)return; DEADLINES[origIdx].status=this.value; stVspan.textContent=this.value; renderDeadlines(); markSaved(); };
+  stTd.appendChild(stVspan); stTd.appendChild(stSel);
+  tr.appendChild(stTd);
+
+  tr.appendChild(makeCell(row,origIdx,'notes',DEADLINES,null,{width:'150px'}));
+  return tr;
+}
+
 function renderDeadlines() {
-  const sorted = [...DEADLINES].sort((a,b)=>a.due.localeCompare(b.due));
-  const tb = document.getElementById('deadlineBody');
-  tb.innerHTML = '';
-  sorted.forEach(row => {
-    const origIdx = DEADLINES.indexOf(row);
-    const tr = document.createElement('tr');
-    if (row.status === "Done") tr.style.opacity = "0.4";
-    tr.innerHTML = `
-      <td>
-        <input type="date" class="editable" value="${row.due}" onchange="DEADLINES[${origIdx}].due=this.value;renderDeadlines()" style="width:130px">
-        ${duePill(row.due)}
-      </td>
-      <td><input class="editable" value="${row.task}" onchange="DEADLINES[${origIdx}].task=this.value" style="min-width:180px;font-weight:600"></td>
-      <td>
-        <select class="editable" onchange="DEADLINES[${origIdx}].event=this.value">
-          ${EVENTS.map(e=>`<option${e.name===row.event?' selected':''}>${e.name}</option>`).join('')}
-        </select>
-      </td>
-      <td><input class="editable" value="${row.owner}" onchange="DEADLINES[${origIdx}].owner=this.value" style="width:80px"></td>
-      <td>
-        <select class="editable" onchange="DEADLINES[${origIdx}].priority=this.value;renderDeadlines()">
-          ${PRIORITY_OPTIONS.map(o=>`<option${o===row.priority?' selected':''}>${o}</option>`).join('')}
-        </select>
-      </td>
-      <td>
-        <select class="editable" onchange="DEADLINES[${origIdx}].status=this.value;renderDeadlines()">
-          ${DL_STATUS_OPTIONS.map(o=>`<option${o===row.status?' selected':''}>${o}</option>`).join('')}
-        </select>
-      </td>
-      <td><input class="editable" value="${row.notes}" onchange="DEADLINES[${origIdx}].notes=this.value" placeholder="—" style="min-width:120px"></td>
-    `;
-    tb.appendChild(tr);
-  });
-  document.getElementById('deadlineBadge').textContent = DEADLINES.filter(d=>d.status!=="Done").length + " OPEN";
+  const sorted=[...DEADLINES].sort((a,b)=>a.due.localeCompare(b.due));
+  // rebuild keeping original indices intact
+  buildTable('deadlineBody','deadlineHead','deadlineWrap',DEADLINES,DEADLINE_COLS,renderDeadlineRow);
+  document.getElementById('deadlineBadge').textContent=DEADLINES.filter(d=>d.status!=='Done').length+' OPEN';
 }
 
 function addDeadlineRow() {
-  const today = new Date().toISOString().split('T')[0];
-  DEADLINES.push({ due:today, task:"New Task", event:EVENTS[0]?.name||"", owner:"Giselle", priority:"Medium", status:"Open", notes:"" });
+  if(!editMode) return;
+  const today=new Date().toISOString().split('T')[0];
+  DEADLINES.push({due:today,task:"New Task",event:EVENTS[0]?.name||"",owner:"Giselle",priority:"Medium",status:"Open",notes:""});
   renderDeadlines();
 }
 
-// ==========================================
+// ============================================================
 // VENDORS
-// ==========================================
-function docSelect(arr, i, field, val) {
-  return `<select class="editable" style="text-align:center;font-size:15px;width:50px" onchange="${arr}[${i}].${field}=this.value">
-    ${DOC_OPTIONS.map(o=>`<option${o===val?' selected':''}>${o}</option>`).join('')}
-  </select>`;
+// ============================================================
+const VENDOR_COLS=[
+  {label:"Vendor",key:"name",width:160},{label:"Event",key:"event",width:170},{label:"Service",key:"service",width:120},
+  {label:"W-9",key:"w9",width:55},{label:"COI",key:"coi",width:55},{label:"Contract",key:"contract",width:75},
+  {label:"Invoice",key:"invoice",width:70},{label:"Paid",key:"paid",width:55},
+  {label:"Contact",key:"contact",width:150},{label:"Notes",key:"notes",width:160},
+];
+const SPONSOR_COLS=[
+  {label:"Sponsor",key:"name",width:160},{label:"Event",key:"event",width:170},{label:"Level",key:"level",width:100},{label:"Amount",key:"amount",width:90},
+  {label:"Committed",key:"committed",width:85},{label:"Paid",key:"paid",width:55},{label:"Logo",key:"logo",width:55},{label:"W-9",key:"w9",width:55},
+  {label:"Contact",key:"contact",width:150},{label:"Notes",key:"notes",width:160},
+];
+
+function renderVendorRow(row,origIdx) {
+  const tr=document.createElement('tr');
+  tr.appendChild(makeCell(row,origIdx,'name',VENDORS,null,{bold:true,minWidth:'150px'}));
+  const evTd=document.createElement('td');
+  const evVs=document.createElement('span'); evVs.className='cell-view'; evVs.textContent=row.event;
+  const evSel=document.createElement('select'); evSel.className='cell-select';
+  EVENTS.forEach(e=>{ const op=document.createElement('option'); op.value=e.name; op.textContent=e.name; if(e.name===row.event)op.selected=true; evSel.appendChild(op); });
+  evSel.onchange=function(){ if(!editMode)return; VENDORS[origIdx].event=this.value; evVs.textContent=this.value; markSaved(); };
+  evTd.appendChild(evVs); evTd.appendChild(evSel); tr.appendChild(evTd);
+  tr.appendChild(makeCell(row,origIdx,'service',VENDORS,null,{width:'110px'}));
+  ['w9','coi','contract','invoice','paid'].forEach(f=>tr.appendChild(makeDocCell(VENDORS,origIdx,f,row[f])));
+  tr.appendChild(makeCell(row,origIdx,'contact',VENDORS,null,{width:'140px'}));
+  tr.appendChild(makeCell(row,origIdx,'notes',VENDORS,null,{width:'150px'}));
+  return tr;
+}
+function renderVendors() { buildTable('vendorBody','vendorHead','vendorWrap',VENDORS,VENDOR_COLS,renderVendorRow); }
+function addVendorRow() { if(!editMode)return; VENDORS.push({name:"New Vendor",event:EVENTS[0]?.name||"",service:"",w9:"❌",coi:"❌",contract:"❌",invoice:"❌",paid:"❌",contact:"",notes:""}); renderVendors(); }
+
+function renderSponsorRow(row,origIdx) {
+  const tr=document.createElement('tr');
+  tr.appendChild(makeCell(row,origIdx,'name',SPONSORS,null,{bold:true,minWidth:'150px'}));
+  const evTd=document.createElement('td');
+  const evVs=document.createElement('span'); evVs.className='cell-view'; evVs.textContent=row.event;
+  const evSel=document.createElement('select'); evSel.className='cell-select';
+  EVENTS.forEach(e=>{ const op=document.createElement('option'); op.value=e.name; op.textContent=e.name; if(e.name===row.event)op.selected=true; evSel.appendChild(op); });
+  evSel.onchange=function(){ if(!editMode)return; SPONSORS[origIdx].event=this.value; evVs.textContent=this.value; markSaved(); };
+  evTd.appendChild(evVs); evTd.appendChild(evSel); tr.appendChild(evTd);
+  tr.appendChild(makeCell(row,origIdx,'level',SPONSORS,null,{width:'90px'}));
+  tr.appendChild(makeCell(row,origIdx,'amount',SPONSORS,null,{width:'80px'}));
+  ['committed','paid','logo','w9'].forEach(f=>tr.appendChild(makeDocCell(SPONSORS,origIdx,f,row[f])));
+  tr.appendChild(makeCell(row,origIdx,'contact',SPONSORS,null,{width:'140px'}));
+  tr.appendChild(makeCell(row,origIdx,'notes',SPONSORS,null,{width:'150px'}));
+  return tr;
+}
+function renderSponsors() { buildTable('sponsorBody','sponsorHead','sponsorWrap',SPONSORS,SPONSOR_COLS,renderSponsorRow); }
+function addSponsorRow() { if(!editMode)return; SPONSORS.push({name:"New Sponsor",event:EVENTS[0]?.name||"",level:"",amount:"$0",committed:"❌",paid:"❌",logo:"❌",w9:"❌",contact:"",notes:""}); renderSponsors(); }
+
+// ============================================================
+// TOOLBAR ACTIONS
+// ============================================================
+function toggleWrap() {
+  wrapOn=!wrapOn;
+  document.getElementById('wrapBtn').classList.toggle('active',wrapOn);
+  document.querySelectorAll('.cell-view,.cell-edit').forEach(el=>{
+    el.style.whiteSpace=wrapOn?'pre-wrap':'nowrap';
+    el.style.overflow=wrapOn?'visible':'hidden';
+    el.style.textOverflow=wrapOn?'':'ellipsis';
+  });
+  document.querySelectorAll('table').forEach(t=>{ t.style.tableLayout=wrapOn?'auto':'fixed'; });
 }
 
-function renderVendors() {
-  const tb = document.getElementById('vendorBody');
-  tb.innerHTML = '';
-  VENDORS.forEach((v,i) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><input class="editable" value="${v.name}" onchange="VENDORS[${i}].name=this.value" style="min-width:150px;font-weight:600"></td>
-      <td><select class="editable" onchange="VENDORS[${i}].event=this.value">${EVENTS.map(e=>`<option${e.name===v.event?' selected':''}>${e.name}</option>`).join('')}</select></td>
-      <td><input class="editable" value="${v.service}" onchange="VENDORS[${i}].service=this.value" style="min-width:100px"></td>
-      <td style="text-align:center">${docSelect('VENDORS',i,'w9',v.w9)}</td>
-      <td style="text-align:center">${docSelect('VENDORS',i,'coi',v.coi)}</td>
-      <td style="text-align:center">${docSelect('VENDORS',i,'contract',v.contract)}</td>
-      <td style="text-align:center">${docSelect('VENDORS',i,'invoice',v.invoice)}</td>
-      <td style="text-align:center">${docSelect('VENDORS',i,'paid',v.paid)}</td>
-      <td><input class="editable" value="${v.contact}" onchange="VENDORS[${i}].contact=this.value" placeholder="Name / email" style="min-width:120px"></td>
-      <td><input class="editable" value="${v.notes}" onchange="VENDORS[${i}].notes=this.value" placeholder="—" style="min-width:120px"></td>
-    `;
-    tb.appendChild(tr);
+function fitColumns() {
+  document.querySelectorAll('thead th').forEach(th=>{ th.style.width='auto'; th.style.minWidth='60px'; });
+}
+
+function sortCurrentTable(dir) {
+  const activePanel=document.querySelector('.panel.active');
+  if(!activePanel) return;
+  const table=activePanel.querySelector('table');
+  if(!table||sortCol<0) { alert('Click a column header first to select it, then use A-Z / Z-A.'); return; }
+  sortDir=dir;
+  const theadId=table.querySelector('thead tr').id;
+  const ths=document.getElementById(theadId).querySelectorAll('th');
+  ths.forEach((th,i)=>{ th.classList.remove('sort-asc','sort-desc'); if(i===sortCol) th.classList.add(dir==='asc'?'sort-asc':'sort-desc'); });
+  renderAll();
+}
+
+function insertRowAbove() {
+  if(!editMode||!selectedRow) { alert('Select a row first by clicking it.'); return; }
+  const idx=parseInt(selectedRow.dataset.origIdx);
+  const panel=document.querySelector('.panel.active').id;
+  if(panel==='panel-master') { EVENTS.splice(idx,0,{...EVENTS[idx],name:"New Event (copy)"}); renderMaster(); }
+  else if(panel==='panel-deadlines') { const today=new Date().toISOString().split('T')[0]; DEADLINES.splice(idx,0,{...DEADLINES[idx],task:"New Task"}); renderDeadlines(); }
+  else if(panel==='panel-vendors') { VENDORS.splice(idx,0,{...VENDORS[idx],name:"New Vendor"}); renderVendors(); }
+}
+
+function deleteSelectedRow() {
+  if(!editMode||!selectedRow) { alert('Select a row first by clicking it.'); return; }
+  if(!confirm('Delete this row?')) return;
+  const idx=parseInt(selectedRow.dataset.origIdx);
+  const panel=document.querySelector('.panel.active').id;
+  if(panel==='panel-master') { EVENTS.splice(idx,1); renderMaster(); }
+  else if(panel==='panel-deadlines') { DEADLINES.splice(idx,1); renderDeadlines(); }
+  else if(panel==='panel-vendors') { VENDORS.splice(idx,1); renderVendors(); }
+  else if(panel==='panel-vendors') { SPONSORS.splice(idx,1); renderSponsors(); }
+  selectedRow=null;
+}
+
+// ============================================================
+// LINK MODAL
+// ============================================================
+function openLinkModal() {
+  if(!editMode) return;
+  const modal=document.getElementById('linkModal');
+  modal.style.top='120px';
+  modal.style.left='50%';
+  modal.style.transform='translateX(-50%)';
+  modal.classList.add('open');
+  document.getElementById('linkText').focus();
+}
+function closeLinkModal() { document.getElementById('linkModal').classList.remove('open'); activeCellForLink=null; }
+function insertLink() {
+  const text=document.getElementById('linkText').value.trim();
+  const url=document.getElementById('linkUrl').value.trim();
+  if(!url) { alert('Please enter a URL.'); return; }
+  // If a link input is focused, set its value
+  const focused=document.activeElement;
+  if(activeCellForLink) {
+    activeCellForLink.value=url;
+    activeCellForLink.dispatchEvent(new Event('change'));
+  }
+  document.getElementById('linkText').value='';
+  document.getElementById('linkUrl').value='';
+  closeLinkModal();
+}
+
+// ============================================================
+// GLOBAL SEARCH
+// ============================================================
+function globalSearchFn(val) {
+  searchTerm=val.toLowerCase().trim();
+  renderAll();
+  if(searchTerm) highlightSearch(searchTerm);
+}
+
+function highlightSearch(term) {
+  document.querySelectorAll('.cell-view').forEach(el=>{
+    const text=el.textContent;
+    if(!term) { el.innerHTML=text; return; }
+    const re=new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    el.innerHTML=text.replace(re,'<mark class="hl">$1</mark>');
   });
 }
-function addVendorRow() {
-  VENDORS.push({ name:"New Vendor", event:EVENTS[0]?.name||"", service:"—", w9:"❌", coi:"❌", contract:"❌", invoice:"❌", paid:"❌", contact:"", notes:"" });
-  renderVendors();
-}
 
-function renderSponsors() {
-  const tb = document.getElementById('sponsorBody');
-  tb.innerHTML = '';
-  SPONSORS.forEach((s,i) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><input class="editable" value="${s.name}" onchange="SPONSORS[${i}].name=this.value" style="min-width:150px;font-weight:600"></td>
-      <td><select class="editable" onchange="SPONSORS[${i}].event=this.value">${EVENTS.map(e=>`<option${e.name===s.event?' selected':''}>${e.name}</option>`).join('')}</select></td>
-      <td><input class="editable" value="${s.level}" onchange="SPONSORS[${i}].level=this.value" style="width:90px"></td>
-      <td><input class="editable" value="${s.amount}" onchange="SPONSORS[${i}].amount=this.value" style="width:80px"></td>
-      <td style="text-align:center">${docSelect('SPONSORS',i,'committed',s.committed)}</td>
-      <td style="text-align:center">${docSelect('SPONSORS',i,'paid',s.paid)}</td>
-      <td style="text-align:center">${docSelect('SPONSORS',i,'logo',s.logo)}</td>
-      <td style="text-align:center">${docSelect('SPONSORS',i,'w9',s.w9)}</td>
-      <td><input class="editable" value="${s.contact}" onchange="SPONSORS[${i}].contact=this.value" placeholder="Name / email" style="min-width:120px"></td>
-      <td><input class="editable" value="${s.notes}" onchange="SPONSORS[${i}].notes=this.value" placeholder="—" style="min-width:120px"></td>
-    `;
-    tb.appendChild(tr);
-  });
-}
-function addSponsorRow() {
-  SPONSORS.push({ name:"New Sponsor", event:EVENTS[0]?.name||"", level:"—", amount:"$0", committed:"❌", paid:"❌", logo:"❌", w9:"❌", contact:"", notes:"" });
-  renderSponsors();
-}
-
-// ==========================================
+// ============================================================
 // TAB / UTILS
-// ==========================================
-function switchTab(id, btn) {
+// ============================================================
+function switchTab(id,btn) {
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   btn.classList.add('active');
-}
-function markSaved() {
-  const now = new Date();
-  document.getElementById('lastSaved').textContent = `Saved ${now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
-}
-function refreshAll() {
-  renderMaster(); renderReadiness(); refreshChecklistSelect(); renderDeadlines();
+  sortCol=-1; sortDir='asc';
+  currentTable=id;
 }
 
-// ==========================================
+function markSaved() {
+  const now=new Date();
+  document.getElementById('saveIndicator').textContent=`Session saved ${now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+}
+
+function renderAll() {
+  renderMaster(); renderReadiness();
+  refreshChecklistSelect(); renderChecklist();
+  renderDeadlines(); renderVendors(); renderSponsors();
+  if(searchTerm) setTimeout(()=>highlightSearch(searchTerm),50);
+}
+
+// ============================================================
+// KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener('keydown',(e)=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='f') { e.preventDefault(); document.getElementById('globalSearch').focus(); }
+  if(e.key==='Escape') { closePwModal(); closeLinkModal(); document.getElementById('globalSearch').value=''; searchTerm=''; renderAll(); }
+});
+
+// ============================================================
 // INIT
-// ==========================================
-renderFilterBar();
+// ============================================================
 renderMaster();
 renderReadiness();
 refreshChecklistSelect();
@@ -793,9 +1250,6 @@ renderChecklist();
 renderDeadlines();
 renderVendors();
 renderSponsors();
-
-document.addEventListener('change', markSaved);
-document.addEventListener('input', markSaved);
 </script>
 </body>
 </html>
