@@ -431,6 +431,9 @@ function refreshTypeUnlockState() {
   document.querySelectorAll('td[data-typecell]').forEach(td=>{
     if(td._applyUnlock) td._applyUnlock();
   });
+  document.querySelectorAll('td').forEach(td=>{
+    if(td._applyLinkUnlock) td._applyLinkUnlock();
+  });
 }
 function doPw() {
   if (document.getElementById('pwInp').value === PW) {
@@ -737,15 +740,31 @@ function docCell(arr, idx, field) {
 
 function linkCell(data, idx) {
   const td=document.createElement('td');
-  td.style.minWidth='130px';
+  td.style.minWidth='115px';
+
+  const vspan=document.createElement('span');
+  function updateView() {
+    const v=data[idx].link||'';
+    if(v) vspan.innerHTML=\`<a href="${v}" target="_blank" style="color:#1d4ed8;text-decoration:underline;font-size:12px;" onclick="event.stopPropagation()">Open link</a>\`;
+    else vspan.innerHTML='<span style="color:#d1d5db;font-size:11px;"></span>';
+  }
+  updateView();
+
   const inp=document.createElement('input');
   inp.type='url';
   inp.className='c-link';
   inp.placeholder='https://...';
   inp.value=data[idx].link||'';
-  inp.oninput=function(){ data[idx].link=this.value; markSaved(); };
+  inp.oninput=function(){ data[idx].link=this.value; updateView(); markSaved(); };
   inp.ondblclick=function(){ if(this.value) window.open(this.value,'_blank'); };
-  inp.title='Type URL. Double-click to open.';
+
+  function applyLinkUnlock() {
+    vspan.style.display=unlocked?'none':'block';
+    inp.style.display=unlocked?'block':'none';
+  }
+  td._applyLinkUnlock=applyLinkUnlock;
+  applyLinkUnlock();
+  td.appendChild(vspan);
   td.appendChild(inp);
   return td;
 }
@@ -1419,7 +1438,7 @@ const _fbPoll = setInterval(()=>{
         const snap = await getDoc(doc(window.__db, "gulliver-events", "data"));
         if(snap.exists()) {
           const d = snap.data();
-          if(d.events && d.events.length)    { EVENTS.length=0; d.events.forEach(e=>EVENTS.push(e)); }
+          if(d.events && d.events.length)    { EVENTS.length=0; d.events.forEach(e=>{ if(!Array.isArray(e.type)) e.type=e.type?[e.type]:[]; EVENTS.push(e); }); }
           if(d.deadlines && d.deadlines.length){ DL.length=0; d.deadlines.forEach(e=>DL.push(e)); }
           if(d.vendors && d.vendors.length)  { VN.length=0; d.vendors.forEach(e=>VN.push(e)); }
           if(d.sponsors && d.sponsors.length){ SP.length=0; d.sponsors.forEach(e=>SP.push(e)); }
