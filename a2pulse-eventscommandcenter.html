@@ -745,7 +745,7 @@ function linkCell(data, idx) {
   const vspan=document.createElement('span');
   function updateView() {
     const v=data[idx].link||'';
-    if(v) vspan.innerHTML=\`<a href="${v}" target="_blank" style="color:#1d4ed8;text-decoration:underline;font-size:12px;" onclick="event.stopPropagation()">Open link</a>\`;
+    if(v) vspan.innerHTML='<a href="'+v+'" target="_blank" style="color:#1d4ed8;text-decoration:underline;font-size:12px;" onclick="event.stopPropagation()">Open link</a>';
     else vspan.innerHTML='<span style="color:#d1d5db;font-size:11px;"></span>';
   }
   updateView();
@@ -1087,12 +1087,12 @@ function rebuildMasterBody() {
     tb.appendChild(bannerTr);
 
     // Event rows for this month
-    rows.forEach(row=>{
+    rows.forEach(row=>{ try {
       const origIdx=EVENTS.indexOf(row);
       const tr=mRow(row, origIdx);
       tr.onclick=function(){ if(selRow) selRow.classList.remove('selected'); selRow=tr; tr.classList.add('selected'); };
       tb.appendChild(tr);
-    });
+    } catch(err){ console.error('Row render error:', err, row); }});
   });
 
   if(srchTerm) setTimeout(()=>hlSearch(srchTerm),30);
@@ -1438,13 +1438,30 @@ const _fbPoll = setInterval(()=>{
         const snap = await getDoc(doc(window.__db, "gulliver-events", "data"));
         if(snap.exists()) {
           const d = snap.data();
-          if(d.events && d.events.length)    { EVENTS.length=0; d.events.forEach(e=>{ if(!Array.isArray(e.type)) e.type=e.type?[e.type]:[]; EVENTS.push(e); }); }
+          if(d.events && d.events.length) {
+            EVENTS.length=0;
+            d.events.forEach(e=>{
+              if(!Array.isArray(e.type)) e.type = e.type ? [e.type] : ['General'];
+              e.name = e.name || '';
+              e.date = e.date || 'TBD';
+              e.time = e.time || 'TBD';
+              e.location = e.location || 'TBD';
+              e.status = e.status || 'Not Started';
+              e.regReq = e.regReq || 'No';
+              e.catering = e.catering || 'No';
+              e.link = e.link || '';
+              e.notes = e.notes || '';
+              EVENTS.push(e);
+            });
+          }
           if(d.deadlines && d.deadlines.length){ DL.length=0; d.deadlines.forEach(e=>DL.push(e)); }
           if(d.vendors && d.vendors.length)  { VN.length=0; d.vendors.forEach(e=>VN.push(e)); }
           if(d.sponsors && d.sponsors.length){ SP.length=0; d.sponsors.forEach(e=>SP.push(e)); }
           if(d.readiness) Object.assign(RD, d.readiness);
           if(d.checklist) Object.assign(CLS, d.checklist);
           document.getElementById('saveInd').textContent = 'Live';
+          // Re-save to fix any type field corruption from previous saves
+          if(window._fbSave) window._fbSave();
         } else {
           window._fbSave();
           document.getElementById('saveInd').textContent = 'Database initialized';
