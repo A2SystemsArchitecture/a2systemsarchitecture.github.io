@@ -385,6 +385,26 @@ body:not(.unlocked) .pill-wrap select{appearance:none;-webkit-appearance:none;po
 
 </div>
 
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBt2DP9R_CfShFui5jaDIisVl6zJDk0NjI",
+  authDomain: "a2-pulse-event-command-center.firebaseapp.com",
+  projectId: "a2-pulse-event-command-center",
+  storageBucket: "a2-pulse-event-command-center.firebasestorage.app",
+  messagingSenderId: "168920225490",
+  appId: "1:168920225490:web:f29e97e6293e558a9abf0b"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+window.__db = db;
+window.__fbReady = true;
+</script>
+
 <script>
 // ============================================================
 // PASSWORD
@@ -537,7 +557,10 @@ let curLinkTarget=null;
 function markSaved() {
   if(!unlocked) return;
   const t=new Date();
-  document.getElementById('saveInd').textContent=`Saved ${t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+  document.getElementById('saveInd').textContent=`Saving...`;
+  // Call Firebase save if available
+  if(window._fbSave) window._fbSave();
+  else document.getElementById('saveInd').textContent=`Saved ${t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
 }
 
 // ============================================================
@@ -1362,8 +1385,63 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closePw();closeLM();document.getElementById('srchBox').value='';srchTerm='';renderAll();}
 });
 
-renderAll();
-updateStats();
+// ============================================================
+// INIT — load from Firebase, fall back to local if unavailable
+// ============================================================
+document.getElementById('saveInd').textContent = 'Connecting...';
+
+window._fbSave = function() {
+  if(window._fbSaveTimeout) clearTimeout(window._fbSaveTimeout);
+  window._fbSaveTimeout = setTimeout(async ()=>{
+    try {
+      const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+      await setDoc(doc(window.__db, "gulliver-events", "data"), {
+        events: EVENTS, deadlines: DL, vendors: VN, sponsors: SP,
+        readiness: RD, checklist: CLS, lastUpdated: new Date().toISOString()
+      });
+      document.getElementById('saveInd').textContent = 'Saved to cloud ✓';
+    } catch(err) {
+      console.error('Save error:', err);
+      document.getElementById('saveInd').textContent = 'Save failed';
+    }
+  }, 900);
+};
+
+let _fbPollCount = 0;
+const _fbPoll = setInterval(()=>{
+  _fbPollCount++;
+  if(window.__fbReady && window.__db) {
+    clearInterval(_fbPoll);
+    (async ()=>{
+      try {
+        document.getElementById('saveInd').textContent = 'Loading...';
+        const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+        const snap = await getDoc(doc(window.__db, "gulliver-events", "data"));
+        if(snap.exists()) {
+          const d = snap.data();
+          if(d.events && d.events.length)    { EVENTS.length=0; d.events.forEach(e=>EVENTS.push(e)); }
+          if(d.deadlines && d.deadlines.length){ DL.length=0; d.deadlines.forEach(e=>DL.push(e)); }
+          if(d.vendors && d.vendors.length)  { VN.length=0; d.vendors.forEach(e=>VN.push(e)); }
+          if(d.sponsors && d.sponsors.length){ SP.length=0; d.sponsors.forEach(e=>SP.push(e)); }
+          if(d.readiness) Object.assign(RD, d.readiness);
+          if(d.checklist) Object.assign(CLS, d.checklist);
+          document.getElementById('saveInd').textContent = 'Live';
+        } else {
+          window._fbSave();
+          document.getElementById('saveInd').textContent = 'Database initialized';
+        }
+      } catch(err) {
+        console.error('Load error:', err);
+        document.getElementById('saveInd').textContent = 'Offline mode';
+      }
+      renderAll(); updateStats();
+    })();
+  } else if(_fbPollCount > 40) {
+    clearInterval(_fbPoll);
+    document.getElementById('saveInd').textContent = 'Offline mode';
+    renderAll(); updateStats();
+  }
+}, 100);
 </script>
 </body>
 </html>
