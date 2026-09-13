@@ -40,9 +40,13 @@
 
   /* NAV */
   .clr-nav { position:sticky; top:0; z-index:100; background:var(--clr-plum); border-bottom:1px solid rgba(202,138,4,0.25); padding:0.75rem 2rem; display:flex; align-items:center; justify-content:space-between; }
-  .clr-nav__home { font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--clr-white); opacity:0.85; }
-  .clr-nav__home:hover { opacity:1; }
-  .clr-nav__eyebrow { font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--clr-gold); }
+  .clr-nav__home,
+  .clr-nav__home:link,
+  .clr-nav__home:visited,
+  .clr-nav__home:hover,
+  .clr-nav__home:active,
+  .clr-nav__home:focus { color:var(--clr-gold); font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  .clr-nav__eyebrow { font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--clr-gold); white-space:nowrap; }
 
   /* HERO */
   .clr-hero { padding:4.5rem 0 3.5rem; text-align:center; }
@@ -98,7 +102,12 @@
   @media (max-width:600px) {
     .clr-container { padding:0 1.25rem; }
     .clr-sec { padding:2.75rem 0; }
-    .clr-nav { padding:0.6rem 1.1rem; }
+    .clr-nav { padding:0.6rem 0.85rem; }
+  }
+  @media (max-width:400px) {
+    .clr-nav { padding:0.55rem 0.65rem; gap:0.5rem; }
+    .clr-nav__home { font-size:0.56rem; letter-spacing:0.03em; }
+    .clr-nav__eyebrow { font-size:0.56rem; letter-spacing:0.02em; }
   }
 </style>
 </head>
@@ -207,7 +216,8 @@
           <li>Parent Next-Step + Professional Educator Conversation Guide — 1-page action guide</li>
         </ul>
         <p class="clr-card__turnaround">Turnaround: 3 business days after payment is complete and sufficient assessment evidence has been accepted.</p>
-        <a href="#enroll" class="clr-btn clr-btn--primary" style="width:100%; text-align:center;">Enroll in Clarity Core</a>
+        <!-- PLACEHOLDER: real Clarity Core enrollment/payment URL required from Adrian -->
+        <a href="#REPLACE-WITH-CLARITY-CORE-CHECKOUT-URL" class="clr-btn clr-btn--primary" style="width:100%; text-align:center;">Enroll in Clarity Core</a>
       </div>
       <div class="clr-card">
         <p class="clr-t-label">A2 CLARITY + FULL DIAGNOSTIC</p>
@@ -217,7 +227,9 @@
           <li>Full Diagnostic Intelligence Report</li>
         </ul>
         <p class="clr-card__turnaround">Turnaround: 5 business days after payment is complete and sufficient assessment evidence has been accepted.</p>
-        <a href="#enroll" class="clr-btn clr-btn--primary" style="width:100%; text-align:center;">Enroll with Full Diagnostic</a>
+        <!-- PLACEHOLDER: real Full Diagnostic enrollment/payment URL required from Adrian -->
+        <a href="#REPLACE-WITH-FULL-DIAGNOSTIC-CHECKOUT-URL" class="clr-btn clr-btn--primary" style="width:100%; text-align:center;">Enroll with Full Diagnostic</a>
+
       </div>
     </div>
   </div>
@@ -243,8 +255,10 @@
     <h2 class="clr-t-h2" style="margin-top:0.5rem; color:var(--clr-white);">Ready to understand what the evidence shows?</h2>
     <hr class="clr-gold-rule clr-gold-rule--center"/>
     <div class="clr-hero__btns" style="margin-top:1.5rem;">
-      <a href="#included" class="clr-btn clr-btn--primary">Enroll in Clarity Core — $197</a>
-      <a href="#included" class="clr-btn clr-btn--secondary" style="border-color:var(--clr-white); color:var(--clr-white);">Enroll with Full Diagnostic — $397</a>
+      <!-- PLACEHOLDER: real Clarity Core enrollment/payment URL required from Adrian -->
+      <a href="#REPLACE-WITH-CLARITY-CORE-CHECKOUT-URL" class="clr-btn clr-btn--primary">Enroll in Clarity Core — $197</a>
+      <!-- PLACEHOLDER: real Full Diagnostic enrollment/payment URL required from Adrian -->
+      <a href="#REPLACE-WITH-FULL-DIAGNOSTIC-CHECKOUT-URL" class="clr-btn clr-btn--secondary" style="border-color:var(--clr-white); color:var(--clr-white);">Enroll with Full Diagnostic — $397</a>
     </div>
     <p style="font-size:0.8rem; color:var(--clr-white); opacity:0.65; margin-top:1.5rem;">Payment and secure evidence submission are separate steps. You'll receive instructions for both after enrollment.</p>
   </div>
